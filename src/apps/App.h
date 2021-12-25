@@ -21,30 +21,12 @@ Application Template.
 bool      Serial_Hardware_Port_Is_Opened = 0;
 unsigned long  Serial_Hardware_Port_Baudrate = 115200;
 /* _____DEFINETIONS__________________________________________________________ */
-
-
-
-/* _____CLASS DEFINETION_____________________________________________________ */
-/**
- * This Application class is base class for implement another class by inheritance 
- */
-class Application
-{
-public:
-  Application();
-  
-  enum App_Run_Mode
+enum App_User_Mode
   {
-    APP_RUN_MODE_MANNUAL,
-    APP_RUN_MODE_AUTO
+    APP_USER_MODE_NORMAL,
+    APP_USER_MODE_DEBUG
   };
-  void      Run_Application(bool autoRun);
-  // 
-  char*     Name_Application = (char*)"Application Name";
-  uint16_t  ID_Application = 0;
-
-  // user can existing state of app by change Application_State into below state
-  enum App_State
+enum App_State
   {
     APP_STATE_PENDING,
     APP_STATE_STARTING,
@@ -54,14 +36,32 @@ public:
     APP_STATE_ENDING,
     APP_STATE_ERROR
   };
+enum App_Run_Mode
+  {
+    APP_RUN_MODE_MANNUAL,
+    APP_RUN_MODE_AUTO
+  };
+/* _____CLASS DEFINETION_____________________________________________________ */
+/**
+ * This Application class is base class for implement another class by inheritance 
+ */
+class Application
+{
+public:
+  Application();
+  
+  
+  void      Run_Application(bool autoRun);
+  // 
+  char*     Name_Application = (char*)"Application Name";
+  uint16_t  ID_Application = 0;
+
+  // user can existing state of app by change Application_State into below state
+  
   //  the tasks that User want to process by the task
   uint8_t Application_State = APP_STATE_PENDING;
 
-  enum App_User_Mode
-  {
-    APP_USER_MODE_NORMAL,
-    APP_USER_MODE_DEBUG
-  };
+  
   // enter task debug
   void Debug();
   // exit task debug
@@ -237,6 +237,7 @@ void Application::Pend()
     Infor();
   }
   Application_State = APP_STATE_STARTING;
+  Step_Forward = 1;
 }
 /**
  *  Pend to start is the fisrt task of this application it will do prerequisite
