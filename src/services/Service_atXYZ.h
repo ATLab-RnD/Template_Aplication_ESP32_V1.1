@@ -26,7 +26,7 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 
 /* _____CLASS DEFINETION_____________________________________________________ */
 /**
- * This Application class is the application to manage the 
+ * This Service class is the Service to manage the 
  */
 class Service_XYZ : public Service
 {

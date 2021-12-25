@@ -20,9 +20,23 @@ Service Template.
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
-
-
-
+enum SER_Run_Mode
+  {
+    SER_RUN_MODE_MANNUAL,
+    SER_RUN_MODE_AUTO
+  };
+ enum SER_State
+  {
+    SER_STATE_STARTING,
+    SER_STATE_EXECUTING,
+    SER_STATE_ENDING,
+    SER_STATE_ERROR
+  };
+enum SER_User_Mode
+  {
+    SER_USER_MODE_NORMAL,
+    SER_USER_MODE_DEBUG
+  };
 /* _____CLASS DEFINETION_____________________________________________________ */
 /**
  * This Service class is base class for implement another class by inheritance 
@@ -32,32 +46,17 @@ class Service
 public:
   Service();
   
-  enum SER_Run_Mode
-  {
-    SER_RUN_MODE_MANNUAL,
-    SER_RUN_MODE_AUTO
-  };
   void      Run_Service(bool autoRun);
   // 
   char*     Name_Service = (char*)"Service Name";
   uint16_t  ID_Service = 0;
 
   // user can existing state of app by change Service_State into below state
-  enum SER_State
-  {
-    SER_STATE_STARTING,
-    SER_STATE_EXECUTING,
-    SER_STATE_ENDING,
-    SER_STATE_ERROR
-  };
+ 
   uint8_t Service_State = SER_STATE_STARTING;
   bool      Serial_Hardware_Port_Is_Opened = 0;
   unsigned long  Serial_Hardware_Port_Baudrate = 115200;
-  enum SER_User_Mode
-  {
-    SER_USER_MODE_NORMAL,
-    SER_USER_MODE_DEBUG
-  };
+  
   // enter task debug
   void Debug();
   // exit task debug
@@ -114,14 +113,11 @@ void Service::Debug_Exit()
 
 /**
  * The main task of Service, need to bee call regularly for attack like a 
- * task in freertos. There are 7 state of an application. Pending state is the state of 
- * application is waiting to start. Starting is initing the prerequisite condtion to
- * execute. Tobe Ready for exucuting is need for executing the task. Executing state is
- * main state to hanble the task of application. Suspend state will freeze the application
- * but will not remore the parameter. Application will finish all task and save all
+ * task in freertos. There are 3 state of an Service.  Starting is initing the prerequisite condition to
+ * execute. Executing state is main state to hanble the task of Service. Service will finish all task and save all
  * parameter, srtop and remove all parameter. Error is the indicator for user when the 
- * application is executing wrongly.
- * @param autoRun  APP_RUN_MODE_AUTO for auto execute and APP_RUN_MODE_MANNUAL for wait for execute manually by user
+ * Service is executing wrongly.
+ * @param autoRun  Service_RUN_MODE_AUTO for auto execute and Service_RUN_MODE_MANNUAL for wait for execute manually by user
  */
 void Service::Run_Service(bool autoRun = SER_RUN_MODE_AUTO)
 {
@@ -129,6 +125,7 @@ void Service::Run_Service(bool autoRun = SER_RUN_MODE_AUTO)
   {
     // starting the task
     case SER_STATE_STARTING:
+      Run_Mode = autoRun;
       Start();
       break;
 
@@ -176,7 +173,7 @@ char* Service::State_Service_String()
 }
 
 /**
- *  Pend to start is the fisrt task of this Service it will do prerequisite
+ *  start is the fisrt task of this Service it will do prerequisite
  *  condition. In the debig mode, task will send information of Service to 
  * terminal to start the Service.
  * @param (*_End_User)() this function pointer will be define by user
@@ -197,7 +194,10 @@ void Service::Start()
     }
     Infor();
   }
-  Service_State = SER_STATE_EXECUTING;
+  if(Run_Mode == SER_RUN_MODE_AUTO)
+  {
+    Service_State = SER_STATE_EXECUTING;
+  }
   Step_Forward = 1;
 }
 /**

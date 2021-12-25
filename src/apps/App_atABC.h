@@ -17,8 +17,7 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 #define _Application_atABC_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-#include "Service.h"
-#include "Service_atXYZ.h"
+#include "../services/Service_atXYZ.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -76,14 +75,15 @@ App_ABC::~App_ABC()
  */
 void  App_ABC::App_ABC_Pend()
 {
-
+    atXYZ.Debug();
 }
 /**
  * This start function will init some critical function 
  */
 void  App_ABC::App_ABC_Start()
 {
-    atXYZ.Debug();
+	// init atXYZ Service in the fist running time
+	atXYZ.Run_Service();
 }  
 /**
  * Restart function of SNM  app
@@ -97,9 +97,10 @@ void  App_ABC::App_ABC_Restart()
  */
 void  App_ABC::App_ABC_Execute()
 {	
+	atXYZ.Run_Service();
     if(atABC.User_Mode == APP_USER_MODE_DEBUG)
     {
-		atXYZ.Run_Service();
+		
     }   
 }
 void  App_ABC::App_ABC_Suspend(){}
