@@ -1,7 +1,8 @@
-// 
+// Template_Application_ESP32_V1.3
+
 #include "../src/apps/atApp_ABC.h"
 
-TaskHandle_t Task_ABC;  
+TaskHandle_t Task_atApp_ABC;  
 void atApp_ABC_Application(void *parameter)
 {
   while (1)
@@ -22,7 +23,7 @@ void setup() {
       50000,                  // stack size of task
       NULL,   
       1,                      // priority
-      &Task_ABC,              // Task handle
+      &Task_atApp_ABC,              // Task handle
       1                       // on core 1
     );
   };
