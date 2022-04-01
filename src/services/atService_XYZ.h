@@ -3,7 +3,7 @@
 Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Service_atXYZ.h - Arduino library for communicating with OP320A&S SNM
+  Service_atService_XYZ.h - Arduino library for communicating with OP320A&S SNM
   over RS232/485 (via RTU protocol).
 
   Library:: chickyPig_OP320_V1
@@ -13,8 +13,8 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
 
-#ifndef _Service_atXYZ_
-#define _Service_atXYZ_
+#ifndef _Service_atService_XYZ_
+#define _Service_atService_XYZ_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Service.h"
 /* _____DEFINETIONS__________________________________________________________ */
@@ -24,7 +24,7 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
-/* _____CLASS DEFINETION_____________________________________________________ */
+/* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Service class is the Service to manage the 
  */
@@ -39,7 +39,7 @@ public:
 protected:
      
 private:
-} atXYZ ;
+} atService_XYZ ;
 /**
  * This function will be automatical called when a object is created by this class
  */
@@ -75,7 +75,7 @@ void  Service_XYZ::Service_XYZ_Start()
  */
 void  Service_XYZ::Service_XYZ_Execute()
 {   
-    if(atXYZ.User_Mode == SER_USER_MODE_DEBUG)
+    if(atService_XYZ.User_Mode == SER_USER_MODE_DEBUG)
     {
         
     }   
