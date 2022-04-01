@@ -16,11 +16,13 @@
 #define _Application_atApp_CP_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-#include "../services/atService_XYZ.h"
 #include "../apps/atApp_Wifi.h"
+#include "../apps/atApp_MB_TCP_SL.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
+TaskHandle_t Task_atApp_CP;  
+void atApp_CP_Task_Func(void *parameter);
 
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -104,7 +106,10 @@ void  App_CP::App_CP_Execute()
 		atApp_Wifi.wifi_SSID_Index_To_Connect = 0;
 		atApp_Wifi.request = WIFI_REQUEST_Connecting;
 	}
-	
+	if(atApp_Wifi.status == WIFI_STATUS_Connected)
+	{
+		vTaskResume(Task_atApp_MB_TCP_SL);
+	}
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
 		
@@ -113,5 +118,12 @@ void  App_CP::App_CP_Execute()
 void  App_CP::App_CP_Suspend(){}
 void  App_CP::App_CP_Resume(){}	  
 void  App_CP::App_CP_End(){}
-
+void atApp_CP_Task_Func(void *parameter)
+{
+  while (1)
+  {
+    atApp_CP.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(1000/ portTICK_PERIOD_MS);
+  }
+}
 #endif
