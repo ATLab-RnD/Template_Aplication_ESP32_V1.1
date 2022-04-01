@@ -3,10 +3,9 @@
 Service Template.
 */
 /*
-  Application_HMI.h - Arduino library for communicating with OP320A&S HMI
-  over RS232/485 (via RTU protocol).
+  Service
 
-  Library:: chickyPig_OP320_V1
+  Library:: 
 
   This version is
 
@@ -22,7 +21,7 @@ Service Template.
 /* _____DEFINETIONS__________________________________________________________ */
 enum SER_Run_Mode
   {
-    SER_RUN_MODE_MANNUAL,
+    SER_RUN_MODE_MANUAL,
     SER_RUN_MODE_AUTO
   };
  enum SER_State
@@ -37,7 +36,7 @@ enum SER_User_Mode
     SER_USER_MODE_NORMAL,
     SER_USER_MODE_DEBUG
   };
-/* _____CLASS DEFINETION_____________________________________________________ */
+/* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Service class is base class for implement another class by inheritance 
  */
@@ -72,7 +71,7 @@ protected:
   
   uint8_t   State_Service();
   char*     State_Service_String();
-  void      Infor();  
+  void      Information();  
 private:
   
 
@@ -115,9 +114,9 @@ void Service::Debug_Exit()
  * The main task of Service, need to bee call regularly for attack like a 
  * task in freertos. There are 3 state of an Service.  Starting is initing the prerequisite condition to
  * execute. Executing state is main state to hanble the task of Service. Service will finish all task and save all
- * parameter, srtop and remove all parameter. Error is the indicator for user when the 
+ * parameter, stop and remove all parameter. Error is the indicator for user when the 
  * Service is executing wrongly.
- * @param autoRun  Service_RUN_MODE_AUTO for auto execute and Service_RUN_MODE_MANNUAL for wait for execute manually by user
+ * @param autoRun  Service_RUN_MODE_AUTO for auto execute and Service_RUN_MODE_MANUAL for wait for execute manually by user
  */
 void Service::Run_Service(bool autoRun = SER_RUN_MODE_AUTO)
 {
@@ -173,16 +172,16 @@ char* Service::State_Service_String()
 }
 
 /**
- *  start is the fisrt task of this Service it will do prerequisite
- *  condition. In the debig mode, task will send information of Service to 
+ *  start is the first task of this Service it will do prerequisite
+ *  condition. In the debug mode, task will send information of Service to 
  * terminal to start the Service.
  * @param (*_End_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
  */
 void Service::Start()
 {
-  if (User_Mode == SER_USER_MODE_DEBUG) Infor();
-  // the user funciton
+  if (User_Mode == SER_USER_MODE_DEBUG) Information();
+  // the user function
   (*_Start_User)();
   if (User_Mode == SER_USER_MODE_DEBUG) 
   {
@@ -192,7 +191,7 @@ void Service::Start()
       Serial.begin(Serial_Hardware_Port_Baudrate);
       Serial_Hardware_Port_Is_Opened = 1;
     }
-    Infor();
+    Information();
   }
   if(Run_Mode == SER_RUN_MODE_AUTO)
   {
@@ -201,45 +200,46 @@ void Service::Start()
   Step_Forward = 1;
 }
 /**
- *  Pend to start is the fisrt task of this Service it will do prerequisite
- *  condition. In the debig mode, task will send information of Service to 
+ *  Pend to start is the first task of this Service it will do prerequisite
+ *  condition. In the debug mode, task will send Information of Service to 
  * terminal to start the Service.
  * @param (*_End_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
  */
 void Service::Execute()
 {
-  if (User_Mode == SER_USER_MODE_DEBUG) Infor();
-  // the user funciton
+  if (User_Mode == SER_USER_MODE_DEBUG) Information();
+  // the user function
   (*_Execute_User)();
   Step_Forward = 1;
 }
 
 /**
- *  Pend to start is the fisrt task of this Service it will do prerequisite
- *  condition. In the debig mode, task will send information of Service to 
+ *  Pend to start is the first task of this Service it will do prerequisite
+ *  condition. In the debug mode, task will send information of Service to 
  * terminal to start the Service.
  * @param (*_End_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
  */
 void Service::End()
 {
-  if (User_Mode == SER_USER_MODE_DEBUG) Infor();
-  // the user funciton
+  if (User_Mode == SER_USER_MODE_DEBUG) Information();
+  // the user function
   (*_End_User)();
   Step_Forward = 1;
 }
 
 /**
- * Print the the information of Service. These informations are ID, name, state of Service and the remaining free head size. The information will be write to the Serial terminal
+ * Print the the Information of Service. These informations are ID, name, state 
+ * of Service and the remaining free head size. The Informationmation will be 
+ * write to the Serial terminal
  */
-void Service::Infor()
+void Service::Information()
 {
-  Serial.printf_P("ID: %d -- ",ID_Service);
+  Serial.printf_P("   ID: %d -- ",ID_Service);
   Serial.printf_P(Name_Service);
   Serial.printf_P(" : ");
   Serial.printf_P(State_Service_String());
   Serial.printf_P(" -- Free heap size %d.\n",ESP.getFreeHeap());
-
 }
 #endif

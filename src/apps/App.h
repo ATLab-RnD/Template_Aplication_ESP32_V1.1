@@ -340,7 +340,9 @@ void Application::End()
 }
 
 /**
- * Print the the Informationmation of application. These Informationmations are ID, name, state of application and the remaining free head size. The Informationmation will be write to the Serial terminal
+ * Print the the Informationmation of application. These Informationmations are ID, name,
+ *  state of application and the remaining free head size. The Informationmation will be 
+ * write to the Serial terminal
  */
 void Application::Information()
 {
