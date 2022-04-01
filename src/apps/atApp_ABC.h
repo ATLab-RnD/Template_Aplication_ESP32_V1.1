@@ -21,7 +21,7 @@
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_ABC;  
-void atApp_ABC_Application(void *parameter);
+void atApp_ABC_Task_Func(void *parameter);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -107,7 +107,7 @@ void  App_ABC::App_ABC_Execute()
 void  App_ABC::App_ABC_Suspend(){}
 void  App_ABC::App_ABC_Resume(){}	  
 void  App_ABC::App_ABC_End(){}
-void atApp_ABC_Application(void *parameter)
+void atApp_ABC_Task_Func(void *parameter)
 {
   while (1)
   {

@@ -34,10 +34,6 @@ Arduino library for communicating with GD200 Inverter over RS/485 (via RTU proto
 #include "Arduino.h"
 #include "util/word.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-#ifndef _Modbus_Isolated_
-#define _Modbus_Isolated_
-atService_MB_RTU_MA Modbus_Isolated;
-#endif
 
 /* _____DEFINETIONS__________________________________________________________ */
 // time delay between 2 command
@@ -48,7 +44,7 @@ atService_MB_RTU_MA Modbus_Isolated;
  * this class need a serial port as a stream to transciever data with inverter.
  * Init by begin
 */
-class INVT_GD200A 
+class Service_INVT_GD200A: public Service_MB_RTU_MA
 {
 public :
   uint8_t   ID_Modbus = 0;
@@ -97,13 +93,13 @@ private :
  * @param Serial_config is the construction of data frame that is transmit by serial 
  * @ingroup setup
 */
-void INVT_GD200A::Begin(uint8_t INVT_ID, int Baudrate, SoftwareSerialConfig Serial_config = SWSERIAL_8N1)
+void Service_INVT_GD200A::Begin(uint8_t INVT_ID, int Baudrate, SoftwareSerialConfig Serial_config = SWSERIAL_8N1)
 { 
-  if (Modbus_Isolated.Status == NOT_OPENNED)
+  if (Status == NOT_OPENNED)
   {
     Serial_ModBus_Isolated.begin(Baudrate, Serial_config);
-    Modbus_Isolated.begin(INVT_ID, Serial_ModBus_Isolated);
-    Modbus_Isolated.Status = OPENNED;
+    begin(INVT_ID, Serial_ModBus_Isolated);
+    Status = OPENNED;
   }
 }
 /**
@@ -111,7 +107,7 @@ void INVT_GD200A::Begin(uint8_t INVT_ID, int Baudrate, SoftwareSerialConfig Seri
  * This function will read all read register from form inverter and write it to INVT_Buffer.
  * Need to be call regularly to get data from 
  */
-uint8_t INVT_GD200A::Get_Data_From_INVT(void)
+uint8_t Service_INVT_GD200A::Get_Data_From_INVT(void)
 {
   // INVT_Buffer_RW_Register
   // Read all the holding register form HMI 3 if there any fault.
@@ -120,7 +116,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
   for(int i = 0; i<3; i++)
   {
     // read the
-    result = Modbus_Isolated.readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND,sizeof(INVT_Buffer_RW_Registers)/2);
+    result = readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND,sizeof(INVT_Buffer_RW_Registers)/2);
     delay(Time_Delay_5ms);
     if ( result == 0) break;
   }
@@ -131,7 +127,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
     for(atCount = 0; atCount < sizeof(INVT_Buffer_RW_Registers)/2; atCount ++)
     {
       // read data from modbus buffer and write to INVT buffer
-      INVT_Buffer_RW_Registers[atCount] = Modbus_Isolated.getResponseBuffer(atCount);      
+      INVT_Buffer_RW_Registers[atCount] = getResponseBuffer(atCount);      
     }
   }
 
@@ -139,7 +135,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
   for(int i = 0; i<3; i++)
   {
     // read the
-    result = Modbus_Isolated.readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_SW1,sizeof(INVT_Buffer_R_Registers_1)/2);
+    result = readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_SW1,sizeof(INVT_Buffer_R_Registers_1)/2);
     delay(Time_Delay_5ms);
     if ( result == 0) break;
   }
@@ -150,7 +146,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
     for(atCount = 0; atCount < sizeof(INVT_Buffer_R_Registers_1)/2; atCount ++)
     {
       // read data from modbus buffer and write to INVT buffer
-      INVT_Buffer_R_Registers_1[atCount] = Modbus_Isolated.getResponseBuffer(atCount);      
+      INVT_Buffer_R_Registers_1[atCount] = getResponseBuffer(atCount);      
     }
   }
 
@@ -158,7 +154,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
   for(int i = 0; i<3; i++)
   {
     // read the
-    result = Modbus_Isolated.readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_OPERATION_FREQUENCY,sizeof(INVT_Buffer_R_Registers_2)/2);
+    result = readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_OPERATION_FREQUENCY,sizeof(INVT_Buffer_R_Registers_2)/2);
     delay(Time_Delay_5ms);
     if ( result == 0) break;
   }
@@ -169,7 +165,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
     for(atCount = 0; atCount < sizeof(INVT_Buffer_R_Registers_2)/2; atCount ++)
     {
       // read data from modbus buffer and write to INVT buffer
-      INVT_Buffer_R_Registers_2[atCount] = Modbus_Isolated.getResponseBuffer(atCount);      
+      INVT_Buffer_R_Registers_2[atCount] = getResponseBuffer(atCount);      
     }
   }
 
@@ -177,7 +173,7 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
   for(int i = 0; i<3; i++)
   {
     // read the
-    result = Modbus_Isolated.readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_FAULT_CODE,1);
+    result = readHoldingRegisters_at(ID_Modbus,INVT_REGISTER_R_FAULT_CODE,1);
     delay(Time_Delay_5ms);
     if ( result == 0) break;
   }
@@ -185,23 +181,23 @@ uint8_t INVT_GD200A::Get_Data_From_INVT(void)
   if (result != 0) return result;
   else
   {
-    INVT_Buffer_Fault_Code = Modbus_Isolated.getResponseBuffer(0);      
+    INVT_Buffer_Fault_Code = getResponseBuffer(0);      
   }
     
-  Modbus_Isolated.clearResponseBuffer();
+  clearResponseBuffer();
   return result;
 }
 /**
  * Run the inverter fellow the direction and the frequency that have been set.
  * @param Direction : FORWARD or REVERSE
  */
-uint8_t INVT_GD200A::Run(bool Direction)
+uint8_t Service_INVT_GD200A::Run(bool Direction)
 {
   uint8_t result =  0;
   if (Direction == FORWARD)
-    result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FORWARD_RUNNING);
+    result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FORWARD_RUNNING);
   else
-    result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_REVERSE_RUNNING);
+    result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_REVERSE_RUNNING);
   delay(Time_Delay_5ms);
   return result;
 }
@@ -209,10 +205,10 @@ uint8_t INVT_GD200A::Run(bool Direction)
  * Stop running.
  * This will stop the inverter 
  */
-uint8_t INVT_GD200A::Stop_Running(void)
+uint8_t Service_INVT_GD200A::Stop_Running(void)
 {
   uint8_t result =  0;
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_STOP);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_STOP);
   delay(Time_Delay_5ms);
   return result;
 }
@@ -220,33 +216,33 @@ uint8_t INVT_GD200A::Stop_Running(void)
  * Jogging 
  * @param Direction  FORWARD or REVERSE
  */
-uint8_t INVT_GD200A::Jog(bool Direction)
+uint8_t Service_INVT_GD200A::Jog(bool Direction)
 {
   uint8_t result =  0;
   if (Direction == FORWARD)
-    result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FORWARD_JOGGING);
+    result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FORWARD_JOGGING);
   else
-    result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_REVERSE_JOGGING);
+    result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_REVERSE_JOGGING);
     delay(Time_Delay_5ms);
   return result;
 }
 /**
  * Stop jogging
  */
-uint8_t INVT_GD200A::Stop_Jogging()
+uint8_t Service_INVT_GD200A::Stop_Jogging()
 {
   uint8_t result =  0;
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_JOGGING_STOP);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_JOGGING_STOP);
   delay(Time_Delay_5ms);
   return result;
 }
 /**
  * Emergency stop. Just use in emergency case
  */
-uint8_t INVT_GD200A::Stop_Emergency(void)
+uint8_t Service_INVT_GD200A::Stop_Emergency(void)
 {
   uint8_t result =  0;
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_COAST_TO_STOP);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_COAST_TO_STOP);
   delay(Time_Delay_5ms);
   return result;
 }
@@ -254,11 +250,11 @@ uint8_t INVT_GD200A::Stop_Emergency(void)
  * reset fault.
  * This function will erase the fault history in inverter. Should be call after an electrical fault
  */
-uint8_t INVT_GD200A::Reset_Fault(void)
+uint8_t Service_INVT_GD200A::Reset_Fault(void)
 {
   uint8_t result =  0;
   delay(Time_Delay_5ms);
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FAULT_RESET);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_CONTROL_COMMAND, INVT_VALUE_FAULT_RESET);
   delay(Time_Delay_500ms);
   return result;
 }
@@ -271,10 +267,10 @@ uint8_t INVT_GD200A::Reset_Fault(void)
  * Unit: 0.01Hz
  * @param Set_Frequency the frequency will be set for inverter
  */
-uint8_t INVT_GD200A::Set_Frequency(uint16_t Set_Frequency)
+uint8_t Service_INVT_GD200A::Set_Frequency(uint16_t Set_Frequency)
 {
   uint8_t result =  0;
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_SETTING_FREQUENCY, Set_Frequency);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_SETTING_FREQUENCY, Set_Frequency);
   delay(Time_Delay_5ms);
   return result;
 }
@@ -284,28 +280,28 @@ uint8_t INVT_GD200A::Set_Frequency(uint16_t Set_Frequency)
  * @param Forward_Limit the upper forward rotation frequency (0.00Hz)
  * @param Reverse_Limit the upper reverse rotation frequency (0.00Hz)
  */
-uint8_t INVT_GD200A::Set_Frequency_Limit(uint16_t Forward_Limit, uint16_t Reverse_Limit)
+uint8_t Service_INVT_GD200A::Set_Frequency_Limit(uint16_t Forward_Limit, uint16_t Reverse_Limit)
 {
   uint8_t result =  0;
-  result = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_FORWARD_ROTATION_LIMIT_FREQ, Forward_Limit);
+  result = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_FORWARD_ROTATION_LIMIT_FREQ, Forward_Limit);
   delay(Time_Delay_5ms);
   // if there is any fault, return error code
   if (result == 0) return result;
-  INVT_Buffer_Fault_Code = Modbus_Isolated.writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_REVERSE_ROTATION_LIMIT_FREQ, Reverse_Limit);
+  INVT_Buffer_Fault_Code = writeSingleRegister_at(ID_Modbus,INVT_REGISTER_RW_REVERSE_ROTATION_LIMIT_FREQ, Reverse_Limit);
   delay(Time_Delay_5ms);
   return result;
 }
 /**
  * read the code of inverter fault 
  */
-uint8_t INVT_GD200A::Fault_Code()
+uint8_t Service_INVT_GD200A::Fault_Code()
 {
   return INVT_Buffer_Fault_Code;
 }
 /**
  * return the fault by char*
  */
-char* INVT_GD200A::Fault_Char(void)
+char* Service_INVT_GD200A::Fault_Char(void)
 {
   switch (INVT_Buffer_Fault_Code)
   {
@@ -409,7 +405,7 @@ char* INVT_GD200A::Fault_Char(void)
   }
 }
 
-uint8_t INVT_GD200A::Control_Command(void)
+uint8_t Service_INVT_GD200A::Control_Command(void)
 {
   return INVT_Buffer_RW_Registers[INVT_Buffer_RW_Index_Control_Command];
 }
@@ -417,7 +413,7 @@ uint8_t INVT_GD200A::Control_Command(void)
  * return the operating frequency
  * Unit: Hz
  */
-float INVT_GD200A::Frequency_Operating(void)
+float Service_INVT_GD200A::Frequency_Operating(void)
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OPERATION_FREQUENCY] / 100;
 }
@@ -425,7 +421,7 @@ float INVT_GD200A::Frequency_Operating(void)
  * return the setting frequency
  * Unit: Hz
  */
-float INVT_GD200A::Frequency_Setting(void)
+float Service_INVT_GD200A::Frequency_Setting(void)
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_SETTING_FREQUENCY] / 100;
 }
@@ -434,7 +430,7 @@ float INVT_GD200A::Frequency_Setting(void)
  * Range: 0~1200V
  * Unit: V
  */
-float INVT_GD200A::Voltage_Bus(void)
+float Service_INVT_GD200A::Voltage_Bus(void)
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_BUS_VOLTAGE]/10;
 }
@@ -443,7 +439,7 @@ float INVT_GD200A::Voltage_Bus(void)
  * Range: 0~1200V
  * Unit: V
  */
-float INVT_GD200A::Voltage_Output(void)
+float Service_INVT_GD200A::Voltage_Output(void)
 {
   return INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OUTPUT_VOLTAGE];
 }
@@ -452,7 +448,7 @@ float INVT_GD200A::Voltage_Output(void)
  * Range: 0.0~5000.0A
  * Unit; A
  */
-float INVT_GD200A::Current_Output(void)
+float Service_INVT_GD200A::Current_Output(void)
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OUTPUT_CURRENT]/10;
 }
@@ -461,7 +457,7 @@ float INVT_GD200A::Current_Output(void)
  * Range: -300.0~300.0%
  * Unit: %
  */
-float  INVT_GD200A::Power_Output(void)
+float  Service_INVT_GD200A::Power_Output(void)
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OUTPUT_POWER]/10;
 }
@@ -471,7 +467,7 @@ float  INVT_GD200A::Power_Output(void)
  * Range: 0-65535 
  * Unit: RPM
  */
-float INVT_GD200A::Speed_Operating()
+float Service_INVT_GD200A::Speed_Operating()
 {
   return (float)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OPERATION_SPEED];
 }
@@ -481,7 +477,7 @@ float INVT_GD200A::Speed_Operating()
  * Range: 0.0 - 6553.5
  * Unit: N.m
  */
-float INVT_GD200A::Torque_Output()
+float Service_INVT_GD200A::Torque_Output()
 {
   return (float)((int16_t)INVT_Buffer_R_Registers_2[INVT_Buffer_R_Index_OUTPUT_TORQUE])/10;
 }

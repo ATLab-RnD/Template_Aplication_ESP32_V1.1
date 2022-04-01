@@ -4,17 +4,17 @@ Arduino library for modbus communicatting
 */
 /*
 
-  atService_MB_RTU_MA.h - Arduino library 
+  Service_MB_RTU_MA.h - Arduino library 
 
-  Library:: atService_MB_RTU_MA
+  Library:: Service_MB_RTU_MA
 
   This modbus version is a enhanced modbus version based on the ModbusMaster. 
   Support multiple slave.
   Prequisite: change the _u8MBSlave from private to protected 
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
-#ifndef _Service_atService_MB_RTU_MA_
-#define _Service_atService_MB_RTU_MA_
+#ifndef _Service_Service_MB_RTU_MA_
+#define _Service_Service_MB_RTU_MA_
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 // include types & constants of Wiring core API
@@ -24,8 +24,8 @@ Arduino library for modbus communicatting
 #include "util/word.h"
 #include <string.h>
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-#ifndef _SoftwareSerial_Modbus_Isolated_
-#define _SoftwareSerial_Modbus_Isolated_
+#ifndef _SoftwareSerial_Modbus_RTU_Master_
+#define _SoftwareSerial_Modbus_RTU_Master_
 #define MODBUS_RX_PIN 27
 #define MODBUS_TX_PIN 25
 SoftwareSerial Serial_ModBus_Isolated(MODBUS_RX_PIN, MODBUS_TX_PIN);
@@ -39,14 +39,14 @@ SoftwareSerial Serial_ModBus_Isolated(MODBUS_RX_PIN, MODBUS_TX_PIN);
 Arduino class library for communicating with Modbus slaves over 
 RS232/485 (via RTU protocol).
 */
-class atService_MB_RTU_MA: public ModbusMaster
+class Service_MB_RTU_MA: public ModbusMaster
 {
 private:
     /* data */
 public:
     uint8_t  Status = NOT_OPENNED;
-    atService_MB_RTU_MA(/* args */);
-    ~atService_MB_RTU_MA();
+    Service_MB_RTU_MA(/* args */);
+    ~Service_MB_RTU_MA();
     char*    Modbus_Error(uint8_t u8Result);
     uint8_t  readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
     uint8_t  readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
@@ -61,15 +61,15 @@ public:
 
 };
 
-atService_MB_RTU_MA::atService_MB_RTU_MA(/* args */)
+Service_MB_RTU_MA::Service_MB_RTU_MA(/* args */)
 {
 
 }
 
-atService_MB_RTU_MA::~atService_MB_RTU_MA()
+Service_MB_RTU_MA::~Service_MB_RTU_MA()
 {
 }
-char* atService_MB_RTU_MA:: Modbus_Error(uint8_t u8Result)
+char* Service_MB_RTU_MA:: Modbus_Error(uint8_t u8Result)
 {
   switch (u8Result)
   {
@@ -130,7 +130,7 @@ order end of the word).
 @return 0 on success; exception number on failure
 @ingroup discrete
 */
-uint8_t atService_MB_RTU_MA::readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty)
+uint8_t Service_MB_RTU_MA::readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty)
 {
   _u8MBSlave = u8IDSlave;
   return readCoils(u16ReadAddress, u16BitQty);
@@ -159,7 +159,7 @@ order end of the word).
 @return 0 on success; exception number on failure
 @ingroup discrete
 */
-uint8_t atService_MB_RTU_MA::readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty)
+uint8_t Service_MB_RTU_MA::readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty)
 {
   _u8MBSlave = u8IDSlave;
   return readDiscreteInputs( u16ReadAddress, u16BitQty);
@@ -181,7 +181,7 @@ register.
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::readHoldingRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty)
+uint8_t Service_MB_RTU_MA::readHoldingRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty)
 {
   _u8MBSlave = u8IDSlave;
   return readHoldingRegisters( u16ReadAddress, u16ReadQty);
@@ -203,7 +203,7 @@ register.
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::readInputRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint8_t u16ReadQty)
+uint8_t Service_MB_RTU_MA::readInputRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint8_t u16ReadQty)
 {
   _u8MBSlave = u8IDSlave;
   return readInputRegisters( u16ReadAddress, u16ReadQty);
@@ -224,7 +224,7 @@ address of the coil to be forced. Coils are addressed starting at zero.
 @return 0 on success; exception number on failure
 @ingroup discrete
 */
-uint8_t atService_MB_RTU_MA::writeSingleCoil_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint8_t u8State)
+uint8_t Service_MB_RTU_MA::writeSingleCoil_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint8_t u8State)
 {
   _u8MBSlave = u8IDSlave;
   return writeSingleCoil(u16WriteAddress, u8State);
@@ -243,7 +243,7 @@ written. Registers are addressed starting at zero.
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::writeSingleRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteValue)
+uint8_t Service_MB_RTU_MA::writeSingleRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteValue)
 {
   _u8MBSlave = u8IDSlave;
   return writeSingleRegister(u16WriteAddress, u16WriteValue);
@@ -265,7 +265,7 @@ corresponding output to be ON. A logical '0' requests it to be OFF.
 @return 0 on success; exception number on failure
 @ingroup discrete
 */
-uint8_t atService_MB_RTU_MA::writeMultipleCoils_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16BitQty)
+uint8_t Service_MB_RTU_MA::writeMultipleCoils_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16BitQty)
 {
   _u8MBSlave = u8IDSlave;
   return writeMultipleCoils(u16WriteAddress,u16BitQty);
@@ -285,7 +285,7 @@ is packed as one word per register.
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::writeMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteQty)
+uint8_t Service_MB_RTU_MA::writeMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteQty)
 {
   _u8MBSlave = u8IDSlave;
   return writeMultipleRegisters(u16WriteAddress, u16WriteQty);
@@ -315,7 +315,7 @@ Result = (Current Contents && And_Mask) || (Or_Mask && (~And_Mask))
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::maskWriteRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16AndMask, uint16_t u16OrMask)
+uint8_t Service_MB_RTU_MA::maskWriteRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16AndMask, uint16_t u16OrMask)
 {
   _u8MBSlave = u8IDSlave;
   return maskWriteRegister(u16WriteAddress, u16AndMask, u16OrMask);
@@ -341,7 +341,7 @@ buffer.
 @return 0 on success; exception number on failure
 @ingroup register
 */
-uint8_t atService_MB_RTU_MA::readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty, uint16_t u16WriteAddress, uint16_t u16WriteQty)
+uint8_t Service_MB_RTU_MA::readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty, uint16_t u16WriteAddress, uint16_t u16WriteQty)
 {
   _u8MBSlave = u8IDSlave;
   return readWriteMultipleRegisters(u16ReadAddress, u16ReadQty, u16WriteAddress, u16WriteQty);
