@@ -1,6 +1,4 @@
-#include <Arduino.h>
-#include <SPI.h>
-#include <Wire.h>
+// 
 #include "../src/apps/atApp_ABC.h"
 
 TaskHandle_t Task_ABC;  
