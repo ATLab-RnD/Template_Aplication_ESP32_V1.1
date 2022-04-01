@@ -36,11 +36,13 @@ enum Network_Index_IPV4
 enum Wifi_Status
 {
     WIFI_STATUS_Idle,
-    WIFI_STATUS_No_SSID_AVAILABLE,
+    WIFI_STATUS_Scanning,
     WIFI_STATUS_Scan_Completed,
+    WIFI_STATUS_Connecting,
     WIFI_STATUS_Connected,
     WIFI_STATUS_Connect_Failed,
     WIFI_STATUS_Connection_Lost,
+    WIFI_STATUS_Disconnecting,
     WIFI_STATUS_Disconnected
 };
 enum Wifi_Request
@@ -74,16 +76,16 @@ public:
 
 
     Wifi_Status status = WIFI_STATUS_Idle;
-    Wifi_Request request = WIFI_REQUEST_Idle;
+    Wifi_Request request = WIFI_REQUEST_Scanning;
 
     // Scan networks WiFi
-    char scanned_Wifi_SSID[100];
-    int scanned_Wifi_SSID_Number = 0;
-    uint8_t scanning_Time_Delay = 10;
+    char scanned_Wifi_SSIDs[100];
+    int scanned_Wifi_SSIDs_Number = 0;
+    uint8_t scanning_Time_Delay = 5;// second     
     
     // Connect to wifi  
     uint8_t wifi_SSID_Index_To_Connect = 0;
-    char ssid_To_Connect[100] = "Atlab";
+    char ssid_To_Connect[100] = "";
     char password_To_Connect[100] = "ChickyTuan";
     Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Dynamic;
     uint8_t waiting_time_to_connect = 15;
@@ -100,7 +102,6 @@ public:
     char DNS[20] = "";
     
 protected:
-    bool disconnect_wifi_request = 0;
     void scan_Network();
     void connect();
     void disconnect();
@@ -152,8 +153,6 @@ void  App_Wifi::App_Wifi_Start()
 {
 	// init atWifi Service in the fist running time
 	Serial.begin(115200);
-
-    
 }  
 /**
  * Restart function of Wifi  app
@@ -171,16 +170,21 @@ void  App_Wifi::App_Wifi_Execute()
     switch (atApp_Wifi.request)
     {
     case WIFI_REQUEST_Scanning:
+        atApp_Wifi.status = WIFI_STATUS_Scanning;
         atApp_Wifi.scan_Network();
+        atApp_Wifi.status = WIFI_STATUS_Scan_Completed;
         break;
 
     case WIFI_REQUEST_Connecting:
+        atApp_Wifi.status = WIFI_STATUS_Connecting;
         atApp_Wifi.connect();
         atApp_Wifi.request = WIFI_REQUEST_Idle;
         break;
     
     case WIFI_REQUEST_Disconnecting:
+        atApp_Wifi.status = WIFI_STATUS_Disconnecting;
         atApp_Wifi.disconnect();
+        atApp_Wifi.status = WIFI_STATUS_Disconnected;
         atApp_Wifi.request = WIFI_REQUEST_Idle;
         break;
     
@@ -199,11 +203,79 @@ void  App_Wifi::App_Wifi_Execute()
         sprintf(atApp_Wifi.Subnet             , WiFi.subnetMask().toString().c_str());
         sprintf(atApp_Wifi.DNS                , WiFi.dnsIP().toString().c_str());
         delay( atApp_Wifi.delaying_time_to_check_collecting_wifi_RSSI*1000);
+        atApp_Wifi.status = WIFI_STATUS_Connected;
+    }
+    else{
+        atApp_Wifi.collecting_wifi_RSSI = 0;
+        sprintf(atApp_Wifi.connecting_SSID,"");
+        sprintf(atApp_Wifi.connecting_Password,"");
+        sprintf(atApp_Wifi.IP                 , "0.0.0.0");
+        sprintf(atApp_Wifi.Gateway            , "0.0.0.0");
+        sprintf(atApp_Wifi.Subnet             , "0.0.0.0");
+        sprintf(atApp_Wifi.DNS                , "0.0.0.0");
+        delay( atApp_Wifi.delaying_time_to_check_collecting_wifi_RSSI*1000);
+
     }
             
     if(atApp_Wifi.User_Mode == APP_USER_MODE_DEBUG)
     { 
+        // for scanning request
+        Serial.println("Scanned networks:");
+        Serial.println(atApp_Wifi.scanned_Wifi_SSIDs);
 
+        // information
+        Serial.printf("Information connecting wifi:\n");
+        Serial.printf("Connecting RSSI:     %d dB\n",   atApp_Wifi.collecting_wifi_RSSI);
+        Serial.printf("Connecting SSID:     ");         Serial.println(atApp_Wifi.connecting_SSID);
+        Serial.printf("Connecting password: ");         Serial.println(atApp_Wifi.connecting_Password);
+        Serial.printf("Connecting IP:       ");         Serial.println(atApp_Wifi.IP);
+        Serial.printf("Connecting gateway:  ");         Serial.println(atApp_Wifi.Gateway);
+        Serial.printf("Connecting subnet:   ");         Serial.println(atApp_Wifi.Subnet);
+        Serial.printf("Connecting dns:      ");         Serial.println(atApp_Wifi.DNS);
+
+        Serial.print("\nWifi status: ");
+        switch (atApp_Wifi.status)
+        {
+        case WIFI_STATUS_Idle:
+            Serial.println("Idle");
+            break;
+
+        case WIFI_STATUS_Scanning:
+            Serial.println(" scanning");
+            break;
+
+        case WIFI_STATUS_Scan_Completed:
+            Serial.println("completed scanning");
+            break;
+
+        case WIFI_STATUS_Connecting:
+            Serial.println("Connecting");
+            break;
+
+        case WIFI_STATUS_Connected:
+            Serial.println("connected");
+            break;
+
+        case WIFI_STATUS_Connect_Failed:
+            Serial.println("failed to connect");
+            break;
+
+        case WIFI_STATUS_Connection_Lost:
+            Serial.println("lost connection");
+            break;
+
+        case WIFI_STATUS_Disconnecting:
+            Serial.println("Wifi is being disconnecting");
+            break;
+
+        case WIFI_STATUS_Disconnected:
+            Serial.println("Wifi has disconnected");
+            break;
+
+        default:
+            break;
+        }
+        Serial.println();
     }   
 
 }
@@ -212,34 +284,34 @@ void  App_Wifi::App_Wifi_Resume(){}
 void  App_Wifi::App_Wifi_End(){}
 void  App_Wifi::scan_Network()
 {
-    atApp_Wifi.scanned_Wifi_SSID_Number = WiFi.scanNetworks();
-        atApp_Wifi.status = (Wifi_Status)WiFi.status();
+    atApp_Wifi.scanned_Wifi_SSIDs_Number = WiFi.scanNetworks();
+    atApp_Wifi.status = (Wifi_Status)WiFi.status();
+    
+    if (atApp_Wifi.scanned_Wifi_SSIDs_Number == 0) 
+    { 
         
-        if (atApp_Wifi.scanned_Wifi_SSID_Number == 0) 
-        { 
-            
-            sprintf(atApp_Wifi.scanned_Wifi_SSID,"No wifi availlable"); 
-        }
-        else 
-        {   
-            sprintf(atApp_Wifi.scanned_Wifi_SSID,"");
-            for (int i = 0; i < atApp_Wifi.scanned_Wifi_SSID_Number; ++i) 
-            {
-                //insert index
-                char buffer_number[2];
-                sprintf(buffer_number,"%d.",i);
-                strcat(atApp_Wifi.scanned_Wifi_SSID,buffer_number);
-                //insert SSID
-                strcat(atApp_Wifi.scanned_Wifi_SSID,WiFi.SSID(i).c_str());
-                //insert RSSI
-                char buffer_RSSI[4];
-                sprintf(buffer_RSSI,"(%ddb) \n",WiFi.RSSI(i));
-                strcat(atApp_Wifi.scanned_Wifi_SSID,buffer_RSSI);
-                delay(10);
-            }       
-        }
-        // Delay before scanning again
-        delay(atApp_Wifi.scanning_Time_Delay*1000);
+        sprintf(atApp_Wifi.scanned_Wifi_SSIDs,"No wifi availlable"); 
+    }
+    else 
+    {   
+        sprintf(atApp_Wifi.scanned_Wifi_SSIDs,"");
+        for (int i = 0; i < atApp_Wifi.scanned_Wifi_SSIDs_Number; ++i) 
+        {
+            //insert index
+            char buffer_number[2];
+            sprintf(buffer_number,"%d.",i);
+            strcat(atApp_Wifi.scanned_Wifi_SSIDs,buffer_number);
+            //insert SSID
+            strcat(atApp_Wifi.scanned_Wifi_SSIDs,WiFi.SSID(i).c_str());
+            //insert RSSI
+            char buffer_RSSI[4];
+            sprintf(buffer_RSSI,"(%ddB) \n",WiFi.RSSI(i));
+            strcat(atApp_Wifi.scanned_Wifi_SSIDs,buffer_RSSI);
+            delay(10);
+        }       
+    }
+    // Delay before scanning again
+    delay(atApp_Wifi.scanning_Time_Delay*1000);
 }
 void  App_Wifi::connect()
 {
@@ -287,7 +359,6 @@ void  App_Wifi::connect()
         if (count >= atApp_Wifi.waiting_time_to_connect) break;
         else count++;
     }
-    atApp_Wifi.status = (Wifi_Status)WiFi.status();
 }
 void  App_Wifi::disconnect()
 {
