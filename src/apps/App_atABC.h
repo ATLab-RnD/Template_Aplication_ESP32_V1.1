@@ -13,8 +13,8 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
 
-#ifndef _Application_atABC_
-#define _Application_atABC_
+#ifndef _Application_atApp_ABC_
+#define _Application_atApp_ABC_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/Service_atXYZ.h"
@@ -25,7 +25,8 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
-/* _____CLASS DEFINETION_____________________________________________________ */
+/* _____CLASS DEFINITION_____________________________________________________ */
+
 /**
  * This Application class is the application to manage the 
  */
@@ -43,9 +44,9 @@ public:
 	static void  App_ABC_End();
 protected:
 private:
-} atABC ;
+} atApp_ABC ;
 /**
- * This function will be automatical called when a object is created by this class
+ * This function will be automaticaly called when a object is created by this class
  */
 App_ABC::App_ABC(/* args */)
 {
@@ -64,18 +65,18 @@ App_ABC::App_ABC(/* args */)
 	// change the ID of SNM
 }
 /**
- * This function will be automatical called when the object of class is delete
+ * This function will be automaticaly called when the object of class is delete
  */
 App_ABC::~App_ABC()
 {
 	
 }
 /**
- * Pend to start is the fisrt task of this application it will do prerequisite condition. In the debig mode, task will send information of application to terminal to start the application.
+ * Pend to start is the first task of this application it will do prerequisite condition. In the debit mode, task will send information of application to terminal to start the application.
  */
 void  App_ABC::App_ABC_Pend()
 {
-    atXYZ.Debug();
+    atService_XYZ.Debug();
 }
 /**
  * This start function will init some critical function 
@@ -83,7 +84,7 @@ void  App_ABC::App_ABC_Pend()
 void  App_ABC::App_ABC_Start()
 {
 	// init atXYZ Service in the fist running time
-	atXYZ.Run_Service();
+	atService_XYZ.Run_Service();
 }  
 /**
  * Restart function of SNM  app
@@ -97,8 +98,8 @@ void  App_ABC::App_ABC_Restart()
  */
 void  App_ABC::App_ABC_Execute()
 {	
-	atXYZ.Run_Service();
-    if(atABC.User_Mode == APP_USER_MODE_DEBUG)
+	atService_XYZ.Run_Service();
+    if(atApp_ABC.User_Mode == APP_USER_MODE_DEBUG)
     {
 		
     }   
