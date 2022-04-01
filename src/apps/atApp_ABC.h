@@ -20,7 +20,8 @@
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
+TaskHandle_t Task_atApp_ABC;  
+void atApp_ABC_Application(void *parameter);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -106,5 +107,12 @@ void  App_ABC::App_ABC_Execute()
 void  App_ABC::App_ABC_Suspend(){}
 void  App_ABC::App_ABC_Resume(){}	  
 void  App_ABC::App_ABC_End(){}
-
+void atApp_ABC_Application(void *parameter)
+{
+  while (1)
+  {
+    atApp_ABC.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(1000/ portTICK_PERIOD_MS);
+  }
+}
 #endif

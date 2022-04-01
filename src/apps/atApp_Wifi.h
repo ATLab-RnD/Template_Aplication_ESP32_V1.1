@@ -22,7 +22,8 @@
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
+TaskHandle_t Task_atApp_Wifi;  
+void atApp_Wifi_Task_Func(void *parameter);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 enum Network_Index_IPV4
@@ -282,6 +283,14 @@ void  App_Wifi::App_Wifi_Execute()
 void  App_Wifi::App_Wifi_Suspend(){}
 void  App_Wifi::App_Wifi_Resume(){}	  
 void  App_Wifi::App_Wifi_End(){}
+void atApp_Wifi_Task_Func(void *parameter)
+{
+  while (1)
+  {
+    atApp_Wifi.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(1000/ portTICK_PERIOD_MS);
+  }
+}
 void  App_Wifi::scan_Network()
 {
     atApp_Wifi.scanned_Wifi_SSIDs_Number = WiFi.scanNetworks();

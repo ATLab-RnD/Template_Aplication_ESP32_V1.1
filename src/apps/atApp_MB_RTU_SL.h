@@ -17,11 +17,13 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 #define _Application_atApp_MB_RTU_SL_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-#include "../services/modbus_slave/atService_MB_RTU_Slave.h"
+#include "../services/modbus_slave/atService_MB_RTU_SL.h"
+#include "../services/modbus_slave/Modbus_Registers.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
+TaskHandle_t Task_atApp_MB_RTU_SL;  
+void atApp_MB_RTU_SL_Task_Func(void *parameter);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -88,10 +90,18 @@ void  App_Modbus_Slave::App_Modbus_Slave_Start()
 	// init atXYZ Service in the fist running time
 	atService_MB_RTU_SL.Run_Service();
 	
-	atService_MB_RTU_SL.addHreg(10,10);
-	atService_MB_RTU_SL.addHreg(11,11);
-	atService_MB_RTU_SL.addHreg(12,12);
-	atService_MB_RTU_SL.addHreg(13,13);
+
+  	for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_HUMIDITY; count++)
+  	{
+		atService_MB_RTU_SL.addHreg(count,count);
+	}
+
+     
+
+  	for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
+	{
+    	atService_MB_RTU_SL.addHreg(count,count);
+    }
 }  
 /**
  * Restart function of Modbus_Slave  app
@@ -114,5 +124,12 @@ void  App_Modbus_Slave::App_Modbus_Slave_Execute()
 void  App_Modbus_Slave::App_Modbus_Slave_Suspend(){}
 void  App_Modbus_Slave::App_Modbus_Slave_Resume(){}	  
 void  App_Modbus_Slave::App_Modbus_Slave_End(){}
-
+void atApp_MB_RTU_SL_Task_Func(void *parameter)
+{
+  while (1)
+  {
+    atApp_MB_RTU_SL.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(1/ portTICK_PERIOD_MS);
+  }
+}
 #endif
