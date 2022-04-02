@@ -131,10 +131,10 @@ void  App_CD::App_CD_Execute()
   atService_PCF8575.Run_Service();
   if(atApp_CD.User_Mode == APP_USER_MODE_DEBUG)
   {
-    Serial.printf("Relay is %d\n",atApp_CD.relay);
-    Serial.printf("Relay feedback : %d\n",atApp_CD.relay_feedback);
-    Serial.printf("Contactor feedback : %d\n",atApp_CD.contactor_feedback);
-    Serial.printf("Aptomat feedback : %d\n",atApp_CD.aptomat_feedback);
+    Serial.printf("Relay is %d\n",              atApp_CD.relay);
+    Serial.printf("Relay feedback : %d\n",      atApp_CD.relay_feedback);
+    Serial.printf("Contactor feedback : %d\n",  atApp_CD.contactor_feedback);
+    Serial.printf("Aptomat feedback : %d\n",    atApp_CD.aptomat_feedback);
   } 
 }
 void  App_CD::App_CD_Suspend(){}

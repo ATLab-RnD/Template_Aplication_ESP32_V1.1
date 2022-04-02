@@ -3,7 +3,7 @@
 Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Service_atService_lvgl.h - Arduino library for communicating with OP320A&S SNM
+  Service_atService_LVGL_HMI.h - Arduino library for communicating with OP320A&S SNM
   over RS232/485 (via RTU protocol).
 
   Library:: chickyPig_OP320_V1
@@ -17,16 +17,13 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 //#if 1 /*Set it to "1" to enable content*/ change the LV_TICK_CUSTOM to 1
 
 //#2 configure TFT
-// in the user User_Setup_Select.h uncomment the #include <User_Setups/Setup43_ST7735.h> and copy the below code 
+// #include <User_Setups/Setup24_ST7789.h>            // Setup file configured for ST7789 240 x 240 and copy the below code 
 /*
-// Setup for ESP32 and ST7735 80 x 160 TFT
 
-// See SetupX_Template.h for all options available
+#define ST7789_DRIVER     // Configure all registers
 
-#define ST7735_DRIVER
-
-#define TFT_WIDTH  80
-#define TFT_HEIGHT 160
+#define TFT_WIDTH  240
+#define TFT_HEIGHT 240
 
 #define TFT_RGB_ORDER TFT_BGR  // Colour order Blue-Green-Red
 
@@ -40,9 +37,8 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 // #define SPI_FREQUENCY  20000000
   #define SPI_FREQUENCY  27000000 // Actually sets it to 26.67MHz = 80/3
 */
-
-#ifndef _Service_atService_LVGL_HMI_Lite_
-#define _Service_atService_LVGL_HMI_Lite_
+#ifndef _Service_atService_LVGL_HMI_
+#define _Service_atService_LVGL_HMI_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
 #include <TFT_eSPI.h> // Hardware-specific library
@@ -52,8 +48,8 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 /*Change to your screen resolution*/
-static const uint16_t screenWidth  = 160;
-static const uint16_t screenHeight = 80;
+static const uint16_t screenWidth  = 240;
+static const uint16_t screenHeight = 240;
 
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t buf[ screenWidth * 10 ];
@@ -68,7 +64,7 @@ void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *colo
     uint32_t h = ( area->y2 - area->y1 + 1 );
 
     tft.startWrite();
-    tft.setAddrWindow( area->x1 , area->y1 + 24, w, h );
+    tft.setAddrWindow( area->x1 , area->y1 , w, h );
     tft.pushColors( ( uint16_t * )&color_p->full, w * h, true );
     tft.endWrite();
 
@@ -89,7 +85,7 @@ public:
 protected:
      
 private:
-} atService_lvgl;
+} atService_LVGL_HMI ;
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -102,7 +98,7 @@ Service_lvgl::Service_lvgl(/* args */)
     // change the ID of Service
     ID_Service = 2;
     // change the Service name
-    Name_Service = (char*)"lvgl Service";
+    Name_Service = (char*)"HMI lvgl Service";
     // change the ID of SNM
 }
 /**
@@ -120,7 +116,7 @@ void  Service_lvgl::Service_lvgl_Start()
     //Set up the display
 	tft.init();
     // tft.setSwapBytes(true);
-	tft.setRotation(1);
+	// tft.setRotation(1);
 	lv_init();
 	lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * 10 );
 
@@ -133,6 +129,7 @@ void  Service_lvgl::Service_lvgl_Start()
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.draw_buf = &draw_buf;
     lv_disp_drv_register( &disp_drv );
+
 }  
 
 /**
@@ -141,7 +138,7 @@ void  Service_lvgl::Service_lvgl_Start()
 void  Service_lvgl::Service_lvgl_Execute()
 {   
     lv_timer_handler(); /* let the GUI do its work */
-    if(atService_lvgl.User_Mode == SER_USER_MODE_DEBUG)
+    if(atService_LVGL_HMI.User_Mode == SER_USER_MODE_DEBUG)
     {
         
     }   
