@@ -276,7 +276,7 @@ example, 0110H means Goodrive200A vector inverters.
 // Inverter code
 #define INVT_REGISTER_R_INVERTER_CODE                   0x3016
 // Fault code
-#define INVT_REGISTER_R_FAULT_CODE                      0x5000
+// #define INVT_REGISTER_R_FAULT_CODE                      0x5000
 /**
  * inverter buffer for register uint16_t INVT_Buffer_RW_Registers[16];
  */

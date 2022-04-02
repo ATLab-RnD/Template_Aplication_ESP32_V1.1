@@ -305,7 +305,7 @@ void  App_ADE::App_ADE_Execute()
 		Serial.printf("	Apparent power phase C: %.9f \n\n",Apparent_Power_raw[PHASE_C]);
 
 		Serial.printf("Frequency : %.9f\n",Frequency_raw);
-		Serial.printf("Temperature: %d \n",Temperature_raw);
+		Serial.printf("Temperature: %.2f \n",Temperature_raw);
 		Serial.printf("Version die: %d \n\n",Version_Die_Raw);
 
 		Serial.printf("Data after being calculated\n");

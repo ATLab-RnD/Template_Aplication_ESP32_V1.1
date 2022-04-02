@@ -208,8 +208,8 @@ void  App_Wifi::App_Wifi_Execute()
     }
     else{
         atApp_Wifi.collecting_wifi_RSSI = 0;
-        sprintf(atApp_Wifi.connecting_SSID,"");
-        sprintf(atApp_Wifi.connecting_Password,"");
+        sprintf(atApp_Wifi.connecting_SSID," ");
+        sprintf(atApp_Wifi.connecting_Password," ");
         sprintf(atApp_Wifi.IP                 , "0.0.0.0");
         sprintf(atApp_Wifi.Gateway            , "0.0.0.0");
         sprintf(atApp_Wifi.Subnet             , "0.0.0.0");
@@ -303,7 +303,7 @@ void  App_Wifi::scan_Network()
     }
     else 
     {   
-        sprintf(atApp_Wifi.scanned_Wifi_SSIDs,"");
+        sprintf(atApp_Wifi.scanned_Wifi_SSIDs," ");
         for (int i = 0; i < atApp_Wifi.scanned_Wifi_SSIDs_Number; ++i) 
         {
             //insert index

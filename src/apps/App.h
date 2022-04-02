@@ -20,25 +20,25 @@ bool      Serial_Hardware_Port_Is_Opened = 0;
 unsigned long  Serial_Hardware_Port_Baudrate = 115200;
 /* _____DEFINETIONS__________________________________________________________ */
 enum App_User_Mode
-  {
-    APP_USER_MODE_NORMAL,
-    APP_USER_MODE_DEBUG
-  };
+{
+  APP_USER_MODE_NORMAL,
+  APP_USER_MODE_DEBUG
+};
 enum App_State
-  {
-    APP_STATE_PENDING,
-    APP_STATE_STARTING,
-    APP_STATE_READY,
-    APP_STATE_EXECUTING,
-    APP_STATE_SUSPENDING,
-    APP_STATE_ENDING,
-    APP_STATE_ERROR
-  };
+{
+  APP_STATE_PENDING,
+  APP_STATE_STARTING,
+  APP_STATE_READY,
+  APP_STATE_EXECUTING,
+  APP_STATE_SUSPENDING,
+  APP_STATE_ENDING,
+  APP_STATE_ERROR
+};
 enum App_Run_Mode
-  {
-    APP_RUN_MODE_MANUAL,
-    APP_RUN_MODE_AUTO
-  };
+{
+  APP_RUN_MODE_MANUAL,
+  APP_RUN_MODE_AUTO
+};
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Application class is base class for implement another class by inheritance 

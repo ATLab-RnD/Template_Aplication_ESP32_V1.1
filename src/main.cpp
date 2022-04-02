@@ -7,6 +7,7 @@
 #include "../src/apps/atApp_MB_TCP_SL.h"
 #include "../src/apps/atApp_INVT.h"
 #include "../src/apps/atApp_ADE.h"
+#include "../src/apps/atApp_CD.h"
 
 void setup() {
 // uncomment to put the app in debug mod
@@ -16,6 +17,7 @@ void setup() {
   // atApp_MB_RTU_SL.Debug();
   // atApp_MB_TCP_SL.Debug();
   // atApp_INVT.Debug();
+  // atApp_CD.Debug();
 
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -25,7 +27,8 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
-  xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE        ,    0     );
+  // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE        ,    0     );
+  // xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
 
 // Some tasks will be suspended after initing 
   // vTaskSuspend(Task_atApp_MB_TCP_SL);
