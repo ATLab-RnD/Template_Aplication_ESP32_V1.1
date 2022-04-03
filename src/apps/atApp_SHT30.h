@@ -20,9 +20,8 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 #include "../services/i2c/atService_I2C.h"
 #include "WEMOS_SHT3X.h"
 /* _____DEFINETIONS__________________________________________________________ */
-
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-  SHT3X sht30(0x44);
+  SHT3X sht30(0x45);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 TaskHandle_t Task_atApp_SHT30;  
