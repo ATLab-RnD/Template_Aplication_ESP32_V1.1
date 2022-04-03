@@ -1,12 +1,9 @@
 /**
 @file
-Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Application_SNM.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
 
-  Library:: chickyPig_OP320_V1
+  Library:: 
 
   This version is
 
@@ -45,7 +42,7 @@ lv_obj_t * label_Cosfi_Phase_C;
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
-/* _____CLASS DEFINETION_____________________________________________________ */
+/* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Application class is the application to manage the 
  */
@@ -67,7 +64,7 @@ protected:
 private:
 }  atHMI ;
 /**
- * This function will be automatical called when a object is created by this class
+ * This function will be automaticaly called when a object is created by this class
  */
 App_HMI::App_HMI(/* args */)
 {
@@ -89,14 +86,15 @@ App_HMI::App_HMI(/* args */)
 	
 }
 /**
- * This function will be automatical called when the object of class is delete
+ * This function will be automaticaly called when the object of class is delete
  */
 App_HMI::~App_HMI()
 {
 	
 }
 /**
- * Pend to start is the fisrt task of this application it will do prerequisite condition. In the debig mode, task will send information of application to terminal to start the application.
+ * Pend to start is the first task of this application it will do prerequisite condition. 
+ * In the debit mode, task will send information of application to terminal to start the application.
  */
 void  App_HMI::App_HMI_Pend()
 {
