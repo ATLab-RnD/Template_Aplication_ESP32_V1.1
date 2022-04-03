@@ -1,12 +1,8 @@
 /**
 @file
-Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Service_atService_XYZ.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
-
-  Library:: chickyPig_OP320_V1
+  Service_atService_XYZ.h
 
   This version is
 
@@ -21,7 +17,6 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
-///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
 /* _____CLASS DEFINITION_____________________________________________________ */
@@ -41,7 +36,7 @@ protected:
 private:
 } atService_XYZ ;
 /**
- * This function will be automatical called when a object is created by this class
+ * This function will be automaticaly called when a object is created by this class
  */
 Service_XYZ::Service_XYZ(/* args */)
 {
@@ -56,7 +51,7 @@ Service_XYZ::Service_XYZ(/* args */)
     // change the ID of SNM
 }
 /**
- * This function will be automatical called when the object of class is delete
+ * This function will be automaticaly called when the object of class is delete
  */
 Service_XYZ::~Service_XYZ()
 {
