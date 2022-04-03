@@ -22,7 +22,7 @@ void setup() {
   // atApp_INVT.Debug();
   // atApp_CD.Debug();
   // atApp_SGP30.Debug();
-  atApp_SHT30.Debug();
+  // atApp_SHT30.Debug();
 
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -36,10 +36,10 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
   // xTaskCreatePinnedToCore(  atApp_SGP30_Task_Func     , "atApp_SGP30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SGP30     ,    0     );
-  xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
+  // xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Some tasks will be suspended after initing 
-  vTaskSuspend(Task_atApp_MB_TCP_SL);
+  // vTaskSuspend(Task_atApp_MB_TCP_SL);
 }
 
 void loop() {}
