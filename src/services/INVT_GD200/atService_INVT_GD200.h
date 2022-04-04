@@ -29,7 +29,7 @@ Arduino library for communicating with GD200 Inverter over RS/485 (via RTU proto
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
 #include <SoftwareSerial.h>
-#include"../modbus_master/atService_MB_RTU_MA_.h"
+#include"../modbus_master/atService_MB_RTU_MA.h"
 #include "Arduino.h"
 #include "util/word.h"
 /* _____DEFINETIONS__________________________________________________________ */

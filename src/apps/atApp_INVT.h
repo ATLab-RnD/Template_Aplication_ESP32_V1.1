@@ -18,7 +18,7 @@ Application for communicating with inverter (via RTU protocol).
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Arduino.h"
 #include "App.h"
-#include "../services/INVT_GD200/atService_INVT_GD200_.h"
+#include "../services/INVT_GD200/atService_INVT_GD200.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

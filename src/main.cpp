@@ -10,6 +10,7 @@
 // #include "../src/apps/atApp_CD.h"
 // #include "../src/apps/atApp_SHT30.h"
 // #include "../src/apps/atApp_SGP30.h"
+#include "../src/apps/atApp_exHMI.h"
 
 void setup() {
 // uncomment to put the app in debug mod
