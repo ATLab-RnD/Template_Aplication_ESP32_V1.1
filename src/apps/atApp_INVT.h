@@ -16,7 +16,6 @@ Application for communicating with inverter (via RTU protocol).
 #ifndef _Application_atApp_INVT_
 #define _Application_atApp_INVT_
 /* _____PROJECT INCLUDES____________________________________________________ */
-#include "Arduino.h"
 #include "App.h"
 #include "../services/INVT_GD200/atService_INVT_GD200.h"
 /* _____DEFINETIONS__________________________________________________________ */

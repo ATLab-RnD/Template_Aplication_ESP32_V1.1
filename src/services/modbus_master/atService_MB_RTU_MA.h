@@ -27,6 +27,8 @@
 #define MODBUS_TX_PIN 25
 SoftwareSerial Serial_ModBus_Isolated(MODBUS_RX_PIN, MODBUS_TX_PIN);
 #endif
+
+SemaphoreHandle_t xMutex_MB_RTU_MA = NULL;
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
 /* _____CLASS DEFINITION_____________________________________________________ */
@@ -46,6 +48,9 @@ public:
 
     int Baudrate = 9600; 
     SoftwareSerialConfig Serial_config = SWSERIAL_8E1;
+    
+    void check_In();
+    void check_Out();
     
     uint8_t  Status = NOT_OPENNED;
     char*    Modbus_Error(uint8_t u8Result);
@@ -90,12 +95,13 @@ Service_MB_RTU_MA::~Service_MB_RTU_MA()
  */
 void  Service_MB_RTU_MA::Service_MB_RTU_MA_Start()
 {
-    if (atService_MB_RTU_MA.Status == NOT_OPENNED)
-    {
-        Serial_ModBus_Isolated.begin(atService_MB_RTU_MA.Baudrate, atService_MB_RTU_MA.Serial_config);
-        atService_MB_RTU_MA.begin(1, Serial_ModBus_Isolated);
-        atService_MB_RTU_MA.Status = OPENNED;
-    }
+  if (atService_MB_RTU_MA.Status == NOT_OPENNED)
+  {
+    Serial_ModBus_Isolated.begin(atService_MB_RTU_MA.Baudrate, atService_MB_RTU_MA.Serial_config);
+    atService_MB_RTU_MA.begin(1, Serial_ModBus_Isolated);
+    atService_MB_RTU_MA.Status = OPENNED;
+  }
+  xMutex_MB_RTU_MA = xSemaphoreCreateMutex();
 }  
 
 /**
@@ -103,10 +109,10 @@ void  Service_MB_RTU_MA::Service_MB_RTU_MA_Start()
  */
 void  Service_MB_RTU_MA::Service_MB_RTU_MA_Execute()
 {   
-    if(atService_MB_RTU_MA.User_Mode == SER_USER_MODE_DEBUG)
-    {
-        
-    }   
+  if(atService_MB_RTU_MA.User_Mode == SER_USER_MODE_DEBUG)
+  {
+      
+  }   
 }    
 void  Service_MB_RTU_MA::Service_MB_RTU_MA_End(){}
 
@@ -388,6 +394,19 @@ uint8_t Service_MB_RTU_MA::readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint
   return readWriteMultipleRegisters(u16ReadAddress, u16ReadQty, u16WriteAddress, u16WriteQty);
 }
 
+void  Service_MB_RTU_MA::check_In()
+{
+    xSemaphoreTake( xMutex_MB_RTU_MA, portMAX_DELAY );
+}
+/**
+ * @brief Must call after using i2c to read or write ...
+ * 
+ * @return * void 
+ */
+void  Service_MB_RTU_MA::check_Out()
+{
+    xSemaphoreGive( xMutex_MB_RTU_MA );
+}
 #endif
 
 

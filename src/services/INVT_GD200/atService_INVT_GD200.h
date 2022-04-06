@@ -28,12 +28,9 @@ Arduino library for communicating with GD200 Inverter over RS/485 (via RTU proto
 #define _Service_atService_INVT_GD200_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
-#include <SoftwareSerial.h>
 #include"../modbus_master/atService_MB_RTU_MA.h"
-#include "Arduino.h"
-#include "util/word.h"
-/* _____DEFINETIONS__________________________________________________________ */
 #include "INVT_GD200A_Defines.h"
+/* _____DEFINETIONS__________________________________________________________ */
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -139,50 +136,13 @@ void  Service_INVT_GD200::Service_INVT_GD200_Execute()
 
   result = atService_INVT_GD200.Get_Data_From_INVT();
   
-  if (atService_INVT_GD200.User_Mode == SER_USER_MODE_DEBUG)
-  {
-    Serial.printf_P("    get data : ");
-    Serial.printf_P(atService_MB_RTU_MA.Modbus_Error(result));
-
-    Serial.printf_P("        INVT_Buffer_RW_Registers:");
-    for ( int8_t i = 0; i < sizeof(INVT_Buffer_RW_Registers)/2; i++)
-    {
-      Serial.printf_P(" - [200%x]:%d",i, atService_INVT_GD200.INVT_Buffer_RW_Registers[i]);
-    }
-    Serial.printf_P("\n");
-
-    Serial.printf_P("        INVT_Buffer_R_Registers_1:");
-    for ( int8_t i = 0; i < sizeof(INVT_Buffer_R_Registers_1)/2; i++)
-    {
-      Serial.printf_P("- [210%x]:%d",i, atService_INVT_GD200.INVT_Buffer_R_Registers_1[i]);
-    }
-    Serial.printf_P("\n");
-
-    Serial.printf_P("        INVT_Buffer_R_Registers_2:");
-    for ( int8_t i = 0; i < sizeof(INVT_Buffer_R_Registers_2)/2; i++)
-    {
-      Serial.printf_P(" - [300%x]:%d",i, atService_INVT_GD200.INVT_Buffer_R_Registers_2[i]);
-    }
-    Serial.printf_P("\n");
-
-    Serial.printf_P("    fault INVT : ");
-    Serial.printf_P(atService_INVT_GD200.Fault_Char());
-
-    Serial.printf_P("    Setting frequency: %.2f (Hz)\n",   atService_INVT_GD200.Frequency_Setting());
-    Serial.printf_P("    Operating frequency: %.2f (Hz)\n", atService_INVT_GD200.Frequency_Operating());
-    Serial.printf_P("    Operating speed: %.1f (RPM)\n",    atService_INVT_GD200.Speed_Operating());
-    Serial.printf_P("    Bus voltage: %.1f (V)\n",          atService_INVT_GD200.Voltage_Bus());
-    Serial.printf_P("    Output voltage: %.1f (V)\n",       atService_INVT_GD200.Voltage_Output());
-    Serial.printf_P("    Output currentL %.1f (A)\n",       atService_INVT_GD200.Current_Output());
-    Serial.printf_P("    Output Power: %.1f (%%)\n",        atService_INVT_GD200.Power_Output());
-    Serial.printf_P("    Output torque: %.1f (N.m)\n",      atService_INVT_GD200.Torque_Output());
-  }
+ 
 
   // reset fault if there remain
   if (atService_INVT_GD200.Fault_Code() == FAULT10)
   {
     result = atService_INVT_GD200.Reset_Fault();
-    if (atService_INVT_GD200.User_Mode == APP_USER_MODE_DEBUG) 
+    if (atService_INVT_GD200.User_Mode == SER_USER_MODE_DEBUG) 
     { 
       Serial.printf_P("    reset fault : ");
       Serial.printf_P(atService_MB_RTU_MA.Modbus_Error(result));
@@ -226,10 +186,45 @@ void  Service_INVT_GD200::Service_INVT_GD200_Execute()
       }
     }
 
-  if(atService_INVT_GD200.User_Mode == SER_USER_MODE_DEBUG)
+ 
+  if (atService_INVT_GD200.User_Mode == SER_USER_MODE_DEBUG)
   {
-      
-  }   
+    Serial.printf_P("    get data : ");
+    Serial.printf_P(atService_MB_RTU_MA.Modbus_Error(result));
+
+    Serial.printf_P("        INVT_Buffer_RW_Registers:");
+    for ( int8_t i = 0; i < sizeof(INVT_Buffer_RW_Registers)/2; i++)
+    {
+      Serial.printf_P(" - [200%x]:%d",i, atService_INVT_GD200.INVT_Buffer_RW_Registers[i]);
+    }
+    Serial.printf_P("\n");
+
+    Serial.printf_P("        INVT_Buffer_R_Registers_1:");
+    for ( int8_t i = 0; i < sizeof(INVT_Buffer_R_Registers_1)/2; i++)
+    {
+      Serial.printf_P("- [210%x]:%d",i, atService_INVT_GD200.INVT_Buffer_R_Registers_1[i]);
+    }
+    Serial.printf_P("\n");
+
+    Serial.printf_P("        INVT_Buffer_R_Registers_2:");
+    for ( int8_t i = 0; i < sizeof(INVT_Buffer_R_Registers_2)/2; i++)
+    {
+      Serial.printf_P(" - [300%x]:%d",i, atService_INVT_GD200.INVT_Buffer_R_Registers_2[i]);
+    }
+    Serial.printf_P("\n");
+
+    Serial.printf_P("    fault INVT : ");
+    Serial.printf_P(atService_INVT_GD200.Fault_Char());
+
+    Serial.printf_P("    Setting frequency: %.2f (Hz)\n",   atService_INVT_GD200.Frequency_Setting());
+    Serial.printf_P("    Operating frequency: %.2f (Hz)\n", atService_INVT_GD200.Frequency_Operating());
+    Serial.printf_P("    Operating speed: %.1f (RPM)\n",    atService_INVT_GD200.Speed_Operating());
+    Serial.printf_P("    Bus voltage: %.1f (V)\n",          atService_INVT_GD200.Voltage_Bus());
+    Serial.printf_P("    Output voltage: %.1f (V)\n",       atService_INVT_GD200.Voltage_Output());
+    Serial.printf_P("    Output currentL %.1f (A)\n",       atService_INVT_GD200.Current_Output());
+    Serial.printf_P("    Output Power: %.1f (%%)\n",        atService_INVT_GD200.Power_Output());
+    Serial.printf_P("    Output torque: %.1f (N.m)\n",      atService_INVT_GD200.Torque_Output());
+  }
 }    
 /**
  * End fuction of
