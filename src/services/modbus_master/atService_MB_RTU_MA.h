@@ -1,28 +1,25 @@
 /**
 @file
-Arduino library for modbus communicatting 
 */
 /*
+  Service_atService_MB_RTU_MA.h
 
-  Service_MB_RTU_MA.h - Arduino library 
+  This version is
 
-  Library:: Service_MB_RTU_MA
-
-  This modbus version is a enhanced modbus version based on the ModbusMaster. 
-  Support multiple slave.
-  Prequisite: change the _u8MBSlave from private to protected 
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
-#ifndef _Service_Service_MB_RTU_MA_
-#define _Service_Service_MB_RTU_MA_
 
-/* _____STANDARD INCLUDES____________________________________________________ */
-// include types & constants of Wiring core API
+#ifndef _Service_atService_MB_RTU_MA_
+#define _Service_atService_MB_RTU_MA_
+/* _____PROJECT INCLUDES____________________________________________________ */
+#include "../Service.h"
 #include <SoftwareSerial.h>
 #include <ModbusMaster.h>
 #include "Arduino.h"
 #include "util/word.h"
 #include <string.h>
+/* _____DEFINETIONS__________________________________________________________ */
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 #ifndef _SoftwareSerial_Modbus_RTU_Master_
 #define _SoftwareSerial_Modbus_RTU_Master_
@@ -31,22 +28,31 @@ Arduino library for modbus communicatting
 SoftwareSerial Serial_ModBus_Isolated(MODBUS_RX_PIN, MODBUS_TX_PIN);
 #endif
 
-/* _____CLASS DEFINITIONS____________________________________________________ */
+SemaphoreHandle_t xMutex_MB_RTU_MA = NULL;
+/* _____GLOBAL FUNCTION______________________________________________________ */
+
+/* _____CLASS DEFINITION_____________________________________________________ */
 #define NOT_OPENNED 0
 #define     OPENNED 1
-
 /**
-Arduino class library for communicating with Modbus slaves over 
-RS232/485 (via RTU protocol).
-*/
-class Service_MB_RTU_MA: public ModbusMaster
+ * This Service class is the Service to manage the 
+ */
+class Service_MB_RTU_MA : public Service, public ModbusMaster
 {
-private:
-    /* data */
 public:
-    uint8_t  Status = NOT_OPENNED;
-    Service_MB_RTU_MA(/* args */);
+    Service_MB_RTU_MA();
     ~Service_MB_RTU_MA();
+    static void  Service_MB_RTU_MA_Start();
+    static void  Service_MB_RTU_MA_Execute();    
+    static void  Service_MB_RTU_MA_End();
+
+    int Baudrate = 9600; 
+    SoftwareSerialConfig Serial_config = SWSERIAL_8E1;
+    
+    void check_In();
+    void check_Out();
+    
+    uint8_t  Status = NOT_OPENNED;
     char*    Modbus_Error(uint8_t u8Result);
     uint8_t  readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
     uint8_t  readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
@@ -58,17 +64,58 @@ public:
     uint8_t  writeMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteQty);
     uint8_t  maskWriteRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16AndMask, uint16_t u16OrMask);
     uint8_t  readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty, uint16_t u16WriteAddress, uint16_t u16WriteQty);
-
-};
-
+protected:
+     
+private:
+}atService_MB_RTU_MA ;
+/**
+ * This function will be automaticaly called when a object is created by this class
+ */
 Service_MB_RTU_MA::Service_MB_RTU_MA(/* args */)
 {
+    _Start_User      = *Service_MB_RTU_MA_Start;
+    _Execute_User    = *Service_MB_RTU_MA_Execute;
+    _End_User        = *Service_MB_RTU_MA_End;
 
+    // change the ID of Service
+    ID_Service = 1;
+    // change the Service name
+    Name_Service = (char*)"MB_RTU_MA Service";
+    // change the ID of SNM
 }
-
+/**
+ * This function will be automaticaly called when the object of class is delete
+ */
 Service_MB_RTU_MA::~Service_MB_RTU_MA()
 {
+    
 }
+/**
+ * This start function will init some critical function 
+ */
+void  Service_MB_RTU_MA::Service_MB_RTU_MA_Start()
+{
+  if (atService_MB_RTU_MA.Status == NOT_OPENNED)
+  {
+    Serial_ModBus_Isolated.begin(atService_MB_RTU_MA.Baudrate, atService_MB_RTU_MA.Serial_config);
+    atService_MB_RTU_MA.begin(1, Serial_ModBus_Isolated);
+    atService_MB_RTU_MA.Status = OPENNED;
+  }
+  xMutex_MB_RTU_MA = xSemaphoreCreateMutex();
+}  
+
+/**
+ * Execute fuction of SNM app
+ */
+void  Service_MB_RTU_MA::Service_MB_RTU_MA_Execute()
+{   
+  if(atService_MB_RTU_MA.User_Mode == SER_USER_MODE_DEBUG)
+  {
+      
+  }   
+}    
+void  Service_MB_RTU_MA::Service_MB_RTU_MA_End(){}
+
 char* Service_MB_RTU_MA:: Modbus_Error(uint8_t u8Result)
 {
   switch (u8Result)
@@ -347,4 +394,19 @@ uint8_t Service_MB_RTU_MA::readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint
   return readWriteMultipleRegisters(u16ReadAddress, u16ReadQty, u16WriteAddress, u16WriteQty);
 }
 
+void  Service_MB_RTU_MA::check_In()
+{
+    xSemaphoreTake( xMutex_MB_RTU_MA, portMAX_DELAY );
+}
+/**
+ * @brief Must call after using i2c to read or write ...
+ * 
+ * @return * void 
+ */
+void  Service_MB_RTU_MA::check_Out()
+{
+    xSemaphoreGive( xMutex_MB_RTU_MA );
+}
 #endif
+
+
