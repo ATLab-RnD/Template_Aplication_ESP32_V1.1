@@ -84,16 +84,20 @@ void  App_MB_TCP::App_MB_Start()
  
  
  // Init General Register 
-  for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_HUMIDITY; count++)
+  for( int count = 0; count <= 1000; count++)
   {
     atService_MB_TCP_SL.addHreg(count,count);
+	atService_MB_TCP_SL.addCoil(count,1);
+	atService_MB_TCP_SL.addIreg(count,count);
+	atService_MB_TCP_SL.addIsts(count,1);
   }
   
- // Init SNM Register
-  for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
-  {
-    atService_MB_TCP_SL.addHreg(count,count);
-  }
+//  // Init SNM Register
+//   for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
+//   {
+//     atService_MB_TCP_SL.addHreg(count,count);
+//   }
+
 }  
 /**
  * Restart function of SNM  app
