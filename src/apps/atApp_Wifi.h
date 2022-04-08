@@ -92,8 +92,9 @@ public:
     Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Static;
     uint8_t IP_Static[IPV4_Index_Number]        = {192,168,1,101};
     uint8_t Gateway_Static[IPV4_Index_Number]   = {192,168,1,1};
-    uint8_t Subnet_Static[IPV4_Index_Number]    = {255,255,255,0};
-    uint8_t DNS_Static[IPV4_Index_Number]       = {203,113,131,2};
+    uint8_t Subnet_Static[IPV4_Index_Number]    = {255,255,0,0};
+    uint8_t DNS1_Static[IPV4_Index_Number]       = {8,8,8,8};
+    uint8_t DNS2_Static[IPV4_Index_Number]       = {8,8,4,4};
     
     
 
@@ -332,30 +333,30 @@ void  App_Wifi::connect()
     if( atApp_Wifi.ip_Mode ==  WIFI_IP_MODE_Static)
     {
         // Set your Static IP address
-        IPAddress local_IP( atApp_Wifi.IP[A], 
-                            atApp_Wifi.IP[B],
-                            atApp_Wifi.IP[C], 
-                            atApp_Wifi.IP[D]);
+        IPAddress local_IP( atApp_Wifi.IP_Static[A], 
+                            atApp_Wifi.IP_Static[B],
+                            atApp_Wifi.IP_Static[C], 
+                            atApp_Wifi.IP_Static[D]);
         // Set your Gateway IP address
-        IPAddress gateway(  atApp_Wifi.Gateway[A], 
-                            atApp_Wifi.Gateway[B],
-                            atApp_Wifi.Gateway[C],
-                            atApp_Wifi.Gateway[D]);
+        IPAddress gateway(  atApp_Wifi.Gateway_Static[A], 
+                            atApp_Wifi.Gateway_Static[B],
+                            atApp_Wifi.Gateway_Static[C],
+                            atApp_Wifi.Gateway_Static[D]);
 
-        IPAddress subnet(   atApp_Wifi.Subnet[A],
-                            atApp_Wifi.Subnet[B],
-                            atApp_Wifi.Subnet[C],
-                            atApp_Wifi.Subnet[D]);
+        IPAddress subnet(   atApp_Wifi.Subnet_Static[A],
+                            atApp_Wifi.Subnet_Static[B],
+                            atApp_Wifi.Subnet_Static[C],
+                            atApp_Wifi.Subnet_Static[D]);
 
-        IPAddress primaryDNS(   atApp_Wifi.DNS[A],
-                                atApp_Wifi.DNS[B],
-                                atApp_Wifi.DNS[C],
-                                atApp_Wifi.DNS[D]);
+        IPAddress primaryDNS(   atApp_Wifi.DNS1_Static[A],
+                                atApp_Wifi.DNS1_Static[B],
+                                atApp_Wifi.DNS1_Static[C],
+                                atApp_Wifi.DNS1_Static[D]);
 
-        IPAddress secondaryDNS( atApp_Wifi.DNS[A],
-                                atApp_Wifi.DNS[B],
-                                atApp_Wifi.DNS[C], 
-                                atApp_Wifi.DNS[D]);
+        IPAddress secondaryDNS( atApp_Wifi.DNS2_Static[A],
+                                atApp_Wifi.DNS2_Static[B],
+                                atApp_Wifi.DNS2_Static[C], 
+                                atApp_Wifi.DNS2_Static[D]);
 
         if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
             if(atApp_Wifi.User_Mode == APP_USER_MODE_DEBUG)

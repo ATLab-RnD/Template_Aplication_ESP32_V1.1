@@ -86,9 +86,9 @@ void  App_MB_TCP::App_MB_Start()
  // Init General Register 
   for( int count = 0; count <= 1000; count++)
   {
-    atService_MB_TCP_SL.addHreg(count,count);
+    atService_MB_TCP_SL.addHreg(count,2);
 	atService_MB_TCP_SL.addCoil(count,1);
-	atService_MB_TCP_SL.addIreg(count,count);
+	atService_MB_TCP_SL.addIreg(count,2);
 	atService_MB_TCP_SL.addIsts(count,1);
   }
   
