@@ -3,6 +3,7 @@
 #include "../src/apps/atApp_ABC.h"
 #include "../src/apps/atApp_Wifi.h"
 #include "../src/apps/atApp_CP.h"
+#include "../src/apps/atApp_DB.h"
 #include "../src/apps/atApp_MB_RTU_SL.h"
 #include "../src/apps/atApp_MB_TCP_SL.h"
 #include "../src/apps/atApp_INVT.h"
@@ -14,8 +15,7 @@
 #include "../src/apps/atApp_DS18B20.h"
 
 void setup() {
-// uncomment to put the app in debug mod
-
+  // uncomment to put the app in debug mod
   // atApp_ABC.Debug();
   atApp_Wifi.Debug();
   // atApp_CP.Debug();
@@ -34,6 +34,7 @@ void setup() {
 // || Creation           ||     Task function         ||     PC name                    || heap size  || Parameter || Priority  || Task handle          || CoreID   ||
   xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     );
   xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
+  xTaskCreatePinnedToCore(  atApp_DB_Task_Func        , "atApp_DB_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_DB        ,    0     );
   xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi      ,    1     );
   xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
   xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );

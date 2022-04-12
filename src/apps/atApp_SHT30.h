@@ -75,7 +75,7 @@ App_SHT30::~App_SHT30()
 	
 }
 /**
- * Pend to start is the first task of this application it will do prerequisite condition. In the debig mode, task will send information of application to terminal to start the application.
+ * Pend to start is the first task of this application it will do prerequisite condition. In the debug mode, task will send information of application to terminal to start the application.
  */
 void  App_SHT30::App_SHT30_Pend()
 {

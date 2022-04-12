@@ -57,7 +57,6 @@ App_ABC::App_ABC(/* args */)
 	_Suspend_User	 = *App_ABC_Suspend;
 	_Resume_User	 = *App_ABC_Resume;
 	_End_User	     = *App_ABC_End;
-
 	// change the ID of application
 	ID_Application = 1;
 	// change the application name
