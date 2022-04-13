@@ -364,7 +364,7 @@ void  App_Wifi::connect()
         }
     }
 
-    strcpy(atApp_Wifi.ssid_To_Connect, WiFi.SSID(atApp_Wifi.wifi_SSID_Index_To_Connect).c_str());
+    // strcpy(atApp_Wifi.ssid_To_Connect, WiFi.SSID(atApp_Wifi.wifi_SSID_Index_To_Connect).c_str());
     WiFi.begin( atApp_Wifi.ssid_To_Connect , atApp_Wifi.password_To_Connect );
 
     uint8_t count = 0;

@@ -10,8 +10,8 @@
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
 
-#ifndef _Application_atHMI_
-#define _Application_atHMI_
+#ifndef _Application_atApp_HMI_
+#define _Application_atApp_HMI_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/lvgl/atService_LVGL_HMI.h"
@@ -21,27 +21,12 @@
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
-lv_obj_t * label_Voltage_Phase_A;
-lv_obj_t * label_Voltage_Phase_B;
-lv_obj_t * label_Voltage_Phase_C;
-
-lv_obj_t * label_Current_Phase_A;
-lv_obj_t * label_Current_Phase_B;
-lv_obj_t * label_Current_Phase_C;
-
-lv_obj_t * label_Power_Phase_A;
-lv_obj_t * label_Power_Phase_B;
-lv_obj_t * label_Power_Phase_C;
-
-lv_obj_t * label_Cosfi_Phase_A;
-lv_obj_t * label_Cosfi_Phase_B;
-lv_obj_t * label_Cosfi_Phase_C;
-
 ///////////////////////////////////////////////Testing part//
 
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
-
+TaskHandle_t Task_atApp_HMI;  
+void atApp_HMI_Task_Func(void *parameter);
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Application class is the application to manage the 
@@ -62,7 +47,7 @@ public:
 	// bool update = 0;
 protected:
 private:
-}  atHMI ;
+}  atApp_HMI ;
 /**
  * This function will be automaticaly called when a object is created by this class
  */
@@ -106,7 +91,7 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
-	// init atHMI Service in the fist running time
+	// init atApp_HMI Service in the fist running time
 	atService_LVGL_HMI.Run_Service();
 	atService_Buttons_LEDs_PCF8575.Run_Service();
 
@@ -144,12 +129,19 @@ void  App_HMI::App_HMI_Execute()
 	atService_LVGL_HMI.Run_Service();
 	atService_Buttons_LEDs_PCF8575.Run_Service();
 
-	if(atHMI.User_Mode == APP_USER_MODE_DEBUG)
+	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   
 }
 void  App_HMI::App_HMI_Suspend(){}
 void  App_HMI::App_HMI_Resume(){}	  
 void  App_HMI::App_HMI_End(){}
-
+void atApp_HMI_Task_Func(void *parameter)
+{
+  while (1)
+  {
+    atApp_HMI.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(10/ portTICK_PERIOD_MS);
+  }
+}
 #endif
