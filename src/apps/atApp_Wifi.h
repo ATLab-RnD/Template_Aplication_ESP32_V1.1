@@ -86,7 +86,7 @@ public:
     
     // Connect to wifi  
     uint8_t wifi_SSID_Index_To_Connect = 0;
-    char ssid_To_Connect[100] = "";
+    char ssid_To_Connect[100] = "Atlab";
     char password_To_Connect[100] = "ChickyTuan";
     uint8_t waiting_time_to_connect = 15;
     Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Static;

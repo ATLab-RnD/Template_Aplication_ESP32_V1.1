@@ -45,7 +45,7 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_exHMI_Task_Func     , "atApp_exHMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_exHMI     ,    0     );
   xTaskCreatePinnedToCore(  atApp_HMI_Task_Func     , "atApp_HMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_HMI     ,    0     );
-  // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
+  xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Some tasks will be suspended after initing 
   vTaskSuspend(Task_atApp_MB_TCP_SL);
