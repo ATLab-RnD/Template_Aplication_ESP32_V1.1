@@ -278,6 +278,7 @@ void Application::Restart()
   if (User_Mode == APP_USER_MODE_DEBUG) Information();
   // the user function
   (*_Restart_User)();
+  Application_State = APP_STATE_READY;
   Step_Forward = 1;
 }
 /**

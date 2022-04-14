@@ -3,10 +3,9 @@
 Application for communicating with SGP30 via i2c.
 */
 /*
-  Application_SNM.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
+  Application
 
-  Library:: chickyPig_OP320_V1
+  Library:: 
 
   This version is
 

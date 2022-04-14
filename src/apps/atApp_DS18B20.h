@@ -1,11 +1,8 @@
 /**
 @file
-Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Application_SNM.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
-
+  Application
   Library:: chickyPig_OP320_V1
 
   This version is
@@ -32,7 +29,8 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 OneWire  ds18b20(PIN_DS18B20);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
-
+TaskHandle_t Task_atApp_DS18B20;  
+void atApp_DS18B20_Task_Func(void *parameter);
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Application class is the application to manage the 
@@ -265,5 +263,12 @@ void  App_DS::App_DS_Execute()
 void  App_DS::App_DS_Suspend(){}
 void  App_DS::App_DS_Resume(){}	  
 void  App_DS::App_DS_End(){}
-
+void atApp_DS18B20_Task_Func(void *parameter)
+{
+  while (1)
+  {
+    atApp_ABC.Run_Application(APP_RUN_MODE_AUTO);
+    vTaskDelay(1000/ portTICK_PERIOD_MS);
+  }
+}
 #endif

@@ -1,12 +1,10 @@
 /**
 @file
-Application for communicating with inverter (via RTU protocol).
 */
 /*
-  Application_INVT.h - Arduino library for communicating with OP320A&S INVT
-  over RS232/485 (via RTU protocol).
+  Application_INVT.h - Arduino library
 
-  Library:: INVT_GD200A.h
+  Library:: 
 
   This version is
 
