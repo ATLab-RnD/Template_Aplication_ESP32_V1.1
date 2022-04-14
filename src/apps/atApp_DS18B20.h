@@ -1,11 +1,8 @@
 /**
 @file
-Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 */
 /*
-  Application_SNM.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
-
+  Application
   Library:: chickyPig_OP320_V1
 
   This version is

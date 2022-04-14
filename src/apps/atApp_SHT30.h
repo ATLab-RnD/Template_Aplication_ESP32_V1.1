@@ -1,12 +1,11 @@
 /**
 @file
-Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
+Application 
 */
 /*
-  Application_SNM.h - Arduino library for communicating with OP320A&S SNM
-  over RS232/485 (via RTU protocol).
+  Application
 
-  Library:: chickyPig_OP320_V1
+  Library::
 
   This version is
 
@@ -22,6 +21,7 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 /* _____DEFINETIONS__________________________________________________________ */
 /* _____GLOBAL VARIABLES_____________________________________________________ */
   SHT3X sht30(0x45);
+//   SHT3X sht30(0x44);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 TaskHandle_t Task_atApp_SHT30;  
