@@ -15,7 +15,10 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/lvgl/atService_LVGL_HMI.h"
-#include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
+#include "GUI/events_init.h"
+#include "GUI/custom.h"
+#include "GUI/gui_guider.h"
+// #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -83,7 +86,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	// atButtons.Debug();
+	atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -93,26 +96,10 @@ void  App_HMI::App_HMI_Start()
 {
 	// init atApp_HMI Service in the fist running time
 	atService_LVGL_HMI.Run_Service();
-	atService_Buttons_LEDs_PCF8575.Run_Service();
-
-	lv_obj_t * label1 = lv_label_create(lv_scr_act());
-    lv_label_set_long_mode(label1, LV_LABEL_LONG_WRAP);     /*Break the long lines*/
-    lv_label_set_recolor(label1, true);                      /*Enable re-coloring by commands in the text*/
-    lv_label_set_text(label1, "#0000ff Re-color# #ff00ff words# #ff0000 of a# label, align the lines to the center "
-                      "and wrap long text automatically.");
-    lv_obj_set_width(label1, 150);  /*Set smaller width to make the lines wrap*/
-    lv_obj_set_style_text_align(label1, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_align(label1, LV_ALIGN_CENTER, 0, -40);
-
-    lv_obj_t * label2 = lv_label_create(lv_scr_act());
-    lv_label_set_long_mode(label2, LV_LABEL_LONG_SCROLL_CIRCULAR);     /*Circular scroll*/
-    lv_obj_set_width(label2, 150);
-    lv_label_set_text(label2, "It is a circularly scrolling text. ");
-    lv_obj_align(label2, LV_ALIGN_CENTER, 0, 40);
-
-	atService_Buttons_LEDs_PCF8575.LED_RGB_1 = RED;
-	atService_Buttons_LEDs_PCF8575.LED_RGB_2 = RED;
-	atService_Buttons_LEDs_PCF8575.LED_RGB_3 = RED;
+	// init GUI
+    setup_ui(&guider_ui);
+    events_init(&guider_ui);
+    custom_init(&guider_ui);
 }  
 /**
  * Restart function of SNM  app
@@ -127,7 +114,6 @@ void  App_HMI::App_HMI_Restart()
 void  App_HMI::App_HMI_Execute()
 {	
 	atService_LVGL_HMI.Run_Service();
-	atService_Buttons_LEDs_PCF8575.Run_Service();
 
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {

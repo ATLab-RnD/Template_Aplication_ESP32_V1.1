@@ -54,5 +54,6 @@
         "VPINTLVL",
         "VRMS",
         "WDIV"
-    ]
+    ],
+    "C_Cpp.errorSquiggles": "Disabled"
 }
