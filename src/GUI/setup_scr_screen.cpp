@@ -27,7 +27,8 @@ void setup_scr_screen(lv_ui *ui){
 	lv_obj_add_style(ui->screen, &style_screen_main_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	//Write codes screen_btn_3
-	ui->screen_btn_3 = lv_btn_create(ui->screen);
+	lv_obj_t *x = ui->screen_btn_3;
+	x = lv_btn_create(ui->screen);
 	lv_obj_set_pos(ui->screen_btn_3, 45, 245);
 	lv_obj_set_size(ui->screen_btn_3, 30, 15);
 
