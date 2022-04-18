@@ -1,5 +1,5 @@
-#ifndef _Register_atMB_
-#define _Register_atMB_
+#ifndef _EMM_MB_Register_
+#define _EMM_MB_Register_
 
 /* _____DEFINETIONS__________________________________________________________ */
 

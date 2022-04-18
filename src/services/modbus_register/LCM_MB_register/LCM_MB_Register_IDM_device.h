@@ -1,5 +1,5 @@
-#ifndef _Register_atMB_
-#define _Register_atMB_
+#ifndef _LCM_MB_Register_IDM_device_
+#define _LCM_MB_Register_IDM_device_
 
 /* _____DEFINETIONS__________________________________________________________ */
 
