@@ -19,6 +19,7 @@
 #include "GUI_HMI_Lite/events_init.h"
 // #include "GUI_HMI_Lite/custom.h"
 
+
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -101,6 +102,7 @@ void  App_HMI::App_HMI_Start()
     setup_ui(&guider_ui);
     events_init(&guider_ui);
     // custom_init(&guider_ui);
+
 }  
 /**
  * Restart function of SNM  app
@@ -115,7 +117,6 @@ void  App_HMI::App_HMI_Restart()
 void  App_HMI::App_HMI_Execute()
 {	
 	atService_LVGL_HMI_Lite.Run_Service();
-
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   
