@@ -10,7 +10,9 @@
 #include "events_init.h"
 #include "custom.h"
 
-
+static lv_style_t style_screen_ABC;
+static lv_style_t style_screen_ABC_button_Example;
+static lv_style_t style_screen_ABC_button_Example_label;
 
 void setup_scr_screen_ABC(lv_ui *ui){
     //Write codes screen

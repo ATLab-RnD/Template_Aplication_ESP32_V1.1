@@ -7,13 +7,12 @@
 #include "lvgl.h"
 #include <stdio.h>
 #include "gui_guider.h"
-
 lv_ui guider_ui;
+
 void setup_ui(lv_ui *ui){
 	setup_scr_screen(ui);
 	lv_scr_load(ui->screen);
 }
-
 void create_button(lv_obj_t *button, int pos_x, int pos_y, lv_style_t style_button)
 {
     lv_obj_set_pos(button, pos_x, pos_y);
@@ -38,7 +37,7 @@ void create_button(lv_obj_t *button, int pos_x, int pos_y, lv_style_t style_butt
 	lv_obj_add_style(button, &style_button, LV_PART_MAIN|LV_STATE_DEFAULT);
 }
 
-void create_label_button( lv_obj_t *screen_button_label, char * label_button, lv_style_t style_button_label)
+void create_label_button( lv_obj_t *screen_button_label, char* label_button,  lv_style_t style_button_label)
 {
 	lv_label_set_text(screen_button_label, label_button);
 	lv_obj_set_style_text_color(screen_button_label, lv_color_make(0x00, 0x00, 0x00), LV_STATE_DEFAULT);

@@ -68,6 +68,14 @@ TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
+#if LV_USE_LOG != 0
+/* Serial debugging */
+void my_print( lv_log_level_t level, const char * file, uint32_t line, const char * fn_name, const char * dsc )
+{
+    Serial.printf( "%s(%s)@%d->%s\r\n", file, fn_name, line, dsc );
+    Serial.flush();
+}
+#endif
 /* Display flushing */
 void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p )
 {
@@ -177,9 +185,9 @@ void  Service_lvgl::Service_lvgl_Start()
     /*Assign buttons to points on the screen*/
     static const lv_point_t btn_points[4] = {
             {50     ,   90},   /*Button UP -> x:50; y:90*/ 
-            {5      ,   90},     /*Button BACK*/
-            {95     ,   90},    /*Button OK */
-            {145    ,   90},    /*Button DOWN */
+            {10     ,   90},     /*Button BACK*/
+            {90     ,   90},    /*Button OK */
+            {130    ,   90},    /*Button DOWN */
     };
     lv_indev_set_button_points(my_indev, btn_points);
 }  
