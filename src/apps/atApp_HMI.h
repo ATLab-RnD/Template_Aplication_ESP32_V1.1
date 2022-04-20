@@ -120,16 +120,8 @@ void  App_HMI::App_HMI_Restart()
  */
 void  App_HMI::App_HMI_Execute()
 {	
-<<<<<<< Updated upstream
-	atService_LVGL_HMI_Lite.Run_Service();
-=======
-<<<<<<< HEAD
 	atService_LVGL_HMI.Run_Service();
 
-=======
-	atService_LVGL_HMI_Lite.Run_Service();
->>>>>>> 387dc69c5d53454816337e2cd539f3c2d318530e
->>>>>>> Stashed changes
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   
