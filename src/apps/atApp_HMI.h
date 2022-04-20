@@ -20,8 +20,8 @@
 #include "../GUI/HMI_240x240/events_init.h"
 =======
 #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
-#include "GUI_HMI_Lite/gui_guider.h"
-#include "GUI_HMI_Lite/events_init.h"
+#include "GUI/HMI_240x240/gui_guider.h"
+#include "GUI/HMI_240x240/events_init.h"
 // #include "GUI_HMI_Lite/custom.h"
 
 
