@@ -7,8 +7,7 @@
 #include "lvgl.h"
 #include <stdio.h>
 #include "gui_guider.h"
-#include "Arduino.h"
-int16_t a=1000;
+
 static void screen_btn_OK_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
@@ -21,14 +20,12 @@ static void screen_btn_OK_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
 			lv_scr_load_anim(guider_ui.screen_1, LV_SCR_LOAD_ANIM_OVER_LEFT, 100, 100, true);
-	
 	}
 		break;
 	default:
 		break;
 	}
 }
-
 void events_init_screen(lv_ui *ui)
 {
 	lv_obj_add_event_cb(ui->screen_btn_OK, screen_btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -56,12 +53,5 @@ void setup_scr_screen(lv_ui *ui){
 	ui->screen_label_1 = lv_label_create(ui->screen);
 	setup_label(ui->screen_label_1,"SCREEN 0",31,30,100,32);
 
-	// ui->screen_label_scroll = lv_label_create(ui->screen);
-	// lv_label_set_long_mode(ui->screen_label_scroll, LV_LABEL_LONG_SCROLL_CIRCULAR);     /*Circular scroll*/
-    // lv_obj_set_width(ui->screen_label_scroll, 150);
-	
-    // lv_label_set_text(ui->screen_label_scroll, "It is a circularly scrolling text.k " + a);
-    // lv_obj_align(ui->screen_label_scroll, LV_ALIGN_TOP_LEFT, 0, 0);
-	//Init events for screen
 	events_init_screen(ui);
 }

@@ -14,6 +14,11 @@
 #define _Application_atApp_HMI_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
+<<<<<<< HEAD
+#include "../services/lvgl/atService_LVGL_HMI.h"
+#include "../GUI/HMI_240x240/gui_guider.h"
+#include "../GUI/HMI_240x240/events_init.h"
+=======
 #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
 #include "GUI_HMI_Lite/gui_guider.h"
 #include "GUI_HMI_Lite/events_init.h"
@@ -21,6 +26,7 @@
 
 
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
+>>>>>>> 387dc69c5d53454816337e2cd539f3c2d318530e
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -71,9 +77,6 @@ App_HMI::App_HMI(/* args */)
 	// change the application name
 	Name_Application = (char*)"HMI Application";
 	// change the ID of SNM
-
-	
-	
 }
 /**
  * This function will be automaticaly called when the object of class is delete
@@ -88,7 +91,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI_Lite.Debug();
+	atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -96,8 +99,9 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
+    // Serial.printf("abc\n");
 	// init atApp_HMI Service in the fist running time
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
 	// init GUI
     setup_ui(&guider_ui);
     events_init(&guider_ui);
@@ -116,7 +120,16 @@ void  App_HMI::App_HMI_Restart()
  */
 void  App_HMI::App_HMI_Execute()
 {	
+<<<<<<< Updated upstream
 	atService_LVGL_HMI_Lite.Run_Service();
+=======
+<<<<<<< HEAD
+	atService_LVGL_HMI.Run_Service();
+
+=======
+	atService_LVGL_HMI_Lite.Run_Service();
+>>>>>>> 387dc69c5d53454816337e2cd539f3c2d318530e
+>>>>>>> Stashed changes
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   
