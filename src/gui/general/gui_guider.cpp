@@ -10,8 +10,8 @@
 
 lv_ui guider_ui;
 void setup_ui(lv_ui *ui){
-	setup_scr_screen(ui);
-	lv_scr_load(ui->screen);
+	setup_Monitering_Screen(ui);
+	lv_scr_load(ui->Monitering_Screen);
 }
 
 void setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str)

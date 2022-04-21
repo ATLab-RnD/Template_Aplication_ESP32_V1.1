@@ -19,50 +19,57 @@ typedef struct
 	lv_obj_t *screen_ABC_button_Example;
 
 
-	lv_obj_t *screen;
-	lv_obj_t *screen_btn_BACK;
-	lv_obj_t *screen_btn_UP;
-	lv_obj_t *screen_btn_DOWN;
-	lv_obj_t *screen_btn_OK;
-	lv_obj_t *screen_btn_ALARM;
-	lv_obj_t *screen_btn_MENU;
-	lv_obj_t *screen_label_1;
-	lv_obj_t *screen_led_1;
-	lv_obj_t *screen_led_2;
-	lv_obj_t *screen_label_2;
-	lv_obj_t *screen_notified_obj;
-	lv_obj_t *screen_roller;
-	lv_obj_t *screen_label_wifi;
-	lv_obj_t *screen_label_bluetooth;
-	lv_obj_t *screen_label_warning;
-	lv_obj_t *screen_label_SD;
-	lv_obj_t *screen_label_modbus_active;
-	lv_obj_t *screen_label_time;
+	lv_obj_t *Menu_Screen;
+	lv_obj_t *Menu_Screen_btn_BACK;
+	lv_obj_t *Menu_Screen_btn_UP;
+	lv_obj_t *Menu_Screen_btn_DOWN;
+	lv_obj_t *Menu_Screen_btn_OK;
+	lv_obj_t *Menu_Screen_btn_ALARM;
+	lv_obj_t *Menu_Screen_btn_MENU;
+	lv_obj_t *Menu_Screen_label_1;
+	lv_obj_t *Menu_Screen_led_1;
+	lv_obj_t *Menu_Screen_led_2;
+	lv_obj_t *Menu_Screen_label_2;
+	lv_obj_t *Menu_Screen_notified_obj;
+	lv_obj_t *Menu_Screen_roller;
+	lv_obj_t *Menu_Screen_label_wifi;
+	lv_obj_t *Menu_Screen_label_bluetooth;
+	lv_obj_t *Menu_Screen_label_warning;
+	lv_obj_t *Menu_Screen_label_SD;
+	lv_obj_t *Menu_Screen_label_modbus_active;
+	lv_obj_t *Menu_Screen_label_time;
 	
-	lv_obj_t *screen_1;
-	lv_obj_t *screen_1_btn_MENU;
-	lv_obj_t *screen_1_btn_UP;
-	lv_obj_t *screen_1_btn_DOWN;
-	lv_obj_t *screen_1_btn_BACK;
-	lv_obj_t *screen_1_btn_OK;
-	lv_obj_t *screen_1_btn_ALARM;
-	lv_obj_t *screen_1_label_1;
-	lv_obj_t *screen_1_label_2;
+	lv_obj_t *Detail_Screen;
+	lv_obj_t *Detail_Screen_btn_MENU;
+	lv_obj_t *Detail_Screen_btn_UP;
+	lv_obj_t *Detail_Screen_btn_DOWN;
+	lv_obj_t *Detail_Screen_btn_BACK;
+	lv_obj_t *Detail_Screen_btn_OK;
+	lv_obj_t *Detail_Screen_btn_ALARM;
+	lv_obj_t *Detail_Screen_label_1;
+
+	lv_obj_t *Monitering_Screen;
+	lv_obj_t *Monitering_Screen_btn_MENU;
+	lv_obj_t *Monitering_Screen_btn_UP;
+	lv_obj_t *Monitering_Screen_btn_DOWN;
+	lv_obj_t *Monitering_Screen_btn_BACK;
+	lv_obj_t *Monitering_Screen_btn_OK;
+	lv_obj_t *Monitering_Screen_btn_ALARM;
+	lv_obj_t *Monitering_Screen_label_1;
+	
 }lv_ui;
-
-
 
 
 void setup_ui(lv_ui *ui);
 extern lv_ui guider_ui;
 //HMI_Lite
-void setup_scr_screen(lv_ui *ui);
-void setup_scr_screen_1(lv_ui *ui);
-void setup_scr_screen_ABC(lv_ui *ui);
+void setup_Monitering_Screen(lv_ui *ui);
+void setup_Menu_Screen(lv_ui *ui);
+void setup_Detail_Screen(lv_ui *ui);
 //HMI
-void setup_scr_HMI_screen(lv_ui *ui);
-void setup_scr_HMI_screen_1(lv_ui *ui);
-void setup_scr_HMI_screen_ABC(lv_ui *ui);
+void setup_HMI_Monitering_Screen(lv_ui *ui);
+void setup_HMI_Menu_Screen(lv_ui *ui);
+void setup_HMI_Detail_Screen(lv_ui *ui);
 
 void setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str);
 void setup_label(lv_obj_t *label, char* label_text,int pos_x, int pos_y, int width,int height);
