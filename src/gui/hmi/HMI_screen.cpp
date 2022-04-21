@@ -6,10 +6,10 @@
 
 #include "lvgl.h"
 #include <stdio.h>
-#include "gui_guider.h"
+#include "../general/gui_guider.h"
 
 
-static void screen_btn_UP_event_handler(lv_event_t *e)
+static void HMI_screen_btn_UP_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
@@ -24,7 +24,7 @@ static void screen_btn_UP_event_handler(lv_event_t *e)
 	}
 }
 
-static void screen_btn_DOWN_event_handler(lv_event_t *e)
+static void HMI_screen_btn_DOWN_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
@@ -39,7 +39,7 @@ static void screen_btn_DOWN_event_handler(lv_event_t *e)
 	}
 }
 
-static void screen_btn_OK_event_handler(lv_event_t *e)
+static void HMI_screen_btn_OK_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
@@ -54,7 +54,7 @@ static void screen_btn_OK_event_handler(lv_event_t *e)
 	}
 }
 
-static void screen_btn_ALARM_event_handler(lv_event_t *e)
+static void HMI_screen_btn_ALARM_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
@@ -69,7 +69,7 @@ static void screen_btn_ALARM_event_handler(lv_event_t *e)
 	}
 }
 
-static void screen_btn_MENU_event_handler(lv_event_t *e)
+static void HMI_screen_btn_MENU_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
@@ -88,41 +88,41 @@ static void screen_btn_MENU_event_handler(lv_event_t *e)
 	}
 }
 
-void events_init_screen(lv_ui *ui)
+void events_init_HMI_screen(lv_ui *ui)
 {
-	lv_obj_add_event_cb(ui->screen_btn_UP, screen_btn_UP_event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_add_event_cb(ui->screen_btn_DOWN, screen_btn_DOWN_event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_add_event_cb(ui->screen_btn_OK, screen_btn_OK_event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_add_event_cb(ui->screen_btn_ALARM, screen_btn_ALARM_event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_add_event_cb(ui->screen_btn_MENU, screen_btn_MENU_event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(ui->screen_btn_UP, HMI_screen_btn_UP_event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(ui->screen_btn_DOWN, HMI_screen_btn_DOWN_event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(ui->screen_btn_OK, HMI_screen_btn_OK_event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(ui->screen_btn_ALARM, HMI_screen_btn_ALARM_event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(ui->screen_btn_MENU, HMI_screen_btn_MENU_event_handler, LV_EVENT_ALL, NULL);
 }
-void setup_scr_screen(lv_ui *ui){
+void setup_scr_HMI_screen(lv_ui *ui){
 
 	//Write codes screen
     ui->screen = lv_obj_create(NULL);
+	//Create 6 button
+		//Write codes screen_btn_MENU
+		ui->screen_btn_MENU = lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_MENU,5,245,"MENU");
+		//Write codes screen_btn_UP
+		ui->screen_btn_UP = lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_UP,85,245,"UP");
+		//Write codes screen_btn_BACK
+		ui->screen_btn_BACK= lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_BACK,45,245,"BACK");
+		//Write codes screen_btn_DOWN
+		ui->screen_btn_DOWN= lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_DOWN,125,245,"DOWN");
+		//Write codes screen_btn_OK
+		ui->screen_btn_OK = lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_OK,165,245,"OK");
+		//Write codes screen_btn_ALARM
+		ui->screen_btn_ALARM = lv_btn_create(ui->screen);
+		setup_button(ui->screen_btn_ALARM,205,245,"ALARM");
 
-    //Write codes screen_btn_MENU
-    ui->screen_btn_MENU = lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_MENU,5,245,"MENU");
-    //Write codes screen_btn_UP
-    ui->screen_btn_UP = lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_UP,85,245,"UP");
-    //Write codes screen_btn_BACK
-    ui->screen_btn_BACK= lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_BACK,45,245,"BACK");
-    //Write codes screen_btn_DOWN
-    ui->screen_btn_DOWN= lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_DOWN,125,245,"DOWN");
-    //Write codes screen_btn_OK
-    ui->screen_btn_OK = lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_OK,165,245,"OK");
-    //Write codes screen_btn_ALARM
-    ui->screen_btn_ALARM = lv_btn_create(ui->screen);
-    setup_button(ui->screen_btn_ALARM,205,245,"ALARM");
-
-    //Write codes screen_label_2
-    ui->screen_label_1 = lv_label_create(ui->screen);
-    setup_label(ui->screen_label_1,"SCREEN",66,139,100,32);
+	//Write codes screen_label_2
+	ui->screen_label_1 = lv_label_create(ui->screen);
+	setup_label(ui->screen_label_1,"SCREEN",66,139,100,32);
 
 	//Write codes screen_led_1
 	ui->screen_led_1 = lv_led_create(ui->screen);
@@ -142,5 +142,5 @@ void setup_scr_screen(lv_ui *ui){
 
 
 	//Init events for screen
-	events_init_screen(ui);
+	events_init_HMI_screen(ui);
 }

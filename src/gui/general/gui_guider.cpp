@@ -54,3 +54,10 @@ void setup_label(lv_obj_t *label, char* label_text,int pos_x, int pos_y, int wid
 	lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
 	lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
 }
+void setup_roller(lv_obj_t *roller, char* option,int row_count, int align,int width, int pos_x, int pos_y)
+{
+	lv_roller_set_options(roller, option, LV_ROLLER_MODE_NORMAL);
+    lv_roller_set_visible_row_count(roller, row_count);
+    lv_obj_set_width(roller, width);
+	lv_obj_align(roller, align, pos_x, pos_y);
+}
