@@ -1,18 +1,22 @@
-/*
- * Copyright 2022 NXP
- * SPDX-License-Identifier: MIT
- * The auto-generated can only be used on NXP devices
- */
+#include "HMI_Sources.h"
+#include"Arduino.h"
 
-#include "lvgl.h"
-#include <stdio.h>
-#include "gui_guider.h"
+lv_obj_t *Screen_notified_obj;
+lv_obj_t *Screen_label_wifi;
+lv_obj_t *Screen_label_bluetooth;
+lv_obj_t *Screen_label_warning;
+lv_obj_t *Screen_label_SD;
+lv_obj_t *Screen_label_modbus_active;
+lv_obj_t *Screen_label_time;
 
-lv_ui guider_ui;
-void setup_ui(lv_ui *ui){
-	setup_Monitering_Screen(ui);
-	lv_scr_load(ui->Monitering_Screen);
-}
+typedef struct Notified_Bar
+{
+	int temperature = 23, humidity = 75;
+	int hour = 14, minute = 10;
+	char time[10], information[100];
+};
+
+Notified_Bar Notified_Bar;
 
 void setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str)
 {
@@ -60,4 +64,40 @@ void setup_roller(lv_obj_t *roller, char* option,int row_count, int align,int wi
     lv_roller_set_visible_row_count(roller, row_count);
     lv_obj_set_width(roller, width);
 	lv_obj_align(roller, align, pos_x, pos_y);
+}
+
+/*
+Create notified bar for screen: icon wifi, bluetooth, warning, modbus active, SD Card, time
+*/
+void create_notified_bar(lv_obj_t *screen)
+{
+	//create notified obj
+	Screen_notified_obj = lv_obj_create(screen);
+	lv_obj_set_pos(Screen_notified_obj, 0, 0);
+	lv_obj_set_size(Screen_notified_obj, 240, 20);
+	//create font wifi
+	Screen_label_wifi = lv_label_create(Screen_notified_obj);
+	setup_label(Screen_label_wifi,"wifi",-10,-15,30,30);
+	lv_label_set_text(Screen_label_wifi,LV_SYMBOL_WIFI);
+	//create font bluetooth
+	Screen_label_bluetooth = lv_label_create(Screen_notified_obj);
+	setup_label(Screen_label_bluetooth,"bluetooth",20,-15,30,30);
+	lv_label_set_text(Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH);
+	//create font warning
+	Screen_label_warning = lv_label_create(Screen_notified_obj);
+	setup_label(Screen_label_warning,"warning",50,-15,30,30);
+	lv_label_set_text(Screen_label_warning,LV_SYMBOL_WARNING);
+	//create font modbus_active
+	Screen_label_modbus_active = lv_label_create(Screen_notified_obj);
+	setup_label(Screen_label_modbus_active,"modbus_active",80,-15,30,30);
+	lv_label_set_text(Screen_label_modbus_active,LV_SYMBOL_REFRESH);
+	//create font SD
+	Screen_label_SD = lv_label_create(Screen_notified_obj);
+	setup_label(Screen_label_SD,"SD Card",115,-15,10,15);
+	lv_label_set_text(Screen_label_SD,LV_SYMBOL_SD_CARD);
+
+	//create label time
+	Screen_label_time = lv_label_create(Screen_notified_obj);
+	sprintf(Notified_Bar.time, "%d:%d",Notified_Bar.hour,Notified_Bar.minute);
+	setup_label(Screen_label_time, Notified_Bar.time,170,-15,40,30); 
 }

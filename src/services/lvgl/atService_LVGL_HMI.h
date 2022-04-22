@@ -166,8 +166,8 @@ void  Service_lvgl::Service_lvgl_Start()
     /*Assign buttons to points on the screen*/
     static const lv_point_t btn_points[6] = {
             {230 , 250},   /*Button 0 -> x:10; y:10*/
-            {180 , 250},  /*Button 1 -> x:40; y:100*/
             {130 , 250},
+            {180 , 250},  /*Button 1 -> x:40; y:100*/
             {90  , 250},
             {60  , 250},
             {10  , 250},
