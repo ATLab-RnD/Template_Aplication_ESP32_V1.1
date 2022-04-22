@@ -91,7 +91,7 @@ public:
     uint8_t waiting_time_to_connect = 15;
     Wifi_IP_Mode ip_Mode = WIFI_IP_MODE_Static;
     uint8_t IP_Static[IPV4_Index_Number]        = {192,168,1,101};
-    uint8_t Gateway_Static[IPV4_Index_Number]   = {192,168,1,1};
+    uint8_t Gateway_Static[IPV4_Index_Number]   = {192,168,0,1};
     uint8_t Subnet_Static[IPV4_Index_Number]    = {255,255,0,0};
     uint8_t DNS1_Static[IPV4_Index_Number]       = {8,8,8,8};
     uint8_t DNS2_Static[IPV4_Index_Number]       = {8,8,4,4};
