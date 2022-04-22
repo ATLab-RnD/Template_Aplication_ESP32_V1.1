@@ -14,12 +14,10 @@
 #define _Application_atApp_HMI_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
-#include "GUI_HMI_Lite/gui_guider.h"
-#include "GUI_HMI_Lite/events_init.h"
-// #include "GUI_HMI_Lite/custom.h"
-
-
+#include "../services/lvgl/atService_LVGL_HMI.h"
+#include "../gui/hmi/HMI_Monitoring_Screen.h"
+#include "../gui/hmi/HMI_Menu_Screen.h"
+#include "../gui/hmi/HMI_Detail_Screen.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -72,8 +70,17 @@ App_HMI::App_HMI(/* args */)
 	Name_Application = (char*)"HMI Application";
 	// change the ID of SNM
 
-	
-	
+	setup_Forward_Monitoring_Screen = *setup_Menu_Screen;
+	Forward_Monitoring_Screen = &Menu_Screen;
+
+	setup_Forward_Menu_Screen = *setup_Detail_Screen;
+	Forward_Menu_Screen = &Detail_Screen;
+
+	setup_Back_Menu_Screen = *setup_Monitoring_Screen;
+	Back_Menu_Screen = &Monitoring_Screen;
+
+	setup_Back_Detail_Screen = *setup_Menu_Screen;
+	Back_Detail_Screen = &Menu_Screen;
 }
 /**
  * This function will be automaticaly called when the object of class is delete
@@ -88,7 +95,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI_Lite.Debug();
+	atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -97,12 +104,11 @@ void  App_HMI::App_HMI_Pend()
 void  App_HMI::App_HMI_Start()
 {
 	// init atApp_HMI Service in the fist running time
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
 	// init GUI
-    setup_ui(&guider_ui);
-    events_init(&guider_ui);
-    // custom_init(&guider_ui);
-
+    // setup_ui(&guider_ui);	
+	setup_Monitoring_Screen();
+	lv_scr_load(Monitoring_Screen);
 }  
 /**
  * Restart function of SNM  app
@@ -116,7 +122,8 @@ void  App_HMI::App_HMI_Restart()
  */
 void  App_HMI::App_HMI_Execute()
 {	
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
+
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   

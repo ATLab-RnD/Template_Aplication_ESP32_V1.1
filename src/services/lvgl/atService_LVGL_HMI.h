@@ -45,6 +45,7 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 #include <SPI.h>
 #include "lvgl.h"
 #include "atService_atButtons_LEDs_PCF8575.h"
+#include "Arduino.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -135,6 +136,7 @@ Service_lvgl::~Service_lvgl()
  */
 void  Service_lvgl::Service_lvgl_Start()
 {
+    
     atService_Buttons_LEDs_PCF8575.Run_Service();
     // atService_Buttons_LEDs_PCF8575.Debug();
     //Set up the display
@@ -143,7 +145,7 @@ void  Service_lvgl::Service_lvgl_Start()
 	// tft.setRotation(1);
 	lv_init();
 	lv_disp_draw_buf_init( &draw_buf, buf, NULL, screenWidth * 10 );
-
+    
     /*Initialize the display*/
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init( &disp_drv );
@@ -161,18 +163,17 @@ void  Service_lvgl::Service_lvgl_Start()
     indev_drv.type = LV_INDEV_TYPE_BUTTON;
     indev_drv.read_cb = button_read;
     lv_indev_t * my_indev = lv_indev_drv_register(&indev_drv);
-
     /*Assign buttons to points on the screen*/
     static const lv_point_t btn_points[6] = {
             {230 , 250},   /*Button 0 -> x:10; y:10*/
-            {180 , 250},  /*Button 1 -> x:40; y:100*/
             {130 , 250},
+            {180 , 250},  /*Button 1 -> x:40; y:100*/
             {90  , 250},
             {60  , 250},
             {10  , 250},
     };
     lv_indev_set_button_points(my_indev, btn_points);
-
+    
 }  
 
 /**
