@@ -20,7 +20,11 @@
 #include "..\src\obj\atObj_SNMs_Data.h"
 #include "..\src\services\modbus_register\SNM_MB_Register.h"
 /* _____DEFINETIONS__________________________________________________________ */
-
+enum status_connect
+{
+  disconnect,
+  connect
+};
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_SNM;  
 void atApp_SNM_Task_Func(void *parameter);
@@ -44,6 +48,8 @@ public:
 	static void  App_SNM_Suspend();
 	static void  App_SNM_Resume();	  
 	static void  App_SNM_End();
+  bool status_connect;
+
 protected:
 private:
 } atApp_SNM ;
@@ -102,23 +108,31 @@ void  App_SNM::App_SNM_Execute()
 {	
     for( uint8_t count = 1; count <= atObject_SNMs_Data.SNM_number; count++)
     {	
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_TEMPERATURE_REAL_TIME,
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_TEMPERATURE_REAL_TIME,
                                                     &atObject_SNMs_Data.SNM[count].Temperature);
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_HUMIDITY_REAL_TIME,
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_HUMIDITY_REAL_TIME,
                                                     &atObject_SNMs_Data.SNM[count].Humidity);
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_CO2_REAL_TIME,
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_CO2_REAL_TIME,
                                                     &atObject_SNMs_Data.SNM[count].CO2);
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_H2_REAL_TIME,
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_H2_REAL_TIME,
                                                     &atObject_SNMs_Data.SNM[count].H2);
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_TVOC_REAL_TIME,
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_TVOC_REAL_TIME,
                                                     &atObject_SNMs_Data.SNM[count].TVOC);  
-        mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_ETHANOL_REAL_TIME,
-                                                    &atObject_SNMs_Data.SNM[count].Ethanol);                                                                                                                                                                                                
-    }
-    if(atApp_SNM.User_Mode == APP_USER_MODE_DEBUG)
-    {
+      mb_TCP.readHreg(atObject_SNMs_Data.SNM[count].IP, SNM_REGISTER_R_ETHANOL_REAL_TIME,
+                                                    &atObject_SNMs_Data.SNM[count].Ethanol);     
 
-    }   
+      atApp_SNM.status_connect = mb_TCP.isConnected(atObject_SNMs_Data.SNM[count].IP);
+      if( atApp_SNM.status_connect == disconnect)
+      {
+        atObject_SNMs_Data.SNM[count].Status_of_SNMs = 0;
+        atObject_SNMs_Data.SNM[count].Temperature = 0;
+        atObject_SNMs_Data.SNM[count].Humidity = 0;
+        atObject_SNMs_Data.SNM[count].CO2 = 0;
+        atObject_SNMs_Data.SNM[count].H2 = 0;
+        atObject_SNMs_Data.SNM[count].TVOC = 0;
+        atObject_SNMs_Data.SNM[count].Ethanol = 0;
+      }                                                                                                                        
+    }  
 }
 void  App_SNM::App_SNM_Suspend(){}
 void  App_SNM::App_SNM_Resume(){}	  

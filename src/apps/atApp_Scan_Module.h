@@ -140,6 +140,7 @@ void  App_SM::App_SM_Restart()
  */
 void  App_SM::App_SM_Execute()
 {	
+	// Scan all module in network
 	for(atApp_SM.Host_1 = 0; atApp_SM.Host_1 <=255; atApp_SM.Host_2++)
 	{
 		for(atApp_SM.Host_2 = 2; atApp_SM.Host_2 <=255; atApp_SM.Host_2++)

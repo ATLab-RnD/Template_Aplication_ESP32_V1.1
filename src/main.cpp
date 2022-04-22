@@ -3,6 +3,7 @@
 #include "../src/apps/atApp_ABC.h"
 #include "../src/apps/atApp_Wifi.h"
 #include "../src/apps/atApp_CP.h"
+#include "../src/apps/atApp_MB_TCP_MA.h"
 // #include "../src/apps/atApp_MB_RTU_SL.h"
 // #include "../src/apps/atApp_MB_TCP_SL.h"
 // #include "../src/apps/atApp_INVT.h"
@@ -39,6 +40,7 @@ void setup() {
   xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi      ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
+  xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
   xTaskCreatePinnedToCore(  atApp_SM_Task_Func        , "atApp_Scan_Module_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_SM        ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
