@@ -71,7 +71,7 @@ Service_VSPI::~Service_VSPI()
 void  Service_VSPI::Service_VSPI_Start()
 {
     xMutex_VSPI = xSemaphoreCreateMutex();
-    SPI.begin();
+    // SPI.begin();
 }  
 
 /**

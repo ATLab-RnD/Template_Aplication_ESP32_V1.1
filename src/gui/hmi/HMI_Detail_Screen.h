@@ -27,7 +27,7 @@ static void Detail_Screen_btn_BACK_event_handler(lv_event_t *e)
 		//pointer to object's dispaly
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
-			lv_scr_load_anim(*Back_Detail_Screen, LV_SCR_LOAD_ANIM_OVER_RIGHT, 100, 100, true);
+			lv_scr_load_anim(*Back_Detail_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
 	}
 		break;
 	default:

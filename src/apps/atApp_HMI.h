@@ -18,6 +18,7 @@
 #include "../gui/hmi/HMI_Monitoring_Screen.h"
 #include "../gui/hmi/HMI_Menu_Screen.h"
 #include "../gui/hmi/HMI_Detail_Screen.h"
+#include "../services/SPI/atService_VSPI.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -25,7 +26,6 @@
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 ///////////////////////////////////////////////Testing part//
-
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
 TaskHandle_t Task_atApp_HMI;  
@@ -95,7 +95,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI.Debug();
+	// atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -103,12 +103,15 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
+	atService_VSPI.Run_Service();
+	// atService_VSPI.check_In();
 	// init atApp_HMI Service in the fist running time
 	atService_LVGL_HMI.Run_Service();
 	// init GUI
     // setup_ui(&guider_ui);	
 	setup_Monitoring_Screen();
 	lv_scr_load(Monitoring_Screen);
+	// atService_VSPI.check_Out();
 }  
 /**
  * Restart function of SNM  app
@@ -122,8 +125,9 @@ void  App_HMI::App_HMI_Restart()
  */
 void  App_HMI::App_HMI_Execute()
 {	
+	atService_VSPI.check_In();
 	atService_LVGL_HMI.Run_Service();
-
+	atService_VSPI.check_Out();
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   

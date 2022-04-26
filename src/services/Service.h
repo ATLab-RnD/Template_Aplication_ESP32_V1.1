@@ -180,7 +180,7 @@ char* Service::State_Service_String()
  */
 void Service::Start()
 {
-  if (User_Mode == SER_USER_MODE_DEBUG) Information();
+  // if (User_Mode == SER_USER_MODE_DEBUG) Information();
   // the user function
   (*_Start_User)();
   if (User_Mode == SER_USER_MODE_DEBUG) 

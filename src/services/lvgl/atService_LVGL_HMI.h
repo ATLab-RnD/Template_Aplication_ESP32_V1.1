@@ -173,7 +173,6 @@ void  Service_lvgl::Service_lvgl_Start()
             {10  , 250},
     };
     lv_indev_set_button_points(my_indev, btn_points);
-    
 }  
 
 /**

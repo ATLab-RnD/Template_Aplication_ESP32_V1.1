@@ -32,7 +32,7 @@ static void Monitoring_Screen_Lite_btn_OK_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
-			lv_scr_load_anim(*Forward_Monitoring_Screen_Lite, LV_SCR_LOAD_ANIM_OVER_LEFT, 100, 100, true);
+			lv_scr_load_anim(*Forward_Monitoring_Screen_Lite, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
         }
 	}
 		break;

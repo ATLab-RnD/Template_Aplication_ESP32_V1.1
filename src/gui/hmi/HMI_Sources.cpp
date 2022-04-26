@@ -77,23 +77,23 @@ void create_notified_bar(lv_obj_t *screen)
 	lv_obj_set_size(Screen_notified_obj, 240, 20);
 	//create font wifi
 	Screen_label_wifi = lv_label_create(Screen_notified_obj);
-	setup_label(Screen_label_wifi,"wifi",-10,-15,30,30);
+	setup_label(Screen_label_wifi,"wifi",-15,-15,30,30);
 	lv_label_set_text(Screen_label_wifi,LV_SYMBOL_WIFI);
 	//create font bluetooth
 	Screen_label_bluetooth = lv_label_create(Screen_notified_obj);
-	setup_label(Screen_label_bluetooth,"bluetooth",20,-15,30,30);
+	setup_label(Screen_label_bluetooth,"bluetooth",5,-15,30,30);
 	lv_label_set_text(Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH);
 	//create font warning
 	Screen_label_warning = lv_label_create(Screen_notified_obj);
-	setup_label(Screen_label_warning,"warning",50,-15,30,30);
+	setup_label(Screen_label_warning,"warning",25,-15,30,30);
 	lv_label_set_text(Screen_label_warning,LV_SYMBOL_WARNING);
 	//create font modbus_active
 	Screen_label_modbus_active = lv_label_create(Screen_notified_obj);
-	setup_label(Screen_label_modbus_active,"modbus_active",80,-15,30,30);
+	setup_label(Screen_label_modbus_active,"modbus_active",45,-15,30,30);
 	lv_label_set_text(Screen_label_modbus_active,LV_SYMBOL_REFRESH);
 	//create font SD
 	Screen_label_SD = lv_label_create(Screen_notified_obj);
-	setup_label(Screen_label_SD,"SD Card",115,-15,10,15);
+	setup_label(Screen_label_SD,"SD Card",70,-15,10,15);
 	lv_label_set_text(Screen_label_SD,LV_SYMBOL_SD_CARD);
 
 	//create label time

@@ -18,6 +18,7 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
 #include "PCF8575.h"
+#include "Wire.h"
 /* _____DEFINETIONS__________________________________________________________ */
 enum Val_PCF8575
 {
