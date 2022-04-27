@@ -102,7 +102,7 @@ void  Service_uSD::Service_uSD_Start()
     if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("No SD card attached");
   }
-
+  
   Serial.print("SD Card Type: ");
   if(cardType == CARD_MMC){
     if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
