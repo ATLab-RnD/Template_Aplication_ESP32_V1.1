@@ -72,8 +72,6 @@ protected:
   char*     State_Service_String();
   void      Information();  
 private:
-  
-
   bool Run_Mode = Run_Mode_Auto;// the executing task will run APP_RUN_MODE_AUTOally
 
   static const bool Run_Mode_Auto = 1;
@@ -192,10 +190,10 @@ void Service::Start()
     }
     // Information();
   }
-  if(Run_Mode == SER_RUN_MODE_AUTO)
-  {
+  // if(Run_Mode == SER_RUN_MODE_AUTO)
+  // {
     Service_State = SER_STATE_EXECUTING;
-  }
+  // }
   Step_Forward = 1;
 }
 /**

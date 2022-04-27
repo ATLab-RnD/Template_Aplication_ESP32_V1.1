@@ -12,7 +12,7 @@
 // #include "../src/apps/atApp_SGP30.h"
 // #include "../src/apps/atApp_exHMI.h"
 // #include "../src/apps/atApp_DS18B20.h"
-#include "../src/apps/atApp_HMI.h"
+// #include "../src/apps/atApp_HMI.h"
 #include "../src/apps/atApp_DataBase.h"
 
 void setup() {
@@ -29,8 +29,7 @@ void setup() {
   // atApp_SHT30.Debug();
   // atApp_ADE.Debug();
   // atApp_HMI.Debug();
-  atApp_DataBase.Debug();
-  
+  // atApp_DataBase.Debug();
 
 
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     
@@ -47,9 +46,10 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_SGP30_Task_Func     , "atApp_SGP30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SGP30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_exHMI_Task_Func     , "atApp_exHMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_exHMI     ,    0     );
-  xTaskCreatePinnedToCore(  atApp_DataBase_Task_Func     , "atApp_DataBase_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DataBase  ,    0     );
+  xTaskCreatePinnedToCore(  atApp_DataBase_Task_Func     , "atApp_DataBase_Application" ,  10000     ,     NULL    ,   1       , &Task_atApp_DataBase  ,    1     );
   // xTaskCreatePinnedToCore(  atApp_HMI_Task_Func          , "atApp_HMI_Application"      ,  100000     ,     NULL    ,   1       , &Task_atApp_HMI       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
+  // xTaskCreatePinnedToCore(  atApp_PCF8575_Task_Func   , "atApp_PCF8575_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_PCF8575  ,    0     );
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
   // Some tasks will be suspended after initing 
   // vTaskSuspend(Task_atApp_MB_TCP_SL);

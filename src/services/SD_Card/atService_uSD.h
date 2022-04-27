@@ -83,51 +83,45 @@ Service_uSD::~Service_uSD()
 void  Service_uSD::Service_uSD_Start()
 {
   //initialize Services
-  atService_PCF8575.Debug();
-  delay(100);
+  // atService_PCF8575.Debug();
   atService_PCF8575.Run_Service();
   atService_VSPI.Run_Service();
 
   //setup uSD input pin
-  for (int i = 0; i< PCF8575_PIN_NUMBER;i++)
-  {
-    atService_PCF8575.Pin_Modes[i] = MODE_PCF8575_Input;
-  }
+  atService_PCF8575.Pin_Modes[PCF8575_PIN_P0] = MODE_PCF8575_Input;
+
+  //int SD
   atService_VSPI.check_In();
   if(!SD.begin(CS_PIN)){
-    Serial.println("Card Mount Failed");
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
+      Serial.println("Card Mount Failed");
   }
   atService_VSPI.check_Out();
   uint8_t cardType = SD.cardType();
   if(cardType == CARD_NONE){
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("No SD card attached");
   }
 
   Serial.print("SD Card Type: ");
   if(cardType == CARD_MMC){
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("MMC");
   } else if(cardType == CARD_SD){
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("SDSC");
   } else if(cardType == CARD_SDHC){
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("SDHC");
   } else {
+    if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
       Serial.println("UNKNOWN");
   }
 
-  // atService_uSD.listDir(SD, "/", 0);
-  // atService_uSD.createDir(SD, "/mydir");
-  // atService_uSD.listDir(SD, "/", 0);
-  // atService_uSD.removeDir(SD, "/mydir");
-  // atService_uSD.listDir(SD, "/", 2);
-
-  atService_uSD.writeFile("/abc.txt", "Hello ");
+  // atService_uSD.writeFile("/abc.txt", "Hello ");
   atService_uSD.appendFile("/abc.txt", "World!\n");
   atService_uSD.appendFile("/abc.txt", "12321321321312\n");
   atService_uSD.readFile("/abc.txt");
-  // atService_uSD.deleteFile(SD, "/foo.txt");
-  // atService_uSD.renameFile(SD, "/hello.txt", "/foo.txt");
-  // atService_uSD.readFile(SD, "/foo.txt");
-  
 }  
 
 /**
@@ -136,17 +130,17 @@ void  Service_uSD::Service_uSD_Start()
 void  Service_uSD::Service_uSD_Execute()
 {   
   atService_PCF8575.Run_Service();
-  //check uSD plugging
-  // atService_uSD.uSD_plugging == atService_PCF8575.Pin_Vals[PCF8575_PIN_P0];
   if(atService_uSD.User_Mode == SER_USER_MODE_DEBUG)
   {
-    // if (atService_uSD.uSD_plugging == YES)
-    // {
-    //   //show space of uSD
-    //   Serial.printf("Total space uSD: %lluMB\n", SD.totalBytes() / (1024 * 1024));
-    //   Serial.printf("Used space: %lluMB\n", SD.usedBytes() / (1024 * 1024));
-    // }
-    // else Serial.printf("No SD Card attached  \n");
+    //check uSD plugging
+    atService_uSD.uSD_plugging = atService_PCF8575.Pin_Vals[PCF8575_PIN_P0];
+    if (atService_uSD.uSD_plugging == YES)
+    {
+      //show space of uSD
+      Serial.printf("Total space uSD: %lluMB\n", SD.totalBytes() / (1024 * 1024));
+      Serial.printf("Used space: %lluMB\n", SD.usedBytes() / (1024 * 1024));
+    }
+    else Serial.printf("No SD Card attached  \n");
   }   
 }    
 void  Service_uSD::Service_uSD_End(){}

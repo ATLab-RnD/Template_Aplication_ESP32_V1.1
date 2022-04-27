@@ -9,7 +9,8 @@
         "initializer_list": "cpp",
         "system_error": "cpp",
         "atapp_sd_card": "cpp",
-        "atapp_database": "cpp"
+        "atapp_database": "cpp",
+        "functional": "cpp"
     },
     "cSpell.words": [
         "AIGAIN",
