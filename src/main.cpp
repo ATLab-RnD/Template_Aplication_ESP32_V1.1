@@ -47,7 +47,7 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_SGP30_Task_Func     , "atApp_SGP30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SGP30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_exHMI_Task_Func     , "atApp_exHMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_exHMI     ,    0     );
-  xTaskCreatePinnedToCore(  atApp_DataBase_Task_Func     , "atApp_DataBase_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DataBase  ,    0     );
+  xTaskCreatePinnedToCore(  atApp_DataBase_Task_Func     , "atApp_DataBase_Application" ,  100000      ,     NULL    ,   1       , &Task_atApp_DataBase  ,    1     );
   // xTaskCreatePinnedToCore(  atApp_HMI_Task_Func          , "atApp_HMI_Application"      ,  100000     ,     NULL    ,   1       , &Task_atApp_HMI       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
   //------------------------------------------------------------------------------------------------------------------------------------------------------------------//

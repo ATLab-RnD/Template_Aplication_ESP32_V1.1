@@ -44,8 +44,8 @@ public:
 	static void  App_DataBase_Resume();	  
 	static void  App_DataBase_End();
 
-  bool Write_To_File(char *file_name, char *data);
-  String Read_File(char *file_name);
+  // bool Write_To_File(char *file_name, char *data);
+  // String Read_File(char *file_name);
     
 protected:
 private:
@@ -91,7 +91,9 @@ void  App_DataBase::App_DataBase_Start()
 {
 	// init atXYZ Service in the fist running time
 	// atService_uSD.Run_Service();
+  Serial.println("DATABASE Start");
 	atService_PCF8575.Run_Service();
+  Serial.println("service pcf 8575 run");
   // atApp_DataBase.Write_To_File("/database","Hello");
   // atApp_DataBase.Read_File("/database");
   
@@ -119,57 +121,57 @@ void  App_DataBase::App_DataBase_Execute()
 void  App_DataBase::App_DataBase_Suspend(){}
 void  App_DataBase::App_DataBase_Resume(){}	  
 void  App_DataBase::App_DataBase_End(){}
-/**
- * @brief 
- * 
- * @param file_name 
- * @param data 
- * @return 1 : successfull write
- * @return 0 : failed write 
- */
-bool App_DataBase::Write_To_File(char *file_name, char * data)
-{
-  File file = SD.open(file_name);
-  if(!file) {
-    if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-    {
-      Serial.println("File doesn't exist");
-      Serial.println("Creating file...");
-    }
-  }
-  else {
-    atService_uSD.appendFile(file_name,data);
-    return 1;
-  }
-  return 0;
-}
-/**
- * @brief 
- * 
- * @param file_name 
- * @return 0: failed read
- */
-String App_DataBase::Read_File(char *file_name)
-{
-    if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-    {
-        Serial.printf("Reading file: %s\n", file_name);
-    }
-    File file = SD.open(file_name);
-    if(!file){
-        if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-        {
-            Serial.println("Failed to open file for reading");
-            return String(false);
-        }
-    }
-    String read_from_file;
-    while(file.available()){
-        read_from_file =  file.read();
-    }
-    file.close();
-    return read_from_file;
-}
+// /**
+//  * @brief 
+//  * 
+//  * @param file_name 
+//  * @param data 
+//  * @return 1 : successfull write
+//  * @return 0 : failed write 
+//  */
+// bool App_DataBase::Write_To_File(char *file_name, char * data)
+// {
+//   File file = SD.open(file_name);
+//   if(!file) {
+//     if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
+//     {
+//       Serial.println("File doesn't exist");
+//       Serial.println("Creating file...");
+//     }
+//   }
+//   else {
+//     atService_uSD.appendFile(file_name,data);
+//     return 1;
+//   }
+//   return 0;
+// }
+// /**
+//  * @brief 
+//  * 
+//  * @param file_name 
+//  * @return 0: failed read
+//  */
+// String App_DataBase::Read_File(char *file_name)
+// {
+//   if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
+//   {
+//       Serial.printf("Reading file: %s\n", file_name);
+//   }
+//   File file = SD.open(file_name);
+//   if(!file){
+//       if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
+//       {
+//           Serial.println("Failed to open file for reading");
+//           return String(false);
+//       }
+//   }
+//   String read_from_file;
+//   while(file.available()){
+//       read_from_file =  file.read();
+//   }
+//   file.close();
+//   return read_from_file;
+// }
 void atApp_DataBase_Task_Func(void *parameter)
 {
   while (1)

@@ -18,7 +18,6 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
 #include "PCF8575.h"
-#include "Wire.h"
 /* _____DEFINETIONS__________________________________________________________ */
 enum Val_PCF8575
 {
@@ -99,6 +98,7 @@ Service_PCF8575::~Service_PCF8575()
  */
 void  Service_PCF8575::Service_PCF8575_Start()
 {
+    Serial.printf("point 1\n");
     if (!atPCF8575.begin())
     {
         if (atService_PCF8575.User_Mode == SER_USER_MODE_DEBUG)
