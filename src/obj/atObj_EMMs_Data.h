@@ -20,23 +20,21 @@ Objective for control with Esp32 Wrover.
 
 struct EMMs_data
 {
-    bool Status_of_EMMs;
-    //value of host in IPv4 : (192, 168, Host_1, Host_2)
-    uint8_t Host_1;     
-    uint8_t Host_2;
-    uint8_t IP[4]        = 	{192,168,Host_1,Host_2};
-    uint8_t Alert;
-    uint8_t voltage_phase_A;
-    uint8_t voltage_phase_B;
-    uint8_t voltage_phase_C;
-    uint8_t current_phase_A;
-    uint8_t current_phase_B;
-    uint8_t current_phase_C;
-    uint8_t active_power;
-    uint8_t reactive_power;
-    uint8_t apparent_power;
-    uint8_t cosfi;
-    uint8_t frequency;
+    bool Status_of_EMMs = 0;
+    //value in IPv4 
+    uint16_t IP[4]        = 	{192,168,0,0};
+    uint16_t Alert;
+    uint16_t voltage_phase_A;
+    uint16_t voltage_phase_B;
+    uint16_t voltage_phase_C;
+    uint16_t current_phase_A;
+    uint16_t current_phase_B;
+    uint16_t current_phase_C;
+    uint16_t active_power;
+    uint16_t reactive_power;
+    uint16_t apparent_power;
+    uint16_t cosfi;
+    uint16_t frequency;
     bool control_relay;
     bool aptomat_feedback;
     bool contactor_feedback;

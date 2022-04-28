@@ -3,7 +3,8 @@
 #include "../src/apps/atApp_ABC.h"
 #include "../src/apps/atApp_Wifi.h"
 #include "../src/apps/atApp_CP.h"
-#include "../src/apps/atApp_MB_TCP_MA.h"
+// #include "../src/apps/atApp_MB_TCP_MA.h"
+#include "../src/apps/atApp_SNM.h"
 // #include "../src/apps/atApp_MB_RTU_SL.h"
 // #include "../src/apps/atApp_MB_TCP_SL.h"
 // #include "../src/apps/atApp_INVT.h"
@@ -14,16 +15,18 @@
 // #include "../src/apps/atApp_exHMI.h"
 // #include "../src/apps/atApp_DS18B20.h"
 // #include "../src/apps/atApp_HMI.h"
-#include "../src/apps/atApp_Scan_Module.h"
+#include "../src/apps/atApp_DID.h"
 
 void setup() {
 // uncomment to put the app in debug mod
 
   // atApp_ABC.Debug();
-  // atApp_Wifi.Debug();
-  atApp_SM.Debug();
+  atApp_Wifi.Debug();
+  atApp_SNM.Debug();
+  atApp_DID.Debug();
   // atApp_CP.Debug();
   // atApp_MB_RTU_SL.Debug();
+  // atApp_MB_TCP_MA.Debug();
   // atApp_MB_TCP_SL.Debug();
   // atApp_INVT.Debug();
   // atApp_CD.Debug();
@@ -40,9 +43,10 @@ void setup() {
   xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi      ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
-  xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
+  // xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  100000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
-  xTaskCreatePinnedToCore(  atApp_SM_Task_Func        , "atApp_Scan_Module_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_SM        ,    1     );
+  xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_SNM        ,    1     );
+  xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DID       ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
@@ -53,7 +57,9 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Some tasks will be suspended after initing 
-  vTaskSuspend(Task_atApp_MB_TCP_SL);
+  // vTaskSuspend(Task_atApp_MB_TCP_MA);
+  vTaskSuspend(Task_atApp_DID);
+  vTaskSuspend(Task_atApp_SNM);
 }
 
 void loop() {}

@@ -14,11 +14,17 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "..\src\services\Service.h"
 #include <ModbusIP_ESP8266.h>
+#include "..\src\services\modbus_register\SNM_MB_Register.h"
+#include "..\src\services\modbus_register\EMM_MB_Register.h"
+#include "..\src\services\modbus_register\HDM_MB_Register.h"
+#include "..\src\services\modbus_register\IDM_MB_Register.h"
+#include "..\src\services\modbus_register\RDM_MB_Register.h"
+#include "..\src\services\modbus_register\General_MB_Register.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
+SemaphoreHandle_t xMutex_MB_TCP_MA = NULL;
 ModbusIP mb_TCP;
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -35,6 +41,8 @@ public:
     static void  Service_Modbus_Start();
     static void  Service_Modbus_Execute();    
     static void  Service_Modbus_End();
+    void check_In();
+    void check_Out();
 protected:
      
 private:
@@ -67,8 +75,8 @@ Service_Modbus_TCP_MA::~Service_Modbus_TCP_MA()
  */
 void  Service_Modbus_TCP_MA::Service_Modbus_Start()
 {
+    xMutex_MB_TCP_MA = xSemaphoreCreateMutex();
     mb_TCP.client();
- 
 }  
 
 /**
@@ -80,6 +88,24 @@ void  Service_Modbus_TCP_MA::Service_Modbus_Execute()
     yield();
 }    
 void  Service_Modbus_TCP_MA::Service_Modbus_End(){}
+/**
+ * @brief Must call before using Modbus TCP Master to read or write ...
+ * 
+ * @return * void 
+ */
+void  Service_Modbus_TCP_MA::check_In()
+{
+    xSemaphoreTake( xMutex_MB_TCP_MA, portMAX_DELAY );
+}
+/**
+ * @brief Must call after using Modbus TCP Master to read or write ...
+ * 
+ * @return * void 
+ */
+void  Service_Modbus_TCP_MA::check_Out()
+{
+    xSemaphoreGive( xMutex_MB_TCP_MA );
+}
 
 #endif
 

@@ -9,7 +9,8 @@
         "initializer_list": "cpp",
         "bitset": "cpp",
         "chrono": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "random": "cpp"
     },
     "cSpell.words": [
         "AIGAIN",

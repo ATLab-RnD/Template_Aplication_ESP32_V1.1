@@ -20,11 +20,9 @@ Objective for control with Esp32 Wrover.
 
 struct IDMs_data
 {
-    bool Status_of_IDMs;
-    //value of host in IPv4 : (192, 168, Host_1, Host_2)
-    uint8_t Host_1;     
-    uint8_t Host_2;
-    uint8_t IP[4]        = 	{192,168,Host_1,Host_2};
+    bool Status_of_IDMs = 0;
+    //value in IPv4 
+    uint8_t IP[4]        = 	{192,168,0,0};
 
     uint8_t invt_type;  
     bool direction_run;

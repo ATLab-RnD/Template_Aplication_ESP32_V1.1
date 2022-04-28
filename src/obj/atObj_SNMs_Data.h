@@ -20,11 +20,9 @@ Objective for control with Esp32 Wrover.
 
 struct SNMs_data
 {
-  bool Status_of_SNMs;
-  //value of host in IPv4 : (192, 168, Host_1, Host_2)
-  uint8_t Host_1;     
-  uint8_t Host_2;
-  uint8_t IP[4]        = 	{192,168,Host_1,Host_2};
+  bool Status_of_SNMs = 0;
+  //value IPv4 
+  uint8_t IP[4]        = 	{192,168,0,0};
   // parameter value received
   uint16_t Temperature;
   uint16_t Humidity;
