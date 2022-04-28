@@ -10,7 +10,8 @@
         "system_error": "cpp",
         "atapp_sd_card": "cpp",
         "atapp_database": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "random": "cpp"
     },
     "cSpell.words": [
         "AIGAIN",
