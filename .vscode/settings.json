@@ -7,7 +7,11 @@
         "unordered_set": "cpp",
         "vector": "cpp",
         "initializer_list": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "atapp_sd_card": "cpp",
+        "atapp_database": "cpp",
+        "functional": "cpp",
+        "random": "cpp"
     },
     "cSpell.words": [
         "AIGAIN",
