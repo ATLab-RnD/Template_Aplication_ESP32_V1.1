@@ -18,6 +18,7 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "Monitor_Screen.h"
+#include "hmi_lite/HMI_Lite_Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -33,13 +34,13 @@ public:
 	static void  Screen_ABC_Start();	
 	static void  Screen_ABC_Execute();
 private:
-    lv_obj_t *btn_UP;
-    lv_obj_t *btn_DOWN;
-    lv_obj_t *btn_BACK;
-    lv_obj_t *btn_OK;
-    lv_obj_t *label_1;
+    static lv_obj_t *btn_UP;
+    static lv_obj_t *btn_DOWN;
+    static lv_obj_t *btn_BACK;
+    static lv_obj_t *btn_OK;
+    static lv_obj_t *label_1;
 
-    static void btn_OK_event_handler();
+    static void btn_OK_event_handler(lv_event_t *e);
 }atScr_ABC;
 
 Scr_ABC::Scr_ABC()
@@ -47,7 +48,7 @@ Scr_ABC::Scr_ABC()
     _Start_User     = *Screen_ABC_Start;
     _Execute_User   = *Screen_ABC_Execute;
     ID_Screen = 1;
-    Name_Screen = (char*)"Monitoring Screen"
+    Name_Screen = (char*)"Monitoring Screen";
 }
 Scr_ABC::~Scr_ABC()
 {
@@ -62,25 +63,25 @@ void  Scr_ABC::Screen_ABC_Start()
     lv_obj_add_event_cb(btn_OK, btn_OK_event_handler, LV_EVENT_ALL, NULL);
 
     //Write codes screen
-	Monitoring_Screen_Lite = lv_obj_create(NULL);
+	Object = lv_obj_create(NULL);
 	//Create 4 button
 	//Write codes screen_btn_BACK
-	btn_BACK= lv_btn_create(Monitoring_Screen_Lite);
+	btn_BACK= lv_btn_create(Object);
 	lite_setup_button(btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
-	btn_UP = lv_btn_create(Monitoring_Screen_Lite);
+	btn_UP = lv_btn_create(Object);
 	lite_setup_button(btn_UP,45,85,"UP");
 	//Write codes screen_btn_DOWN
-	btn_DOWN = lv_btn_create(Monitoring_Screen_Lite);
+	btn_DOWN = lv_btn_create(Object);
 	lite_setup_button(btn_DOWN,85,85,"DOWN");
 	//Write codes screen_btn_OK
-	btn_OK = lv_btn_create(Monitoring_Screen_Lite);
+	btn_OK = lv_btn_create(Object);
 	lite_setup_button(btn_OK,125,85,"OK");
 	//Write codes screen_1_label_1
-	label_1 = lv_label_create(Monitoring_Screen_Lite);
-	lite_setup_label(label_1,"Monitoring_Screen_Lite.title",31,30,100,32);
+	label_1 = lv_label_create(Object);
+	lite_setup_label(label_1,"abc.title",31,30,100,32);
 	//create notified bar
-	lite_create_notified_bar(Monitoring_Screen_Lite);
+	lite_create_notified_bar(Object);
 	
 } 
 /**
@@ -91,7 +92,7 @@ void  Scr_ABC::Screen_ABC_Execute()
 
 }
 
-void Scr_ABC:btn_OK_event_handler()
+void Scr_ABC::btn_OK_event_handler(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
 	switch (code)

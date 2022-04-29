@@ -30,7 +30,7 @@ class Monitor_Screen: public Screen
 public:
     // to go to forward screen and backward screen
     static lv_obj_t **Forward_Screen;
-    void (*setup_Forward_Screen)();
+    static void (*setup_Forward_Screen)();
     // 
 private:
 };

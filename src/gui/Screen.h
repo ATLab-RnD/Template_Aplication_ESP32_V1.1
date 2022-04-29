@@ -43,7 +43,7 @@ public:
     // this var will be set to 1 whenever ser done a state execution 
     bool Step_Forward = 0;
 
-    lv_obj_t *Object;
+    static lv_obj_t *Object;
 protected:
     void (*_Start_User)();
     void (*_Execute_User)();
@@ -79,7 +79,6 @@ void Screen::Run_Screen()
   {
     // starting the task
     case SER_STATE_STARTING:
-      Run_Mode = autoRun;
       Start();
       break;
 
