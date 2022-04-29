@@ -145,5 +145,4 @@ void Screen::Execute()
   (*_Execute_User)();
   Step_Forward = 1;
 }
-
 #endif

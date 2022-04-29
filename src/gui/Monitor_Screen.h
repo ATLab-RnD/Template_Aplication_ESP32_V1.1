@@ -29,8 +29,8 @@ class Monitor_Screen: public Screen
 {
 public:
     // to go to forward screen and backward screen
-    lv_obj_t **Forward_Monitoring_Screen;
-    lv_obj_t *Monitoring_Screen;
+    static lv_obj_t **Forward_Screen;
+    void (*setup_Forward_Screen)();
     // 
 private:
 };

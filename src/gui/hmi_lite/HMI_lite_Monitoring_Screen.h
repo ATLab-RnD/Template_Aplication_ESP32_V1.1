@@ -66,6 +66,7 @@ static void setup_Monitoring_Screen_Lite(){
 	//Write codes screen_1_label_1
 	Monitoring_Screen_Lite_label_1 = lv_label_create(Monitoring_Screen_Lite);
 	lite_setup_label(Monitoring_Screen_Lite_label_1,"Monitoring_Screen_Lite.title",31,30,100,32);
+	// init events
 	events_init_Monitoring_Screen_Lite();
 	//create nofitified bar
 	lite_create_notified_bar(Monitoring_Screen_Lite);
