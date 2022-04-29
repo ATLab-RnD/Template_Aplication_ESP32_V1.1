@@ -11,6 +11,7 @@
         "atapp_sd_card": "cpp",
         "atapp_database": "cpp",
         "functional": "cpp",
+
         "random": "cpp"
     },
     "cSpell.words": [

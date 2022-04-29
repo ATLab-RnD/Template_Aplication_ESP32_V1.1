@@ -89,17 +89,17 @@ void  App_Modbus_Slave::App_Modbus_Slave_Start()
 	atService_MB_RTU_SL.Run_Service();
 	
 
-  	for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_HUMIDITY; count++)
-  	{
-		atService_MB_RTU_SL.addHreg(count,count);
-	}
+  	// for( int count = GENERAL_REGISTER_RW_MODBUS_RTU_ID; count <= GENERAL_REGISTER_R_HUMIDITY; count++)
+  	// {
+	// 	atService_MB_RTU_SL.addHreg(count,count);
+	// }
 
      
 
-  	for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
-	{
-    	atService_MB_RTU_SL.addHreg(count,count);
-    }
+  	// for( int count = SMM_REGISTER_RW_SHT30_SENSOR_STATE; count <= SNM_REGISTER_R_MIN_ETHANOL; count++)
+	// {
+    // 	atService_MB_RTU_SL.addHreg(count,count);
+    // }
 }  
 /**
  * Restart function of Modbus_Slave  app
