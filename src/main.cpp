@@ -40,13 +40,13 @@ void setup() {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // || Creation           ||     Task function         ||     PC name                    || heap size  || Parameter || Priority  || Task handle          || CoreID   ||
   // xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     );
-  xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
-  xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi      ,    1     );
+  xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP          ,    0     );
+  xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi        ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  100000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
-  xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_SNM        ,    1     );
-  xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DID       ,    1     );
+  xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000       ,     NULL    ,   1       , &Task_atApp_SNM         ,    1     );
+  xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_DID         ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
