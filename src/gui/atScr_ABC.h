@@ -33,13 +33,15 @@ public:
     ~Scr_ABC();
 	static void  Screen_ABC_Start();	
 	static void  Screen_ABC_Execute();
-private:
-    lv_obj_t *btn_UP;
+	lv_obj_t *btn_UP;
     lv_obj_t *btn_DOWN;
     lv_obj_t *btn_BACK;
     lv_obj_t *btn_OK;
     lv_obj_t *label_1;
+
     static void btn_OK_event_handler(lv_event_t *e);
+private:
+    
 }atScr_ABC;
 
 Scr_ABC::Scr_ABC()
@@ -59,7 +61,7 @@ Scr_ABC::~Scr_ABC()
 void  Scr_ABC::Screen_ABC_Start()
 {
 	// init every events
-    lv_obj_add_event_cb(atScr_ABC.btn_OK, btn_OK_event_handler, LV_EVENT_ALL, NULL);
+    // lv_obj_add_event_cb(atScr_ABC.btn_OK, atScr_ABC.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 
     //Write codes screen
 	atScr_ABC.Object = lv_obj_create(NULL);
