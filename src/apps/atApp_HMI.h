@@ -116,6 +116,8 @@ void  App_HMI::App_HMI_Start()
 	// setup_Monitoring_Screen();
 	// lv_scr_load(Monitoring_Screen);
 	atScr_ABC.Run_Screen();
+	lv_scr_load(atScr_ABC.Object);
+
 	// atService_VSPI.check_Out();
 }  
 /**

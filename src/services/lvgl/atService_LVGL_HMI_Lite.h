@@ -184,10 +184,10 @@ void  Service_lvgl::Service_lvgl_Start()
 
     /*Assign buttons to points on the screen*/
     static const lv_point_t btn_points[4] = {
-            {50     ,   65},    /*Button UP -> x:50; y:90*/ 
-            {10     ,   65},    /*Button BACK*/
-            {90     ,   65},    /*Button OK */
-            {130    ,   65},    /*Button DOWN */
+            {50     ,   90},    /*Button UP -> x:50; y:90*/ 
+            {10     ,   90},    /*Button BACK*/
+            {90     ,   90},    /*Button OK */
+            {130    ,   90},    /*Button DOWN */
     };
     lv_indev_set_button_points(my_indev, btn_points);
 }  

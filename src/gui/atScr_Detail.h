@@ -68,16 +68,16 @@ void  Scr_Detail::Screen_Detail_Start()
 	//Create 4 button
 	//Write codes screen_btn_BACK
 	atScr_Detail.btn_BACK= lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_BACK,5,60,"BACK");
+	lite_setup_button(atScr_Detail.btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
 	atScr_Detail.btn_UP = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_UP,45,60,"UP");
+	lite_setup_button(atScr_Detail.btn_UP,45,85,"UP");
 	//Write codes screen_btn_DOWN
 	atScr_Detail.btn_DOWN = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_DOWN,85,60,"DOWN");
+	lite_setup_button(atScr_Detail.btn_DOWN,85,85,"DOWN");
 	//Write codes screen_btn_OK
 	atScr_Detail.btn_OK = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_OK,125,60,"OK");
+	lite_setup_button(atScr_Detail.btn_OK,125,85,"OK");
 	//Write codes screen_1_label_1
 	atScr_Detail.label_1 = lv_label_create(atScr_Detail.Object);
 	lite_setup_label(atScr_Detail.label_1,"Detail.title",31,30,100,32);
@@ -85,9 +85,7 @@ void  Scr_Detail::Screen_Detail_Start()
 	lite_create_notified_bar(atScr_Detail.Object);
 
 	// init every events
-	
-	lv_scr_load(atScr_Detail.Object);
-    lv_obj_add_event_cb(atScr_Detail.Object, atScr_Detail.btn_Back_event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(atScr_Detail.btn_BACK, atScr_Detail.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 } 
 /**
  * Execute fuction of SNM app
@@ -111,7 +109,7 @@ void Scr_Detail :: btn_Back_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
-			lv_scr_load_anim(*atScr_Detail.Backward_Screen, LV_SCR_LOAD_ANIM_MOVE_LEFT, 100, 100, true);
+			lv_scr_load_anim(*atScr_Detail.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
         }
 	}
 		break;
