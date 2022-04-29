@@ -33,11 +33,11 @@ public:
 	static void  Screen_ABC_Start();	
 	static void  Screen_ABC_Execute();
 private:
-    lv_obj_t *Monitoring_Screen_Lite_btn_UP;
-    lv_obj_t *Monitoring_Screen_Lite_btn_DOWN;
-    lv_obj_t *Monitoring_Screen_Lite_btn_BACK;
-    lv_obj_t *Monitoring_Screen_Lite_btn_OK;
-    lv_obj_t *Monitoring_Screen_Lite_label_1;
+    lv_obj_t *btn_UP;
+    lv_obj_t *btn_DOWN;
+    lv_obj_t *btn_BACK;
+    lv_obj_t *btn_OK;
+    lv_obj_t *label_1;
 
     static void btn_OK_event_handler();
 }atScr_ABC;
@@ -59,26 +59,26 @@ Scr_ABC::~Scr_ABC()
 void  Scr_ABC::Screen_ABC_Start()
 {
 	// init every events
-    lv_obj_add_event_cb(Monitoring_Screen_Lite_btn_OK, Monitoring_Screen_Lite_btn_OK_event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(btn_OK, btn_OK_event_handler, LV_EVENT_ALL, NULL);
 
     //Write codes screen
 	Monitoring_Screen_Lite = lv_obj_create(NULL);
 	//Create 4 button
 	//Write codes screen_btn_BACK
-	Monitoring_Screen_Lite_btn_BACK= lv_btn_create(Monitoring_Screen_Lite);
-	lite_setup_button(Monitoring_Screen_Lite_btn_BACK,5,85,"BACK");
+	btn_BACK= lv_btn_create(Monitoring_Screen_Lite);
+	lite_setup_button(btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
-	Monitoring_Screen_Lite_btn_UP = lv_btn_create(Monitoring_Screen_Lite);
-	lite_setup_button(Monitoring_Screen_Lite_btn_UP,45,85,"UP");
+	btn_UP = lv_btn_create(Monitoring_Screen_Lite);
+	lite_setup_button(btn_UP,45,85,"UP");
 	//Write codes screen_btn_DOWN
-	Monitoring_Screen_Lite_btn_DOWN = lv_btn_create(Monitoring_Screen_Lite);
-	lite_setup_button(Monitoring_Screen_Lite_btn_DOWN,85,85,"DOWN");
+	btn_DOWN = lv_btn_create(Monitoring_Screen_Lite);
+	lite_setup_button(btn_DOWN,85,85,"DOWN");
 	//Write codes screen_btn_OK
-	Monitoring_Screen_Lite_btn_OK = lv_btn_create(Monitoring_Screen_Lite);
-	lite_setup_button(Monitoring_Screen_Lite_btn_OK,125,85,"OK");
+	btn_OK = lv_btn_create(Monitoring_Screen_Lite);
+	lite_setup_button(btn_OK,125,85,"OK");
 	//Write codes screen_1_label_1
-	Monitoring_Screen_Lite_label_1 = lv_label_create(Monitoring_Screen_Lite);
-	lite_setup_label(Monitoring_Screen_Lite_label_1,"Monitoring_Screen_Lite.title",31,30,100,32);
+	label_1 = lv_label_create(Monitoring_Screen_Lite);
+	lite_setup_label(label_1,"Monitoring_Screen_Lite.title",31,30,100,32);
 	//create notified bar
 	lite_create_notified_bar(Monitoring_Screen_Lite);
 	
