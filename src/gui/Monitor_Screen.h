@@ -31,6 +31,8 @@ public:
     // to go to forward screen and backward screen
     lv_obj_t **Forward_Screen;
     void (*setup_Forward_Screen)();
+    lv_obj_t **Backward_Screen;
+    void (*setup_Backward_Screen)();
     // 
 private:
 };

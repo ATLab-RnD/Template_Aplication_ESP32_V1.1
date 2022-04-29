@@ -19,6 +19,7 @@
 // #include "../gui/hmi_lite/HMI_lite_Menu_Screen.h"
 // #include "../gui/hmi_lite/HMI_lite_Detail_Screen.h"
 #include "../gui/atScr_ABC.h"
+#include "../gui/atScr_Detail.h"
 #include "../services/SPI/atService_VSPI.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
@@ -71,8 +72,10 @@ App_HMI::App_HMI(/* args */)
 	Name_Application = (char*)"HMI Application";
 	// change the ID of SNM
 
-	// setup_Forward_Monitoring_Screen = *setup_Menu_Screen;
-	// Forward_Monitoring_Screen = &Menu_Screen;
+	atScr_ABC.setup_Forward_Screen = *atScr_Detail.Screen_Detail_Start;
+	atScr_ABC.Forward_Screen = &atScr_Detail.Object;
+	atScr_Detail.setup_Backward_Screen = *atScr_ABC.Screen_ABC_Start;
+	atScr_Detail.Backward_Screen = &atScr_ABC.Object;
 
 	// setup_Forward_Menu_Screen = *setup_Detail_Screen;
 	// Forward_Menu_Screen = &Detail_Screen;
@@ -96,7 +99,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	// atService_LVGL_HMI.Debug();
+	atService_LVGL_HMI_Lite.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**

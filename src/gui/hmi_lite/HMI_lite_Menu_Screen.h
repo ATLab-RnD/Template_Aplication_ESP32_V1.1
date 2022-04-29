@@ -131,6 +131,7 @@ static void setup_Menu_Screen_Lite(){
 	lite_setup_roller(Menu_Screen_Lite_roller,Menu_Option_1.Option,2,LV_ALIGN_CENTER,100,0,5);
 
 	create_notified_bar(Menu_Screen_Lite);
+	
 	events_init_Menu_Screen_Lite();
 }
 
