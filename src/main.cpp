@@ -1,6 +1,6 @@
 // Template_Application_ESP32_V2.0
 
-// #include "../src/apps/atApp_ABC.h"
+#include "../src/apps/atApp_ABC.h"
 // #include "../src/apps/atApp_Wifi.h"
 // #include "../src/apps/atApp_CP.h"
 // #include "../src/apps/atApp_MB_TCP_MA.h"
@@ -56,6 +56,8 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_HMI_Task_Func     , "atApp_HMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_HMI     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
 // Some tasks will be suspended after initing 
   // vTaskSuspend(Task_atApp_MB_TCP_MA);
   // vTaskSuspend(Task_atApp_DID);

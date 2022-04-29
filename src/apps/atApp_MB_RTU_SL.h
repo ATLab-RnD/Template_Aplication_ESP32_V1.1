@@ -16,7 +16,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/modbus_slave/atService_MB_RTU_SL.h"
-#include "../services/modbus_slave/Modbus_Registers.h"
+#include "../services/modbus_slave/modbus_register/General_MB_Register.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
