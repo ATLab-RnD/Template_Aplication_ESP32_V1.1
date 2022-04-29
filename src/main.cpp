@@ -60,6 +60,6 @@ void setup() {
   // vTaskSuspend(Task_atApp_MB_TCP_MA);
   vTaskSuspend(Task_atApp_DID);
   vTaskSuspend(Task_atApp_SNM);
-}
 
-void loop() {}
+}
+ void loop() {}

@@ -14,8 +14,11 @@
 #define _Application_atApp_HMI_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-// #include "../services/lvgl/atService_LVGL_HMI.h"
-#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+#include "../services/lvgl/atService_LVGL_HMI.h"
+#include "../gui/hmi/HMI_Monitoring_Screen.h"
+#include "../gui/hmi/HMI_Menu_Screen.h"
+#include "../gui/hmi/HMI_Detail_Screen.h"
+#include "../services/SPI/atService_VSPI.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -23,7 +26,6 @@
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 ///////////////////////////////////////////////Testing part//
-
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
 TaskHandle_t Task_atApp_HMI;  
@@ -68,8 +70,17 @@ App_HMI::App_HMI(/* args */)
 	Name_Application = (char*)"HMI Application";
 	// change the ID of SNM
 
-	
-	
+	setup_Forward_Monitoring_Screen = *setup_Menu_Screen;
+	Forward_Monitoring_Screen = &Menu_Screen;
+
+	setup_Forward_Menu_Screen = *setup_Detail_Screen;
+	Forward_Menu_Screen = &Detail_Screen;
+
+	setup_Back_Menu_Screen = *setup_Monitoring_Screen;
+	Back_Menu_Screen = &Monitoring_Screen;
+
+	setup_Back_Detail_Screen = *setup_Menu_Screen;
+	Back_Detail_Screen = &Menu_Screen;
 }
 /**
  * This function will be automaticaly called when the object of class is delete
@@ -84,7 +95,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	// atButtons.Debug();
+	// atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -92,36 +103,15 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
+	atService_VSPI.Run_Service();
+	// atService_VSPI.check_In();
 	// init atApp_HMI Service in the fist running time
-	atService_lvgl.Run_Service();
-	// atService_Buttons_LEDs_PCF8575.Run_Service();
-
-	// lv_obj_t * label1 = lv_label_create(lv_scr_act());
-    // lv_label_set_long_mode(label1, LV_LABEL_LONG_WRAP);     /*Break the long lines*/
-    // lv_label_set_recolor(label1, true);                      /*Enable re-coloring by commands in the text*/
-    // lv_label_set_text(label1, "#0000ff Re-color# #ff00ff words# #ff0000 of a# label, align the lines to the center "
-    //                   "and wrap long text automatically.");
-    // lv_obj_set_width(label1, 150);  /*Set smaller width to make the lines wrap*/
-    // lv_obj_set_style_text_align(label1, LV_TEXT_ALIGN_CENTER, 0);
-    // lv_obj_align(label1, LV_ALIGN_CENTER, 0, -40);
-
-    // lv_obj_t * label2 = lv_label_create(lv_scr_act());
-    // lv_label_set_long_mode(label2, LV_LABEL_LONG_SCROLL_CIRCULAR);     /*Circular scroll*/
-    // lv_obj_set_width(label2, 150);
-    // lv_label_set_text(label2, "It is a circularly scrolling text. ");
-    // lv_obj_align(label2, LV_ALIGN_CENTER, 0, 40);
-
-	// atService_Buttons_LEDs_PCF8575.LED_RGB_1 = RED;
-	// atService_Buttons_LEDs_PCF8575.LED_RGB_2 = RED;
-	// atService_Buttons_LEDs_PCF8575.LED_RGB_3 = RED;
-	lv_obj_t * btn = lv_btn_create(lv_scr_act());     /*Add a button the current screen*/
-    lv_obj_set_pos(btn, 10, 10);                            /*Set its position*/
-    lv_obj_set_size(btn, 120, 50);                          /*Set its size*/
-    // lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);           /*Assign a callback to the button*/
-
-    lv_obj_t * label = lv_label_create(btn);          /*Add a label to the button*/
-    lv_label_set_text(label, "Button");                     /*Set the labels text*/
-    lv_obj_center(label);
+	atService_LVGL_HMI.Run_Service();
+	// init GUI
+    // setup_ui(&guider_ui);	
+	setup_Monitoring_Screen();
+	lv_scr_load(Monitoring_Screen);
+	// atService_VSPI.check_Out();
 }  
 /**
  * Restart function of SNM  app
@@ -135,9 +125,9 @@ void  App_HMI::App_HMI_Restart()
  */
 void  App_HMI::App_HMI_Execute()
 {	
-	atService_lvgl.Run_Service();
-	// atService_Buttons_LEDs_PCF8575.Run_Service();
-
+	atService_VSPI.check_In();
+	atService_LVGL_HMI.Run_Service();
+	atService_VSPI.check_Out();
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
     }   

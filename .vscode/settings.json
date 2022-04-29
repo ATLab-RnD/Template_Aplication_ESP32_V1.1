@@ -7,9 +7,11 @@
         "unordered_set": "cpp",
         "vector": "cpp",
         "initializer_list": "cpp",
-        "bitset": "cpp",
-        "chrono": "cpp",
-        "algorithm": "cpp",
+        "system_error": "cpp",
+        "atapp_sd_card": "cpp",
+        "atapp_database": "cpp",
+        "functional": "cpp",
+
         "random": "cpp"
     },
     "cSpell.words": [
@@ -58,5 +60,6 @@
         "VPINTLVL",
         "VRMS",
         "WDIV"
-    ]
+    ],
+    "C_Cpp.errorSquiggles": "Disabled"
 }

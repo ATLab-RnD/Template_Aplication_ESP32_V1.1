@@ -16,6 +16,7 @@ Service Template.
 /* _____PROJECT INCLUDES____________________________________________________ */
 
 #include "Arduino.h"
+#include "../apps/App.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -53,8 +54,6 @@ public:
   // user can existing state of app by change Service_State into below state
  
   uint8_t Service_State = SER_STATE_STARTING;
-  bool      Serial_Hardware_Port_Is_Opened = 0;
-  unsigned long  Serial_Hardware_Port_Baudrate = 115200;
   
   // enter task debug
   void Debug();
@@ -73,8 +72,6 @@ protected:
   char*     State_Service_String();
   void      Information();  
 private:
-  
-
   bool Run_Mode = Run_Mode_Auto;// the executing task will run APP_RUN_MODE_AUTOally
 
   static const bool Run_Mode_Auto = 1;
@@ -191,12 +188,12 @@ void Service::Start()
       Serial.begin(Serial_Hardware_Port_Baudrate);
       Serial_Hardware_Port_Is_Opened = 1;
     }
-    Information();
+    // Information();
   }
-  if(Run_Mode == SER_RUN_MODE_AUTO)
-  {
+  // if(Run_Mode == SER_RUN_MODE_AUTO)
+  // {
     Service_State = SER_STATE_EXECUTING;
-  }
+  // }
   Step_Forward = 1;
 }
 /**
