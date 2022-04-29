@@ -18,7 +18,6 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "Monitor_Screen.h"
-#include "hmi_lite/HMI_Lite_Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -62,28 +61,26 @@ Scr_Detail::~Scr_Detail()
  */
 void  Scr_Detail::Screen_Detail_Start()
 {
-	
     //Write codes screen
 	atScr_Detail.Object = lv_obj_create(NULL);
 	//Create 4 button
 	//Write codes screen_btn_BACK
 	atScr_Detail.btn_BACK= lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_BACK,5,85,"BACK");
+	atScr_Detail.setup_button(atScr_Detail.btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
 	atScr_Detail.btn_UP = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_UP,45,85,"UP");
+	atScr_Detail.setup_button(atScr_Detail.btn_UP,45,85,"UP");
 	//Write codes screen_btn_DOWN
 	atScr_Detail.btn_DOWN = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_DOWN,85,85,"DOWN");
+	atScr_Detail.setup_button(atScr_Detail.btn_DOWN,85,85,"DOWN");
 	//Write codes screen_btn_OK
 	atScr_Detail.btn_OK = lv_btn_create(atScr_Detail.Object);
-	lite_setup_button(atScr_Detail.btn_OK,125,85,"OK");
+	atScr_Detail.setup_button(atScr_Detail.btn_OK,125,85,"OK");
 	//Write codes screen_1_label_1
 	atScr_Detail.label_1 = lv_label_create(atScr_Detail.Object);
-	lite_setup_label(atScr_Detail.label_1,"Detail.title",31,30,100,32);
+	atScr_Detail.setup_label(atScr_Detail.label_1,"Detail.title",31,30,100,32);
 	//create notified bar
-	lite_create_notified_bar(atScr_Detail.Object);
-
+	atScr_Detail.create_notified_bar(atScr_Detail.Object);
 	// init every events
     lv_obj_add_event_cb(atScr_Detail.btn_BACK, atScr_Detail.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 } 
@@ -95,7 +92,7 @@ void  Scr_Detail::Screen_Detail_Execute()
 
 }
 
-void Scr_Detail :: btn_Back_event_handler(lv_event_t *e)
+void Scr_Detail::btn_Back_event_handler(lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
 	switch (code)

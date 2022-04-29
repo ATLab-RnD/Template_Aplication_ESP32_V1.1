@@ -18,7 +18,6 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "Monitor_Screen.h"
-#include "hmi_lite/HMI_Lite_Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -42,6 +41,7 @@ public:
     
     static void btn_OK_event_handler(lv_event_t *e);
 
+	void Update_Scr_ABC();
 private:
     
 }atScr_ABC;
@@ -69,21 +69,21 @@ void  Scr_ABC::Screen_ABC_Start()
 	//Create 4 button
 	//Write codes screen_btn_BACK
 	atScr_ABC.btn_BACK= lv_btn_create(atScr_ABC.Object);
-	lite_setup_button(atScr_ABC.btn_BACK,5,85,"BACK");
+	atScr_ABC.setup_button(atScr_ABC.btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
 	atScr_ABC.btn_UP = lv_btn_create(atScr_ABC.Object);
-	lite_setup_button(atScr_ABC.btn_UP,45,85,"UP");
+	atScr_ABC.setup_button(atScr_ABC.btn_UP,45,85,"UP");
 	//Write codes screen_btn_DOWN
 	atScr_ABC.btn_DOWN = lv_btn_create(atScr_ABC.Object);
-	lite_setup_button(atScr_ABC.btn_DOWN,85,85,"DOWN");
+	atScr_ABC.setup_button(atScr_ABC.btn_DOWN,85,85,"DOWN");
 	//Write codes screen_btn_OK
 	atScr_ABC.btn_OK = lv_btn_create(atScr_ABC.Object);
-	lite_setup_button(atScr_ABC.btn_OK,125,85,"OK");
+	atScr_ABC.setup_button(atScr_ABC.btn_OK,125,85,"OK");
 	//Write codes screen_1_label_1
 	atScr_ABC.label_1 = lv_label_create(atScr_ABC.Object);
-	lite_setup_label(atScr_ABC.label_1,"abc.title",31,30,100,32);
+	atScr_ABC.setup_label(atScr_ABC.label_1,"abc.title",31,30,100,32);
 	//create notified bar
-	lite_create_notified_bar(atScr_ABC.Object);
+	atScr_ABC.create_notified_bar(atScr_ABC.Object);
 
 	// init every events
     lv_obj_add_event_cb(atScr_ABC.btn_OK, atScr_ABC.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -93,7 +93,7 @@ void  Scr_ABC::Screen_ABC_Start()
  */
 void  Scr_ABC::Screen_ABC_Execute()
 {
-
+	// atScr_ABC.Update_Scr_ABC();
 }
 
 void Scr_ABC :: btn_OK_event_handler(lv_event_t *e)
@@ -117,5 +117,22 @@ void Scr_ABC :: btn_OK_event_handler(lv_event_t *e)
 	default:
 		break;
 	}
+}
+void Scr_ABC::Update_Scr_ABC()
+{
+	if (atScr_ABC.Notified_Bar_1.minute < 60)
+	{
+		atScr_ABC.create_notified_bar(atScr_ABC.Object);
+		atScr_ABC.Notified_Bar_1.minute ++;
+	}
+	else 
+	{
+		atScr_ABC.Notified_Bar_1.minute = 0;
+		if(atScr_ABC.Notified_Bar_1.hour < 22)
+			atScr_ABC.Notified_Bar_1.hour ++;
+		else atScr_ABC.Notified_Bar_1.hour = 0;
+		atScr_ABC.create_notified_bar(atScr_ABC.Object);
+	}
+	delay(1000);
 }
 #endif

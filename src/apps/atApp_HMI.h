@@ -99,7 +99,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI_Lite.Debug();
+	// atService_LVGL_HMI_Lite.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -111,8 +111,6 @@ void  App_HMI::App_HMI_Start()
 	// atService_VSPI.check_In();
 	// init atApp_HMI Service in the fist running time
 	atService_LVGL_HMI_Lite.Run_Service();
-	// init GUI
-    // setup_ui(&guider_ui);	
 	// setup_Monitoring_Screen();
 	// lv_scr_load(Monitoring_Screen);
 	atScr_ABC.Run_Screen();
@@ -135,8 +133,11 @@ void  App_HMI::App_HMI_Execute()
 	atService_VSPI.check_In();
 	atService_LVGL_HMI_Lite.Run_Service();
 	atService_VSPI.check_Out();
+	atScr_ABC.Update_Scr_ABC();
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
+		Serial.printf("%d\n",atScr_ABC.Notified_Bar_1.minute);
+		Serial.printf("%d\n",atScr_ABC.Notified_Bar_1.hour);
     }   
 }
 void  App_HMI::App_HMI_Suspend(){}
