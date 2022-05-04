@@ -18,6 +18,7 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "Monitor_Screen.h"
+#include"Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -26,23 +27,20 @@ Screen Template.
 /**
  * This Screen class is base class for implement another class by inheritance 
  */
-class Scr_ABC: public Monitor_Screen
+class Scr_ABC: public Monitor_Screen , public Sources
 {
 public:
     Scr_ABC();
     ~Scr_ABC();
 	static void  Screen_ABC_Start();	
 	static void  Screen_ABC_Execute();
-	lv_obj_t *btn_UP;
-    lv_obj_t *btn_DOWN;
-    lv_obj_t *btn_BACK;
-    lv_obj_t *btn_OK;
-    lv_obj_t *label_1;
-    
-    static void btn_OK_event_handler(lv_event_t *e);
 
+protected:
 	void Update_Scr_ABC();
+
 private:
+
+    static void btn_OK_event_handler(lv_event_t *e);
     
 }atScr_ABC;
 
@@ -62,29 +60,16 @@ Scr_ABC::~Scr_ABC()
  */
 void  Scr_ABC::Screen_ABC_Start()
 {
-	
-	
     //Write codes screen
 	atScr_ABC.Object = lv_obj_create(NULL);
 	//Create 4 button
-	//Write codes screen_btn_BACK
-	atScr_ABC.btn_BACK= lv_btn_create(atScr_ABC.Object);
-	atScr_ABC.setup_button(atScr_ABC.btn_BACK,5,85,"BACK");
-	//Write codes screen_btn_UP
-	atScr_ABC.btn_UP = lv_btn_create(atScr_ABC.Object);
-	atScr_ABC.setup_button(atScr_ABC.btn_UP,45,85,"UP");
-	//Write codes screen_btn_DOWN
-	atScr_ABC.btn_DOWN = lv_btn_create(atScr_ABC.Object);
-	atScr_ABC.setup_button(atScr_ABC.btn_DOWN,85,85,"DOWN");
-	//Write codes screen_btn_OK
-	atScr_ABC.btn_OK = lv_btn_create(atScr_ABC.Object);
-	atScr_ABC.setup_button(atScr_ABC.btn_OK,125,85,"OK");
+	atScr_ABC.create_button(atScr_ABC.Object);
 	//Write codes screen_1_label_1
-	atScr_ABC.label_1 = lv_label_create(atScr_ABC.Object);
-	atScr_ABC.setup_label(atScr_ABC.label_1,"abc.title",31,30,100,32);
+	atScr_ABC.label_screen = lv_label_create(atScr_ABC.Object);
+	atScr_ABC.setup_label(atScr_ABC.label_screen,"abc.title",31,30,100,32);
 	//create notified bar
 	atScr_ABC.create_notified_bar(atScr_ABC.Object);
-
+	atScr_ABC.setup_label(Screen_label_wifi,LV_SYMBOL_WIFI,0,0,15,15);
 	// init every events
     lv_obj_add_event_cb(atScr_ABC.btn_OK, atScr_ABC.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 } 
@@ -93,8 +78,9 @@ void  Scr_ABC::Screen_ABC_Start()
  */
 void  Scr_ABC::Screen_ABC_Execute()
 {
-	// atScr_ABC.Update_Scr_ABC();
-}
+	atScr_ABC.Notified_Bar_1.minute++;
+	sprintf(Notified_Bar_1.time, "%d:%d",Notified_Bar_1.hour,Notified_Bar_1.minute);
+	atScr_ABC.setup_label(atScr_ABC.Screen_label_time,atScr_ABC.Notified_Bar_1.time,100,0,40,15);
 
 void Scr_ABC :: btn_OK_event_handler(lv_event_t *e)
 {
@@ -133,6 +119,5 @@ void Scr_ABC::Update_Scr_ABC()
 		else atScr_ABC.Notified_Bar_1.hour = 0;
 		atScr_ABC.create_notified_bar(atScr_ABC.Object);
 	}
-	delay(1000);
 }
 #endif

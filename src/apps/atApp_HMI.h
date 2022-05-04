@@ -133,11 +133,10 @@ void  App_HMI::App_HMI_Execute()
 	atService_VSPI.check_In();
 	atService_LVGL_HMI_Lite.Run_Service();
 	atService_VSPI.check_Out();
-	atScr_ABC.Update_Scr_ABC();
+	// atScr_ABC.Update_Scr_ABC();
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
-		Serial.printf("%d\n",atScr_ABC.Notified_Bar_1.minute);
-		Serial.printf("%d\n",atScr_ABC.Notified_Bar_1.hour);
+
     }   
 }
 void  App_HMI::App_HMI_Suspend(){}

@@ -17,7 +17,8 @@ Screen Template.
 
 #include "Arduino.h"
 #include "lvgl.h"
-#include "Monitor_Screen.h"
+#include "Detail_Screen.h"
+#include "Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -26,22 +27,17 @@ Screen Template.
 /**
  * This Screen class is base class for implement another class by inheritance 
  */
-class Scr_Detail: public Monitor_Screen
+class Scr_Detail: public Detail_Screen, public Sources
 {
 public:
     Scr_Detail();
     ~Scr_Detail();
 	static void  Screen_Detail_Start();	
 	static void  Screen_Detail_Execute();
-	lv_obj_t *btn_UP;
-    lv_obj_t *btn_DOWN;
-    lv_obj_t *btn_BACK;
-    lv_obj_t *btn_OK;
-    lv_obj_t *label_1;
-    
-    static void btn_Back_event_handler(lv_event_t *e);
+protected:    
 
 private:
+    static void btn_Back_event_handler(lv_event_t *e);
     
 }atScr_Detail;
 
@@ -64,21 +60,10 @@ void  Scr_Detail::Screen_Detail_Start()
     //Write codes screen
 	atScr_Detail.Object = lv_obj_create(NULL);
 	//Create 4 button
-	//Write codes screen_btn_BACK
-	atScr_Detail.btn_BACK= lv_btn_create(atScr_Detail.Object);
-	atScr_Detail.setup_button(atScr_Detail.btn_BACK,5,85,"BACK");
-	//Write codes screen_btn_UP
-	atScr_Detail.btn_UP = lv_btn_create(atScr_Detail.Object);
-	atScr_Detail.setup_button(atScr_Detail.btn_UP,45,85,"UP");
-	//Write codes screen_btn_DOWN
-	atScr_Detail.btn_DOWN = lv_btn_create(atScr_Detail.Object);
-	atScr_Detail.setup_button(atScr_Detail.btn_DOWN,85,85,"DOWN");
-	//Write codes screen_btn_OK
-	atScr_Detail.btn_OK = lv_btn_create(atScr_Detail.Object);
-	atScr_Detail.setup_button(atScr_Detail.btn_OK,125,85,"OK");
+	atScr_Detail.create_button(atScr_Detail.Object);
 	//Write codes screen_1_label_1
-	atScr_Detail.label_1 = lv_label_create(atScr_Detail.Object);
-	atScr_Detail.setup_label(atScr_Detail.label_1,"Detail.title",31,30,100,32);
+	atScr_Detail.label_screen = lv_label_create(atScr_Detail.Object);
+	atScr_Detail.setup_label(atScr_Detail.label_screen,"Detail.title",31,30,100,32);
 	//create notified bar
 	atScr_Detail.create_notified_bar(atScr_Detail.Object);
 	// init every events
