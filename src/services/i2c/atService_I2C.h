@@ -34,14 +34,14 @@ class Service_I2C : public Service
 public:
     Service_I2C();
     ~Service_I2C();
-    static void  Service_I2C_Start();
-    static void  Service_I2C_Execute();    
-    static void  Service_I2C_End();
     void check_In();
     void check_Out();
 protected:
      
 private:
+    static void  Service_I2C_Start();
+    static void  Service_I2C_Execute();    
+    static void  Service_I2C_End();
 } atService_I2C ;
 /**
  * This function will be automaticaly called when a object is created by this class

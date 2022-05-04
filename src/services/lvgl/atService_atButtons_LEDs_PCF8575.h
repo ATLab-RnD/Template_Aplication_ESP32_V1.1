@@ -59,11 +59,7 @@ class Buttons : public Service
 {
 public:
     Buttons();
-    ~Buttons();
-    static void  Service_Buttons_Start();
-    static void  Service_Buttons_Execute();    
-    static void  Service_Buttons_End(); 
-
+    ~Buttons
     bool Up = Released;
     bool Down = Released;
     bool Back = Released;
@@ -81,6 +77,10 @@ protected:
     uint8_t LED_RGB_3_Status = 0;
     bool LCD_Led_Status = 1; 
 private:
+();
+    static void  Service_Buttons_Start();
+    static void  Service_Buttons_Execute();    
+    static void  Service_Buttons_End();
 } atService_Buttons_LEDs_PCF8575 ;
 /**
  * This function will be automaticaly called when a object is created by this class

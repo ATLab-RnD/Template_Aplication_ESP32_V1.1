@@ -117,12 +117,13 @@ class Service_lvgl : public Service
 public:
     Service_lvgl();
     ~Service_lvgl();
-    static void  Service_lvgl_Start();
-    static void  Service_lvgl_Execute();    
-    static void  Service_lvgl_End();
+    
 protected:
      
 private:
+    static void  Service_lvgl_Start();
+    static void  Service_lvgl_Execute();    
+    static void  Service_lvgl_End();
 } atService_LVGL_HMI_Lite;
 /**
  * This function will be automaticaly called when a object is created by this class

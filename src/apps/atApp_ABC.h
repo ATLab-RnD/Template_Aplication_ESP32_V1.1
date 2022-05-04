@@ -35,6 +35,8 @@ class App_ABC : public Application
 public:
   	App_ABC();
  	~App_ABC();
+protected:
+private:
   	static void  App_ABC_Pend();
 	static void  App_ABC_Start();
 	static void  App_ABC_Restart();
@@ -42,8 +44,6 @@ public:
 	static void  App_ABC_Suspend();
 	static void  App_ABC_Resume();	  
 	static void  App_ABC_End();
-protected:
-private:
 } atApp_ABC ;
 /**
  * This function will be automaticaly called when a object is created by this class

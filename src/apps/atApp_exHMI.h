@@ -35,6 +35,8 @@ class App_exHMI : public Application
 public:
   	App_exHMI();
  	~App_exHMI();
+protected:
+private:
   	static void  App_exHMI_Pend();
 	static void  App_exHMI_Start();
 	static void  App_exHMI_Restart();
@@ -42,8 +44,6 @@ public:
 	static void  App_exHMI_Suspend();
 	static void  App_exHMI_Resume();	  
 	static void  App_exHMI_End();
-protected:
-private:
 } atApp_exHMI ;
 /**
  * This function will be automaticaly called when a object is created by this class

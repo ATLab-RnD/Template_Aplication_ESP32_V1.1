@@ -33,20 +33,20 @@ void atApp_DataBase_Task_Func(void *parameter);
 class App_DataBase : public Application
 {
 public:
-  App_DataBase();
- 	~App_DataBase();
-  	static void  App_DataBase_Pend();
+  	App_DataBase();
+	~App_DataBase();
+
+  // bool Write_To_File(char *file_name, char *data);
+  // String Read_File(char *file_name);
+    
+protected:
+	static void  App_DataBase_Pend();
 	static void  App_DataBase_Start();
 	static void  App_DataBase_Restart();
 	static void  App_DataBase_Execute();
 	static void  App_DataBase_Suspend();
 	static void  App_DataBase_Resume();	  
 	static void  App_DataBase_End();
-
-  // bool Write_To_File(char *file_name, char *data);
-  // String Read_File(char *file_name);
-    
-protected:
 private:
 } atApp_DataBase ;
 /**

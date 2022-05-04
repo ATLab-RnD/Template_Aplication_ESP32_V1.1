@@ -27,62 +27,62 @@
 class Service_exHMI_atPig_IDM : public Service
 {
 public:
-    Service_exHMI_atPig_IDM();
-    ~Service_exHMI_atPig_IDM();
-    static void  Service_exHMI_atPig_IDM_Start();
-    static void  Service_exHMI_atPig_IDM_Execute();    
-    static void  Service_exHMI_atPig_IDM_End();
+  Service_exHMI_atPig_IDM();
+  ~Service_exHMI_atPig_IDM();
+  uint8_t ID_Modbus;
+  uint8_t SendDataToHMI_1st(void);
+  uint8_t SendDataToHMI(void);
+  uint8_t GetDataFromHMI(void);
+  uint8_t Application(void);
+  // internal data : the user definition
+  uint16_t HMI_Fan_Speed               = 0 ;
+  uint16_t HMI_Fan_Speed_High_Limit    = 0 ;
+  uint16_t HMI_Fan_Speed_Low_Limit     = 0 ;
+  bool HMI_Temperature_On_Off      = 0 ;
 
-    uint8_t ID_Modbus;
-    uint8_t SendDataToHMI_1st(void);
-    uint8_t SendDataToHMI(void);
-    uint8_t GetDataFromHMI(void);
-    uint8_t Application(void);
-    // internal data : the user definition
-    uint16_t HMI_Fan_Speed               = 0 ;
-    uint16_t HMI_Fan_Speed_High_Limit    = 0 ;
-    uint16_t HMI_Fan_Speed_Low_Limit     = 0 ;
-    bool HMI_Temperature_On_Off      = 0 ;
+  uint16_t HMI_Temperature_Monitoring = 0 ;
+  uint16_t HMI_Temperature_High_Limit  = 0 ;
+  uint16_t HMI_Temperature_Low_Limit   = 0 ;
+  bool HMI_Humidity_On_Off         = 0 ;
 
-    uint16_t HMI_Temperature_Monitoring = 0 ;
-    uint16_t HMI_Temperature_High_Limit  = 0 ;
-    uint16_t HMI_Temperature_Low_Limit   = 0 ;
-    bool HMI_Humidity_On_Off         = 0 ;
+  uint16_t HMI_Humidity_Monitoring    = 0 ;
+  uint16_t HMI_Humidity_High_Limit     = 0 ;
+  uint16_t HMI_Humidity_Low_Limit      = 0 ;
+  bool HMI_CO2_On_Off              = 0 ;
 
-    uint16_t HMI_Humidity_Monitoring    = 0 ;
-    uint16_t HMI_Humidity_High_Limit     = 0 ;
-    uint16_t HMI_Humidity_Low_Limit      = 0 ;
-    bool HMI_CO2_On_Off              = 0 ;
+  uint16_t HMI_CO2_Monitoring         = 0 ;
+  uint16_t HMI_CO2_High_Limit          = 0 ;
+  uint16_t HMI_CO2_Low_Limit           = 0 ;
+  bool HMI_Plugging                = 0 ;
 
-    uint16_t HMI_CO2_Monitoring         = 0 ;
-    uint16_t HMI_CO2_High_Limit          = 0 ;
-    uint16_t HMI_CO2_Low_Limit           = 0 ;
-    bool HMI_Plugging                = 0 ;
-
-    uint16_t HMI_Number_Of_Holding_Registers = 19;
-    // the address of variables  in HMI
+  uint16_t HMI_Number_Of_Holding_Registers = 19;
+  // the address of variables  in HMI
 private:
-    static const uint8_t ADDRESS_HMI_Fan_Speed               = 0;
-    static const uint8_t ADDRESS_HMI_Fan_Speed_High_Limit    = 1;
-    static const uint8_t ADDRESS_HMI_Fan_Speed_Low_Limit     = 2;
+  static const uint8_t ADDRESS_HMI_Fan_Speed               = 0;
+  static const uint8_t ADDRESS_HMI_Fan_Speed_High_Limit    = 1;
+  static const uint8_t ADDRESS_HMI_Fan_Speed_Low_Limit     = 2;
 
-    static const uint8_t ADDRESS_HMI_Temperature_On_Off      = 3;
-    static const uint8_t ADDRESS_HMI_Temperature_Monitoring  = 4;
-    static const uint8_t ADDRESS_HMI_Temperature_High_Limit  = 5;
-    static const uint8_t ADDRESS_HMI_Temperature_Low_Limit   = 6;
+  static const uint8_t ADDRESS_HMI_Temperature_On_Off      = 3;
+  static const uint8_t ADDRESS_HMI_Temperature_Monitoring  = 4;
+  static const uint8_t ADDRESS_HMI_Temperature_High_Limit  = 5;
+  static const uint8_t ADDRESS_HMI_Temperature_Low_Limit   = 6;
 
-    static const uint8_t ADDRESS_HMI_Humidity_On_Off         = 7;
-    static const uint8_t ADDRESS_HMI_Humidity_Monitoring     = 8;
-    static const uint8_t ADDRESS_HMI_Humidity_High_Limit     = 9;
-    static const uint8_t ADDRESS_HMI_Humidity_Low_Limit      = 10;
+  static const uint8_t ADDRESS_HMI_Humidity_On_Off         = 7;
+  static const uint8_t ADDRESS_HMI_Humidity_Monitoring     = 8;
+  static const uint8_t ADDRESS_HMI_Humidity_High_Limit     = 9;
+  static const uint8_t ADDRESS_HMI_Humidity_Low_Limit      = 10;
 
-    static const uint8_t ADDRESS_HMI_CO2_On_Off              = 11;
-    static const uint8_t ADDRESS_HMI_CO2_Monitoring          = 12;
-    static const uint8_t ADDRESS_HMI_CO2_High_Limit          = 14;
-    static const uint8_t ADDRESS_HMI_CO2_Low_Limit           = 16;
-    static const uint8_t ADDRESS_HMI_Plugging                = 18; 
+  static const uint8_t ADDRESS_HMI_CO2_On_Off              = 11;
+  static const uint8_t ADDRESS_HMI_CO2_Monitoring          = 12;
+  static const uint8_t ADDRESS_HMI_CO2_High_Limit          = 14;
+  static const uint8_t ADDRESS_HMI_CO2_Low_Limit           = 16;
+  static const uint8_t ADDRESS_HMI_Plugging                = 18; 
     
 private:
+
+  static void  Service_exHMI_atPig_IDM_Start();
+  static void  Service_exHMI_atPig_IDM_Execute();    
+  static void  Service_exHMI_atPig_IDM_End();
 } atService_exHMI_atPig_IDM ;
 /**
  * This function will be automaticaly called when a object is created by this class

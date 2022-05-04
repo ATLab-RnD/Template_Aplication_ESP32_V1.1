@@ -4,10 +4,10 @@
 /*
   Application_INVT.h - Arduino library
 
-  Library:: 
 
   This version is
 
+  Library:: 
   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
 */
 
@@ -35,6 +35,7 @@ public:
   float Frequency = 25.25 ;// Unit (Hz)
   bool direction = FORWARD;
 protected:
+private:
   static void  App_INVT_Pend();
 	static void  App_INVT_Start();
 	static void  App_INVT_Restart();
@@ -42,7 +43,6 @@ protected:
 	static void  App_INVT_Suspend();
 	static void  App_INVT_Resume();	  
 	static void  App_INVT_End();
-private:
 } atApp_INVT ;
 /**
  * This function will be automaticaly called when the object of class is delete

@@ -35,25 +35,26 @@
 class Service_uSD : public Service
 {
 public:
-    Service_uSD();
-    ~Service_uSD();
-    static void  Service_uSD_Start();
-    static void  Service_uSD_Execute();    
-    static void  Service_uSD_End();
+  Service_uSD();
+  ~Service_uSD();
+  
+  bool uSD_plugging = NO;
 
-    bool uSD_plugging = NO;
+  void listDir(const char * dirname, uint8_t levels);
+  void createDir(const char * path);
+  void removeDir(const char * path);
+  void readFile(const char * path);
+  void writeFile(const char * path, const char * message);
+  void appendFile( const char * path, const char * message);
+  void renameFile( const char * path1, const char * path2);
+  void deleteFile( const char * path);
 
-    void listDir(const char * dirname, uint8_t levels);
-    void createDir(const char * path);
-    void removeDir(const char * path);
-    void readFile(const char * path);
-    void writeFile(const char * path, const char * message);
-    void appendFile( const char * path, const char * message);
-    void renameFile( const char * path1, const char * path2);
-    void deleteFile( const char * path);
 protected:
      
 private:
+  static void  Service_uSD_Start();
+  static void  Service_uSD_Execute();    
+  static void  Service_uSD_End();
 } atService_uSD ;
 /**
  * This function will be automaticaly called when a object is created by this class

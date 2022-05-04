@@ -31,12 +31,13 @@ class Service_Modbus_TCP : public Service, public ModbusIP
 public:
     Service_Modbus_TCP();
     ~Service_Modbus_TCP();
-    static void  Service_Modbus_Start();
-    static void  Service_Modbus_Execute();    
-    static void  Service_Modbus_End();
+
 protected:
      
 private:
+    static void  Service_Modbus_Start();
+    static void  Service_Modbus_Execute();    
+    static void  Service_Modbus_End();
 }  atService_MB_TCP_SL ;
 
 /**

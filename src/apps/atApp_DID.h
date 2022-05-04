@@ -70,13 +70,6 @@ class App_DID : public Application
 public:
   	App_DID();
  	~App_DID();
-  	static void  App_DID_Pend();
-	static void  App_DID_Start();
-	static void  App_DID_Restart();
-	static void  App_DID_Execute();
-	static void  App_DID_Suspend();
-	static void  App_DID_Resume();	  
-	static void  App_DID_End();
 
 	//value of host in IPv4 : (192, 168, Host_1, Host_2)
 	uint8_t IP[4]        = 	{192,168,1,12};
@@ -103,6 +96,13 @@ protected:
 	//Device Identify
 	uint16_t DID = 0;
 private:
+  	static void  App_DID_Pend();
+	static void  App_DID_Start();
+	static void  App_DID_Restart();
+	static void  App_DID_Execute();
+	static void  App_DID_Suspend();
+	static void  App_DID_Resume();	  
+	static void  App_DID_End();
 } atApp_DID ;
 /**
  * This function will be automaticaly called when a object is created by this class

@@ -40,14 +40,6 @@ class App_DS : public Application
 public:
   	App_DS();
  	~App_DS();
-  	static void  App_DS_Pend();
-	static void  App_DS_Start();
-	static void  App_DS_Restart();
-	static void  App_DS_Execute();
-	static void  App_DS_Suspend();
-	static void  App_DS_Resume();
-	static void  App_DS_End();
-
 	// for process each sensor
 	byte present = 0;
 	uint8_t type_Sensor;
@@ -62,6 +54,13 @@ public:
 	float celsius, fahrenheit;
 protected:
 private:
+  	static void  App_DS_Pend();
+	static void  App_DS_Start();
+	static void  App_DS_Restart();
+	static void  App_DS_Execute();
+	static void  App_DS_Suspend();
+	static void  App_DS_Resume();
+	static void  App_DS_End();
 } atApp_DS18B20 ;
 /**
  * This function will be auto called when a object is created by this class
