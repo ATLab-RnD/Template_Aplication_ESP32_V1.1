@@ -18,7 +18,7 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "../Menu_Screen.h"
-#include "../Sources.h"
+// #include "../Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -67,32 +67,11 @@ void  Scr_Menu::Start()
 	atScr_Menu.label_screen = lv_label_create(atScr_Menu.Object);
 	atScr_Menu.setup_label(atScr_Menu.label_screen,"Menu.title",31,30,100,32);
 	//create notified bar
-	atScr_Menu.init_notified_bar(atScr_Menu.Object);
-	if(atScr_Menu.modbus_active_old == ON)
-	{
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_modbus,LV_SYMBOL_REFRESH,45,0,15,15);
-	}
-	else atScr_Menu.setup_label(atScr_Menu.Screen_label_modbus,"  ",45,0,15,15);
-	if(atScr_Menu.warning_active_old == ON)
-	{
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_warning,LV_SYMBOL_WARNING,60,0,15,15);
-	}
-	else atScr_Menu.setup_label(atScr_Menu.Screen_label_warning,"  ",60,0,15,15);
-	if(atScr_Menu.SD_active_old == ON)
-	{
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_SD,LV_SYMBOL_SD_CARD,30,0,15,15);
-	}
-	else atScr_Menu.setup_label(atScr_Menu.Screen_label_SD,"  ",30,0,15,15);
-	if(atScr_Menu.bluetooth_active_old == ON)
-	{
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH,15,0,15,15);
-	}
-	else atScr_Menu.setup_label(atScr_Menu.Screen_label_bluetooth,"  ",15,0,15,15);
-	if(atScr_Menu.wifi_active_old == ON)
-	{
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_wifi,LV_SYMBOL_WIFI,0,0,15,15);
-	}
-	else atScr_Menu.setup_label(atScr_Menu.Screen_label_wifi,"  ",0,0,15,15);
+	atScr_Menu.create_notified_bar(atScr_Menu.Object);
+	atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.modbus_active_old,30,0);
+	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.wifi_active_old,0,0);
+	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.SD_active_old,15,0);
+	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.warning_active_old,45,0);
 	// init every events
     lv_obj_add_event_cb(atScr_Menu.btn_BACK, atScr_Menu.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -172,52 +151,25 @@ void Scr_Menu::Update()
 	if(atScr_Menu.wifi_active != atScr_Menu.wifi_active_old)
 	{
 		atScr_Menu.wifi_active_old = atScr_Menu.wifi_active;
-		if(atScr_Menu.wifi_active_old == ON)
-		{
-			atScr_Menu.setup_label(atScr_Menu.Screen_label_wifi,LV_SYMBOL_WIFI,0,0,15,15);
-		}
-		else atScr_Menu.setup_label(atScr_Menu.Screen_label_wifi,"  ",0,0,15,15);
-	}
-	// check active
-	if(atScr_Menu.bluetooth_active != atScr_Menu.bluetooth_active_old)
-	{
-		atScr_Menu.bluetooth_active_old = atScr_Menu.bluetooth_active;
-		if(atScr_Menu.bluetooth_active_old == ON)
-		{
-			atScr_Menu.setup_label(atScr_Menu.Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH,15,0,15,15);
-		}
-		else atScr_Menu.setup_label(atScr_Menu.Screen_label_bluetooth,"  ",15,0,15,15);
-		
+		atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.wifi_active_old);
 	}
 	//check active
 	if (atScr_Menu.SD_active != atScr_Menu.SD_active_old)
 	{
 		atScr_Menu.SD_active_old = atScr_Menu.SD_active;
-		if(atScr_Menu.SD_active_old == ON)
-		{
-			atScr_Menu.setup_label(atScr_Menu.Screen_label_SD,LV_SYMBOL_SD_CARD,30,0,15,15);
-		}
-		else atScr_Menu.setup_label(atScr_Menu.Screen_label_SD,"  ",30,0,15,15);
+		atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.SD_active_old);
 	}
 	//check active
 	if (atScr_Menu.modbus_active != atScr_Menu.modbus_active_old)
 	{
 		atScr_Menu.modbus_active_old = atScr_Menu.modbus_active;
-		if(atScr_Menu.modbus_active_old == ON)
-		{
-			atScr_Menu.setup_label(atScr_Menu.Screen_label_modbus,LV_SYMBOL_REFRESH,45,0,15,15);
-		}
-		else atScr_Menu.setup_label(atScr_Menu.Screen_label_modbus,"  ",45,0,15,15);
+		atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.modbus_active_old);
 	}	
 	//check active
 	if (atScr_Menu.warning_active != atScr_Menu.warning_active_old)
 	{
 		atScr_Menu.warning_active_old = atScr_Menu.warning_active;
-		if(atScr_Menu.warning_active_old == ON)
-		{
-			atScr_Menu.setup_label(atScr_Menu.Screen_label_warning,LV_SYMBOL_WARNING,60,0,15,15);
-		}
-		else atScr_Menu.setup_label(atScr_Menu.Screen_label_warning,"  ",60,0,15,15);
+		atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.warning_active_old);
 	}
 }
 #endif

@@ -29,8 +29,8 @@ protected:
     void   setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str);
 
     lv_obj_t *Screen;
+    
     lv_obj_t *Screen_label_wifi;
-    lv_obj_t *Screen_label_bluetooth;
     lv_obj_t *Screen_label_warning;
     lv_obj_t *Screen_label_SD;
     lv_obj_t *Screen_label_modbus;
@@ -59,7 +59,20 @@ protected:
     void   setup_label(lv_obj_t *label, char* label_text);
     void   setup_roller(lv_obj_t *roller, char* option,int row_count, int align,int width, int pos_x, int pos_y);
     void   setup_roller(lv_obj_t *roller, char* option);
-    void   init_notified_bar(lv_obj_t *screen);
+    void   create_notified_bar  (lv_obj_t *screen);
+
+    void   render_modbus_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y);
+    void   render_modbus_icon(lv_obj_t *icon_label, bool icon_active);
+
+    void   render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y);
+    void   render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active);
+
+    void   render_wifi_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y);
+    void   render_wifi_icon(lv_obj_t *icon_label, bool icon_active);
+
+    void   render_warning_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y);
+    void   render_warning_icon(lv_obj_t *icon_label, bool icon_active);
+   
     void   create_buttons(lv_obj_t *object);
     
 
@@ -128,13 +141,11 @@ void Sources::setup_roller(lv_obj_t *roller, char* option)
 /*
 Create notified bar for screen: icon wifi, bluetooth, warning, modbus active, SD Card, time
 */
-void Sources::init_notified_bar(lv_obj_t *screen)
+void Sources::create_notified_bar(lv_obj_t *screen)
 {
 
 	//create font wifi
 	Screen_label_wifi = lv_label_create(screen);
-	//create font bluetooth
-	Screen_label_bluetooth = lv_label_create(screen);
 	//create font warning
 	Screen_label_warning = lv_label_create(screen);
 	//create font modbus
@@ -149,6 +160,70 @@ void Sources::init_notified_bar(lv_obj_t *screen)
 	// setup_label(Screen_label_bluetooth,".",15,0,15,15);
 	// setup_label(Screen_label_wifi,".",0,0,15,15);
 
+}
+void   Sources::render_modbus_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_REFRESH, pos_x,pos_y,15,15);
+	}
+	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+}
+void   Sources::render_modbus_icon(lv_obj_t *icon_label, bool icon_active)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_REFRESH);
+	}
+	else setup_label(icon_label,"  ");
+}
+void   Sources::render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_SD_CARD, pos_x,pos_y,15,15);
+	}
+	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+}
+void   Sources::render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_SD_CARD);
+	}
+	else setup_label(icon_label,"  ");
+}
+void   Sources::render_wifi_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_WIFI, pos_x,pos_y,15,15);
+	}
+	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+}
+void   Sources::render_wifi_icon(lv_obj_t *icon_label, bool icon_active)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_WIFI);
+	}
+	else setup_label(icon_label,"  ");
+}
+void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_WARNING, pos_x,pos_y,15,15);
+	}
+	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+}
+void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
+{
+    if(icon_active == ON)
+	{
+		setup_label(icon_label,LV_SYMBOL_WARNING);
+	}
+	else setup_label(icon_label,"  ");
 }
 
 void  Sources::create_buttons(lv_obj_t *Object)

@@ -18,7 +18,7 @@ Screen Template.
 #include "Arduino.h"
 #include "lvgl.h"
 #include "../Monitor_Screen.h"
-#include "../Sources.h"
+// #include "../Sources.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -71,32 +71,13 @@ void  Scr_Monitoring::Start()
 	atScr_Monitoring.setup_label(atScr_Monitoring.label_screen,"Monitoring.title",31,30,100,32);
 
 	//create notified bar
-	atScr_Monitoring.init_notified_bar(atScr_Monitoring.Object);
-	if(atScr_Monitoring.modbus_active_old == ON)
-	{
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_modbus,LV_SYMBOL_REFRESH,45,0,15,15);
-	}
-	else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_modbus,"  ",45,0,15,15);
-	if(atScr_Monitoring.warning_active_old == ON)
-	{
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_warning,LV_SYMBOL_WARNING,60,0,15,15);
-	}
-	else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_warning,"  ",60,0,15,15);
-	if(atScr_Monitoring.SD_active_old == ON)
-	{
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_SD,LV_SYMBOL_SD_CARD,30,0,15,15);
-	}
-	else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_SD,"  ",30,0,15,15);
-	if(atScr_Monitoring.bluetooth_active_old == ON)
-	{
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH,15,0,15,15);
-	}
-	else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_bluetooth,"  ",15,0,15,15);
-	if(atScr_Monitoring.wifi_active_old == ON)
-	{
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_wifi,LV_SYMBOL_WIFI,0,0,15,15);
-	}
-	else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_wifi,"  ",0,0,15,15);
+	atScr_Monitoring.create_notified_bar(atScr_Monitoring.Object);
+
+	atScr_Monitoring.render_modbus_icon(atScr_Monitoring.Screen_label_modbus,atScr_Monitoring.modbus_active_old,30,0);
+	atScr_Monitoring.render_wifi_icon(atScr_Monitoring.Screen_label_wifi,atScr_Monitoring.wifi_active_old,0,0);
+	atScr_Monitoring.render_SD_Card_icon(atScr_Monitoring.Screen_label_SD,atScr_Monitoring.SD_active_old,15,0);
+	atScr_Monitoring.render_warning_icon(atScr_Monitoring.Screen_label_warning,atScr_Monitoring.warning_active_old,45,0);
+	
 	// init every events
     lv_obj_add_event_cb(atScr_Monitoring.btn_OK, atScr_Monitoring.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 } 
@@ -151,52 +132,25 @@ void Scr_Monitoring::Update()
 	if(atScr_Monitoring.wifi_active != atScr_Monitoring.wifi_active_old)
 	{
 		atScr_Monitoring.wifi_active_old = atScr_Monitoring.wifi_active;
-		if(atScr_Monitoring.wifi_active_old == ON)
-		{
-			atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_wifi,LV_SYMBOL_WIFI,0,0,15,15);
-		}
-		else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_wifi,"  ",0,0,15,15);
-	}
-	// check active
-	if(atScr_Monitoring.bluetooth_active != atScr_Monitoring.bluetooth_active_old)
-	{
-		atScr_Monitoring.bluetooth_active_old = atScr_Monitoring.bluetooth_active;
-		if(atScr_Monitoring.bluetooth_active_old == ON)
-		{
-			atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_bluetooth,LV_SYMBOL_BLUETOOTH,15,0,15,15);
-		}
-		else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_bluetooth,"  ",15,0,15,15);
-		
+		atScr_Monitoring.render_wifi_icon(atScr_Monitoring.Screen_label_wifi,atScr_Monitoring.wifi_active_old);
 	}
 	//check active
 	if (atScr_Monitoring.SD_active != atScr_Monitoring.SD_active_old)
 	{
 		atScr_Monitoring.SD_active_old = atScr_Monitoring.SD_active;
-		if(atScr_Monitoring.SD_active_old == ON)
-		{
-			atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_SD,LV_SYMBOL_SD_CARD,30,0,15,15);
-		}
-		else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_SD,"  ",30,0,15,15);
+		atScr_Monitoring.render_SD_Card_icon(atScr_Monitoring.Screen_label_SD,atScr_Monitoring.SD_active_old);
 	}
 	//check active
 	if (atScr_Monitoring.modbus_active != atScr_Monitoring.modbus_active_old)
 	{
 		atScr_Monitoring.modbus_active_old = atScr_Monitoring.modbus_active;
-		if(atScr_Monitoring.modbus_active_old == ON)
-		{
-			atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_modbus,LV_SYMBOL_REFRESH,45,0,15,15);
-		}
-		else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_modbus,"  ",45,0,15,15);
+		atScr_Monitoring.render_modbus_icon(atScr_Monitoring.Screen_label_modbus,atScr_Monitoring.modbus_active_old);
 	}	
 	//check active
 	if (atScr_Monitoring.warning_active != atScr_Monitoring.warning_active_old)
 	{
 		atScr_Monitoring.warning_active_old = atScr_Monitoring.warning_active;
-		if(atScr_Monitoring.warning_active_old == ON)
-		{
-			atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_warning,LV_SYMBOL_WARNING,60,0,15,15);
-		}
-		else atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_warning,"  ",60,0,15,15);
+		atScr_Monitoring.render_warning_icon(atScr_Monitoring.Screen_label_warning,atScr_Monitoring.warning_active_old);
 	}
 }
 #endif
