@@ -127,19 +127,19 @@ void Scr_Detail::Update()
 		atScr_Detail.wifi_active_old = atScr_Detail.wifi_active;
 		atScr_Detail.render_wifi_icon(atScr_Detail.Screen_label_wifi,atScr_Detail.wifi_active_old);
 	}
-	//check active
+	//check SD card active
 	if (atScr_Detail.SD_active != atScr_Detail.SD_active_old)
 	{
 		atScr_Detail.SD_active_old = atScr_Detail.SD_active;
 		atScr_Detail.render_SD_Card_icon(atScr_Detail.Screen_label_SD,atScr_Detail.SD_active_old);
 	}
-	//check active
+	//check modbus active
 	if (atScr_Detail.modbus_active != atScr_Detail.modbus_active_old)
 	{
 		atScr_Detail.modbus_active_old = atScr_Detail.modbus_active;
 		atScr_Detail.render_modbus_icon(atScr_Detail.Screen_label_modbus,atScr_Detail.modbus_active_old);
 	}	
-	//check active
+	//check warning active
 	if (atScr_Detail.warning_active != atScr_Detail.warning_active_old)
 	{
 		atScr_Detail.warning_active_old = atScr_Detail.warning_active;
