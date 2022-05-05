@@ -18,7 +18,7 @@
 #include "App.h"
 #include "atApp_Wifi.h"
 #include "atApp_DID.h"
-#include "atApp_SNM.h"
+#include "..\apps\app_data_module\atApp_SNM.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

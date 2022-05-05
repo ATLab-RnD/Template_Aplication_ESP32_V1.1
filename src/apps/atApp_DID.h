@@ -257,13 +257,14 @@ void  App_DID::App_DID_Execute()
     {
 		Serial.print("Device number of SNM: ");
 		Serial.println(atObject_SNMs_Data.SNM_number);
+		Serial.println("   SNM number    |     IP of device ");
 		for( uint8_t count = 1; count <= 20; count++)
 		{
 			if(atObject_SNMs_Data.SNM[count].Status_of_SNMs == Online)
 			{
-				Serial.print("SNM number    |     IP of device ");
+				Serial.print("   SNM");
 				Serial.print(count);
-				Serial.print("          ");
+				Serial.print("     |     ");
 				Serial.print(atObject_SNMs_Data.SNM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_SNMs_Data.SNM[count].IP[1]);
@@ -277,11 +278,14 @@ void  App_DID::App_DID_Execute()
 
 		Serial.print("Device number of EMM: ");
 		Serial.println(atObject_EMMs_Data.EMM_number);
+		Serial.println("   EMM number    |     IP of device ");
 		for( uint8_t count = 1; count <= 20; count++)
 		{
 			if(atObject_EMMs_Data.EMM[count].Status_of_EMMs == Online)
 			{
-				Serial.printf(" - Module EMM %d is online\n",count);
+				Serial.print("   EMM");
+				Serial.print(count);
+				Serial.print("    |     ");
 				Serial.print(atObject_EMMs_Data.EMM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_EMMs_Data.EMM[count].IP[1]);
@@ -295,11 +299,14 @@ void  App_DID::App_DID_Execute()
 
 		Serial.print("Device number of IDM: ");
 		Serial.println(atObject_IDMs_Data.IDM_number);
+		Serial.println("   IDM number    |     IP of device ");
 		for( uint8_t count = 1; count <= 20; count++)
 		{
 			if(atObject_IDMs_Data.IDM[count].Status_of_IDMs == Online)
 			{
-				Serial.printf(" - Module IDM %d is online\n",count);
+				Serial.print("   IDM");
+				Serial.print(count);
+				Serial.print("    |     ");
 				Serial.print(atObject_IDMs_Data.IDM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_IDMs_Data.IDM[count].IP[1]);
@@ -313,11 +320,14 @@ void  App_DID::App_DID_Execute()
 
 		Serial.print("Device number of RDM: ");
 		Serial.println(atObject_RDMs_Data.RDM_number);
+		Serial.println("   RDM number    |     IP of device ");
 		for( uint8_t count = 1; count <= 20; count++)
 		{
 			if(atObject_RDMs_Data.RDM[count].Status_of_RDMs == Online)
 			{
-				Serial.printf(" - Module RDM %d is online\n",count);
+				Serial.print("   RDM");
+				Serial.print(count);
+				Serial.print("          ");
 				Serial.print(atObject_RDMs_Data.RDM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_RDMs_Data.RDM[count].IP[1]);
@@ -331,11 +341,14 @@ void  App_DID::App_DID_Execute()
 
 		Serial.print("Device number of HDM: ");
 		Serial.println(atObject_HDMs_Data.HDM_number);
+		Serial.println("   HDM number    |     IP of device ");
 		for( uint8_t count = 1; count <= 20; count++)
 		{
 			if(atObject_HDMs_Data.HDM[count].Status_of_HDMs == Online)
 			{
-				Serial.printf(" - Module HDM %d is online\n",count);
+				Serial.print("   HDM");
+				Serial.print(count);
+				Serial.print("     |     ");
 				Serial.print(atObject_HDMs_Data.HDM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_HDMs_Data.HDM[count].IP[1]);
@@ -381,7 +394,6 @@ void App_DID::create_did_for_SNM()
 					atService_MB_TCP_MA.Run_Service();
 					atService_MB_TCP_MA.check_Out();
 				}
-			
 				// save status device to obj
 				atObject_SNMs_Data.SNM[a].Status_of_SNMs = Online;
 				// save device IP to obj
@@ -411,8 +423,8 @@ void App_DID::create_did_for_EMM()
 			{
 				for(uint8_t count = 1; count<= 3; count++)
 				{
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_In();
+					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.Run_Service();
 					atService_MB_TCP_MA.check_Out();
 				}
@@ -444,8 +456,8 @@ void App_DID::create_did_for_IDM()
 			{
 			for(uint8_t count = 1; count<= 3; count++)
 				{
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_In();
+					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.Run_Service();
 					atService_MB_TCP_MA.check_Out();
 				}
@@ -477,8 +489,8 @@ void App_DID::create_did_for_RDM()
 			{
 			for(uint8_t count = 1; count<= 3; count++)
 				{
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_In();
+					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.Run_Service();
 					atService_MB_TCP_MA.check_Out();
 				}
@@ -510,8 +522,8 @@ void App_DID::create_did_for_HDM()
 			{
 			for(uint8_t count = 1; count<= 3; count++)
 				{
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_In();
+					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.Run_Service();
 					atService_MB_TCP_MA.check_Out();
 				}

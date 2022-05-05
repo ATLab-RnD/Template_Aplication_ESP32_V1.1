@@ -4,7 +4,7 @@
 #include "../src/apps/atApp_Wifi.h"
 #include "../src/apps/atApp_CP.h"
 // #include "../src/apps/atApp_MB_TCP_MA.h"
-#include "../src/apps/atApp_SNM.h"
+#include "../src/apps/app_data_module/atApp_SNM.h"
 // #include "../src/apps/atApp_MB_RTU_SL.h"
 // #include "../src/apps/atApp_MB_TCP_SL.h"
 // #include "../src/apps/atApp_INVT.h"

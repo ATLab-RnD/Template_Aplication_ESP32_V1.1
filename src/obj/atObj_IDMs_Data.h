@@ -24,15 +24,15 @@ struct IDMs_data
     //value in IPv4 
     uint8_t IP[4]        = 	{192,168,0,0};
 
-    uint8_t invt_type;  
+    uint16_t invt_type;  
     bool direction_run;
-    uint8_t set_frequency;
-	uint8_t operating_frequency;
-	uint8_t input_voltage;
-	uint8_t input_current;
-	uint8_t output_voltage;
-	uint8_t output_current;
-    uint8_t fault_code; 
+    uint16_t set_frequency;
+	uint16_t operating_frequency;
+	uint16_t input_voltage;
+	uint16_t input_current;
+	uint16_t output_voltage;
+	uint16_t output_current;
+    uint16_t fault_code; 
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

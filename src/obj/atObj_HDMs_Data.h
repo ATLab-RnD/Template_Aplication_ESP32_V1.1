@@ -25,12 +25,12 @@ struct HDMs_data
     uint8_t IP[4]        = 	{192,168,0,0};
 
     bool operation_mode;
-    uint8_t low_limit_temperature;
-    uint8_t high_limit_temperature;
-    uint8_t power;
-    uint8_t low_limit_power;
-    uint8_t high_limit_power;
-    uint8_t temperature;
+    uint16_t low_limit_temperature;
+    uint16_t high_limit_temperature;
+    uint16_t power;
+    uint16_t low_limit_power;
+    uint16_t high_limit_power;
+    uint16_t temperature;
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
