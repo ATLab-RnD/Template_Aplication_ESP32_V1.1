@@ -12,18 +12,22 @@
 
 #ifndef _Application_atApp_HMI_
 #define _Application_atApp_HMI_
+#define HMI_Lite
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
 // #include "../gui/hmi_lite/HMI_lite_Monitoring_Screen.h"
 // #include "../gui/hmi_lite/HMI_lite_Menu_Screen.h"
 // #include "../gui/hmi_lite/HMI_lite_Detail_Screen.h"
-#include "../gui/atScr_ABC.h"
-#include "../gui/atScr_Detail.h"
+#include "../gui/screen_system/atScr_Monitoring.h"
+#include "../gui/screen_system/atScr_Detail.h"
+#include "../gui/screen_system/atScr_Menu.h"
 #include "../services/SPI/atService_VSPI.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
+
+
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
@@ -72,20 +76,7 @@ App_HMI::App_HMI(/* args */)
 	Name_Application = (char*)"HMI Application";
 	// change the ID of SNM
 
-	atScr_ABC.setup_Forward_Screen = *atScr_Detail.Screen_Detail_Start;
-	atScr_ABC.Forward_Screen = &atScr_Detail.Object;
-	atScr_Detail.setup_Backward_Screen = *atScr_ABC.Screen_ABC_Start;
-	atScr_Detail.Backward_Screen = &atScr_ABC.Object;
-
-	// setup_Forward_Menu_Screen = *setup_Detail_Screen;
-	// Forward_Menu_Screen = &Detail_Screen;
-
-	// setup_Back_Menu_Screen = *setup_Monitoring_Screen;
-	// Back_Menu_Screen = &Monitoring_Screen;
-
-	// setup_Back_Detail_Screen = *setup_Menu_Screen;
-	// Back_Detail_Screen = &Menu_Screen;
-}
+}	
 /**
  * This function will be automaticaly called when the object of class is delete
  */
@@ -107,14 +98,29 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
+	atScr_Monitoring.setup_Forward_Screen = *atScr_Menu.Start;
+	atScr_Monitoring.Forward_Screen = &atScr_Menu.Object;
+
+	atScr_Menu.setup_Forward_Screen = *atScr_Detail.Start;
+	atScr_Menu.Forward_Screen = &atScr_Detail.Object;
+
+	atScr_Menu.setup_Backward_Screen = *atScr_Monitoring.Start;
+	atScr_Menu.Backward_Screen = &atScr_Monitoring.Object;
+
+	atScr_Detail.setup_Backward_Screen = *atScr_Menu.Start;
+	atScr_Detail.Backward_Screen = &atScr_Menu.Object;
+
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
 	// init atApp_HMI Service in the fist running time
 	atService_LVGL_HMI_Lite.Run_Service();
 	// setup_Monitoring_Screen();
 	// lv_scr_load(Monitoring_Screen);
-	atScr_ABC.Run_Screen();
-	lv_scr_load(atScr_ABC.Object);
+	atScr_Detail.Run_Screen();
+	atScr_Menu.Run_Screen();
+	atScr_Monitoring.Run_Screen();
+
+	lv_scr_load(atScr_Monitoring.Object);
 
 	// atService_VSPI.check_Out();
 }  
@@ -133,10 +139,20 @@ void  App_HMI::App_HMI_Execute()
 	atService_VSPI.check_In();
 	atService_LVGL_HMI_Lite.Run_Service();
 	atService_VSPI.check_Out();
-	// atScr_ABC.Update_Scr_ABC();
+	
+	if(atScr_Monitoring.screen_status == ACTIVE)
+		atScr_Monitoring.Run_Screen();
+
+	if(atScr_Menu.screen_status == ACTIVE)
+		atScr_Menu.Run_Screen();
+	
+	if(atScr_Detail.screen_status == ACTIVE)
+		atScr_Detail.Run_Screen();
+	// atScr_Monitoring.Update_Scr_Monitoring();
+
+	
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
-
     }   
 }
 void  App_HMI::App_HMI_Suspend(){}

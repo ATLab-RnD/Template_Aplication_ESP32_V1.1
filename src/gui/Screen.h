@@ -23,9 +23,12 @@ Screen Template.
 /* _____DEFINETIONS__________________________________________________________ */
 enum Screen_State
 {
-    SCREEN_STATE_STARTING,
-    SCREEN_STATE_EXECUTING
+    SCREEN_STATE_STARTING = 0,
+    SCREEN_STATE_EXECUTING,
+    DEACTIVE = 0,
+    ACTIVE
 };
+
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Screen class is base class for implement another class by inheritance 
@@ -37,6 +40,9 @@ public:
     void      Run_Screen();
     char*     Name_Screen = (char*)"Screen Name";
     uint16_t  ID_Screen = 0;
+
+    bool screen_status = DEACTIVE;
+
 
     // user can existing state of screen by change Screen_State into below state
     uint8_t Screen_State = SCREEN_STATE_STARTING;

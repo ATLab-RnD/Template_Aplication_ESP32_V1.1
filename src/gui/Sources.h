@@ -3,7 +3,14 @@
 #include "lvgl.h"
 #include "Arduino.h"
 
-
+// #ifndef HMI_Lite
+// #define HMI_Lite
+// #endif
+enum ICON_ACTIVE
+{
+    ON,
+    OFF
+};
 typedef struct Notified_Bar
     {
       int hour = 14, minute = 10;
@@ -13,11 +20,11 @@ typedef struct Notified_Bar
 class Sources
 {
 public:
-    bool active_wifi = 1;
-    bool active_bluetooth = 1;
-    bool active_warning = 1;
-    bool active_SD = 1;
-    bool active_modbus = 1;
+    bool wifi_active        = ON;
+    bool bluetooth_active   = ON;
+    bool warning_active     = ON;
+    bool SD_active          = ON;
+    bool modbus_active      = ON;
 protected:
     void   setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str);
 
@@ -33,19 +40,32 @@ protected:
     lv_obj_t *btn_DOWN;
     lv_obj_t *btn_BACK;
     lv_obj_t *btn_OK;
+
+    #ifdef HMI
+    lv_obj_t *btn_MENU;
+    lv_obj_t *btn_ALARM;
+    #endif
     lv_obj_t *label_screen;
 
     Notified_Bar Notified_Bar_1;
 
+    bool wifi_active_old        = OFF;
+    bool bluetooth_active_old   = OFF;
+    bool warning_active_old     = OFF;
+    bool SD_active_old          = OFF;
+    bool modbus_active_old      = OFF;
 
     void   setup_label(lv_obj_t *label, char* label_text,int pos_x, int pos_y, int width,int height);
+    void   setup_label(lv_obj_t *label, char* label_text);
     void   setup_roller(lv_obj_t *roller, char* option,int row_count, int align,int width, int pos_x, int pos_y);
-    void   create_notified_bar(lv_obj_t *screen);
-    void   create_button(lv_obj_t *object);
+    void   setup_roller(lv_obj_t *roller, char* option);
+    void   init_notified_bar(lv_obj_t *screen);
+    void   create_buttons(lv_obj_t *object);
     
 
 private:
     /* data */
+
 };
 void Sources::setup_button( lv_obj_t *button,int pos_x, int pos_y, char * button_label_str)
 {
@@ -58,24 +78,24 @@ void Sources::setup_button( lv_obj_t *button,int pos_x, int pos_y, char * button
 		lv_style_reset(&style_button);
 	else
 		lv_style_init(&style_button);
-    lv_style_set_radius(&style_button, 5);
-    lv_style_set_bg_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
-    lv_style_set_bg_grad_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
-    lv_style_set_bg_grad_dir(&style_button, LV_GRAD_DIR_VER);
-    lv_style_set_bg_opa(&style_button, 255);
-    lv_style_set_shadow_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
-    lv_style_set_shadow_opa(&style_button, 255);
-    lv_style_set_border_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
-    lv_style_set_border_width(&style_button, 0);
-    lv_style_set_border_opa(&style_button, 255);
-    lv_obj_add_style(button, &style_button, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_style_set_radius(&style_button, 5);
+    // lv_style_set_bg_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
+    // lv_style_set_bg_grad_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
+    // lv_style_set_bg_grad_dir(&style_button, LV_GRAD_DIR_VER);
+    // lv_style_set_bg_opa(&style_button, 255);
+    // lv_style_set_shadow_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
+    // lv_style_set_shadow_opa(&style_button, 255);
+    // lv_style_set_border_color(&style_button, lv_color_make(0x21, 0x95, 0xf6));
+    // lv_style_set_border_width(&style_button, 0);
+    // lv_style_set_border_opa(&style_button, 255);
+    // lv_obj_add_style(button, &style_button, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 	lv_obj_t *btn_label;
 	btn_label = lv_label_create(button);
     lv_label_set_text(btn_label, button_label_str);
-    lv_obj_set_style_text_color(btn_label, lv_color_make(0x00, 0x00, 0x00), LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_color(btn_label, lv_color_make(0x00, 0x00, 0x00), LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(btn_label, &lv_font_montserrat_8, LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_all(button, 0, LV_STATE_DEFAULT);
+    // lv_obj_set_style_pad_all(button, 0, LV_STATE_DEFAULT);
     lv_obj_align(btn_label, LV_ALIGN_CENTER, 0, 0);
 }
 
@@ -87,6 +107,12 @@ void Sources::setup_label(lv_obj_t *label, char* label_text,int pos_x, int pos_y
 	lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
 	lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
 }
+void Sources::setup_label(lv_obj_t *label, char* label_text)
+{
+	lv_label_set_text(label, label_text);
+	lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+	lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+}
 void Sources::setup_roller(lv_obj_t *roller, char* option,int row_count, int align,int width, int pos_x, int pos_y)
 {
 	lv_roller_set_options(roller, option, LV_ROLLER_MODE_NORMAL);
@@ -94,11 +120,15 @@ void Sources::setup_roller(lv_obj_t *roller, char* option,int row_count, int ali
     lv_obj_set_width(roller, width);
 	lv_obj_align(roller, align, pos_x, pos_y);
 }
+void Sources::setup_roller(lv_obj_t *roller, char* option)
+{
+	lv_roller_set_options(roller, option, LV_ROLLER_MODE_NORMAL);
+}
 
 /*
 Create notified bar for screen: icon wifi, bluetooth, warning, modbus active, SD Card, time
 */
-void Sources::create_notified_bar(lv_obj_t *screen)
+void Sources::init_notified_bar(lv_obj_t *screen)
 {
 
 	//create font wifi
@@ -111,15 +141,19 @@ void Sources::create_notified_bar(lv_obj_t *screen)
 	Screen_label_modbus = lv_label_create(screen);
 	//create font SD
 	Screen_label_SD = lv_label_create(screen);
-
 	//create label time
-	Screen_label_time = lv_label_create(screen);
-	sprintf(Notified_Bar_1.time, "%d:%d",Notified_Bar_1.hour,Notified_Bar_1.minute);
-	setup_label(Screen_label_time, Notified_Bar_1.time,100,0,40,15); 
+	Screen_label_time = lv_label_create(screen);  
+	// setup_label(Screen_label_modbus,".",45,0,15,15);
+	// setup_label(Screen_label_warning,".",60,0,15,15);
+	// setup_label(Screen_label_SD,".",30,0,15,15);
+	// setup_label(Screen_label_bluetooth,".",15,0,15,15);
+	// setup_label(Screen_label_wifi,".",0,0,15,15);
+
 }
 
-void  Sources::create_button(lv_obj_t *Object)
+void  Sources::create_buttons(lv_obj_t *Object)
 {
+#ifdef HMI_Lite
     btn_BACK= lv_btn_create(Object);
     setup_button(btn_BACK,5,85,"BACK");
 	//Write codes screen_btn_UP
@@ -131,5 +165,25 @@ void  Sources::create_button(lv_obj_t *Object)
 	//Write codes screen_btn_OK
 	btn_OK = lv_btn_create(Object);
 	setup_button(btn_OK,125,85,"OK");
+#endif
+#ifdef HMI
+    btn_MENU = lv_btn_create(Object);
+    setup_button(btn_MENU,5,245,"MENU");
+    //Write codesbtn_UP
+    btn_UP = lv_btn_create(Object);
+    setup_button(btn_UP,85,245,"UP");
+    //Write codesbtn_BACK
+    btn_BACK= lv_btn_create(Object);
+    setup_button(btn_BACK,45,245,"BACK");
+    //Write codesbtn_DOWN
+    btn_DOWN= lv_btn_create(Object);
+    setup_button(btn_DOWN,125,245,"DOWN");
+    //Write codesbtn_OK
+    btn_OK = lv_btn_create(Object);
+    setup_button(btn_OK,165,245,"OK");
+    //Write codesbtn_ALARM
+    btn_ALARM = lv_btn_create(Object);
+    setup_button(btn_ALARM,205,245,"ALARM");
+#endif
 }
 #endif
