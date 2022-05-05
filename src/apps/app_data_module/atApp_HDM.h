@@ -1,208 +1,208 @@
-/**
-@file
+// /**
+// @file
 
-*/
-/*
-  Application example t
+// */
+// /*
+//   Application example t
 
-  Library:: 
+//   Library:: 
 
-  This version is
+//   This version is
 
-  Copyright:: 2021 nguyentrinhtuan1996@gmail.com
-*/
+//   Copyright:: 2021 nguyentrinhtuan1996@gmail.com
+// */
 
-#ifndef _Application_atApp_HDM_
-#define _Application_atApp_HDM_
-/* _____PROJECT INCLUDES____________________________________________________ */
-#include "..\App.h"
-#include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
-#include "..\src\obj\atObj_HDMs_Data.h"
-/* _____DEFINETIONS__________________________________________________________ */
-enum Status_of_device
-{
-	Offline,
-	Online
-};
+// #ifndef _Application_atApp_HDM_
+// #define _Application_atApp_HDM_
+// /* _____PROJECT INCLUDES____________________________________________________ */
+// #include "..\App.h"
+// #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
+// #include "..\src\obj\atObj_HDMs_Data.h"
+// /* _____DEFINETIONS__________________________________________________________ */
+// enum Status_of_device
+// {
+// 	Offline,
+// 	Online
+// };
 
-/* _____GLOBAL VARIABLES_____________________________________________________ */
-TaskHandle_t Task_atApp_HDM;  
-void atApp_HDM_Task_Func(void *parameter);
-///////////////////////////////////////////////Testing part//
-/* _____GLOBAL FUNCTION______________________________________________________ */
+// /* _____GLOBAL VARIABLES_____________________________________________________ */
+// TaskHandle_t Task_atApp_HDM;  
+// void atApp_HDM_Task_Func(void *parameter);
+// ///////////////////////////////////////////////Testing part//
+// /* _____GLOBAL FUNCTION______________________________________________________ */
 
-/* _____CLASS DEFINITION_____________________________________________________ */
+// /* _____CLASS DEFINITION_____________________________________________________ */
 
-/**
- * This Application class is the application to manage the 
- */
-class App_HDM : public Application
-{
-public:
-  	App_HDM();
- 	~App_HDM();
-  	static void  App_HDM_Pend();
-	static void  App_HDM_Start();
-	static void  App_HDM_Restart();
-	static void  App_HDM_Execute();
-	static void  App_HDM_Suspend();
-	static void  App_HDM_Resume();	  
-	static void  App_HDM_End();
-  uint8_t number_of_try_to_connect = 3;
-  bool mode_operation = 0;
-  uint16_t low_limit_temperature;
-  uint16_t high_limit_temperature;
-  uint16_t low_limit_power;
-  uint16_t high_limit_power;
-  uint16_t power;
+// /**
+//  * This Application class is the application to manage the 
+//  */
+// class App_HDM : public Application
+// {
+// public:
+//   	App_HDM();
+//  	~App_HDM();
+//   	static void  App_HDM_Pend();
+// 	static void  App_HDM_Start();
+// 	static void  App_HDM_Restart();
+// 	static void  App_HDM_Execute();
+// 	static void  App_HDM_Suspend();
+// 	static void  App_HDM_Resume();	  
+// 	static void  App_HDM_End();
+//   uint8_t number_of_try_to_connect = 3;
+//   bool mode_operation = 0;
+//   uint16_t low_limit_temperature;
+//   uint16_t high_limit_temperature;
+//   uint16_t low_limit_power;
+//   uint16_t high_limit_power;
+//   uint16_t power;
 
-protected:
-  uint8_t buffer;
-  uint8_t number_device;
-private:
-} atApp_HDM ;
-/**
- * This function will be automaticaly called when a object is created by this class
- */
-App_HDM::App_HDM(/* args */)
-{
-  	_Pend_User 	     = *App_HDM_Pend;
-	_Start_User 	 = *App_HDM_Start;
-	_Restart_User 	 = *App_HDM_Restart;
-	_Execute_User 	 = *App_HDM_Execute;
-	_Suspend_User	 = *App_HDM_Suspend;
-	_Resume_User	 = *App_HDM_Resume;
-	_End_User	     = *App_HDM_End;
+// protected:
+//   uint8_t buffer;
+//   uint8_t number_device;
+// private:
+// } atApp_HDM ;
+// /**
+//  * This function will be automaticaly called when a object is created by this class
+//  */
+// App_HDM::App_HDM(/* args */)
+// {
+//   	_Pend_User 	     = *App_HDM_Pend;
+// 	_Start_User 	 = *App_HDM_Start;
+// 	_Restart_User 	 = *App_HDM_Restart;
+// 	_Execute_User 	 = *App_HDM_Execute;
+// 	_Suspend_User	 = *App_HDM_Suspend;
+// 	_Resume_User	 = *App_HDM_Resume;
+// 	_End_User	     = *App_HDM_End;
 
-	// change the ID of application
-	ID_Application = 1;
-	// change the application name
-	Name_Application = (char*)"HDM Application";
-	// change the ID of HDM
-}
-/**
- * This function will be automaticaly called when the object of class is delete
- */
-App_HDM::~App_HDM()
-{
+// 	// change the ID of application
+// 	ID_Application = 1;
+// 	// change the application name
+// 	Name_Application = (char*)"HDM Application";
+// 	// change the ID of HDM
+// }
+// /**
+//  * This function will be automaticaly called when the object of class is delete
+//  */
+// App_HDM::~App_HDM()
+// {
 	
-}
-/**
- * Pend to start is the first task of this application it will do prerequisite condition. In the debit mode, task will send information of application to terminal to start the application.
- */
-void  App_HDM::App_HDM_Pend()
-{
-    atService_MB_TCP_MA.Run_Service();
-}
-/**
- * This start function will init some critical function 
- */
-void  App_HDM::App_HDM_Start()
-{
-	// init atXYZ Service in the fist running time
+// }
+// /**
+//  * Pend to start is the first task of this application it will do prerequisite condition. In the debit mode, task will send information of application to terminal to start the application.
+//  */
+// void  App_HDM::App_HDM_Pend()
+// {
+//     atService_MB_TCP_MA.Run_Service();
+// }
+// /**
+//  * This start function will init some critical function 
+//  */
+// void  App_HDM::App_HDM_Start()
+// {
+// 	// init atXYZ Service in the fist running time
 	
-}  
-/**
- * Restart function of HDM  app
- */
-void  App_HDM::App_HDM_Restart()
-{
+// }  
+// /**
+//  * Restart function of HDM  app
+//  */
+// void  App_HDM::App_HDM_Restart()
+// {
 
-}
-/**
- * Execute fuction of HDM app
- */
-void  App_HDM::App_HDM_Execute()
-{	
-  if(atObject_HDMs_Data.HDM_number >= 1)
-  {
-    if(atApp_HDM.User_Mode == APP_USER_MODE_DEBUG)
-    {
-      Serial.println(" HDM number |   ");
-    }
-    for( atApp_HDM.number_device = 1; atApp_HDM.number_device <= atObject_HDMs_Data.HDM_number;
-                                                                    atApp_HDM.number_device++ )
-    {	
-      IPAddress IP_module( 	atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[0], 
-                         	  atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[1],
-                         	  atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[2],
-		  					            atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[3]);         
-      // try to connect slave device
-      for( uint8_t try_connect = 1; try_connect <= atApp_HDM.number_of_try_to_connect; try_connect++)
-      {     
-        if(mb_TCP.isConnected(IP_module))
-		    {    
-          for( uint8_t try_read = 0; try_read <= 2; try_read++)
-          {
-            mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_HDM.number_device);
-            mb_TCP.writeCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,atApp_HDM.mode_operation);
-            mb_TCP.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,atApp_HDM.low_limit_temperature);
-            mb_TCP.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,atApp_HDM.high_limit_temperature);
-            mb_TCP.writeHreg(IP_module, HDM_REGISTER_RW_POWER,atApp_HDM.power);
-            mb_TCP.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,atApp_HDM.low_limit_power);
-            mb_TCP.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,atApp_HDM.high_limit_power);
+// }
+// /**
+//  * Execute fuction of HDM app
+//  */
+// void  App_HDM::App_HDM_Execute()
+// {	
+//   if(atObject_HDMs_Data.HDM_number >= 1)
+//   {
+//     if(atApp_HDM.User_Mode == APP_USER_MODE_DEBUG)
+//     {
+//       Serial.println(" HDM number |   ");
+//     }
+//     for( atApp_HDM.number_device = 1; atApp_HDM.number_device <= atObject_HDMs_Data.HDM_number;
+//                                                                     atApp_HDM.number_device++ )
+//     {	
+//       IPAddress IP_module( 	atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[0], 
+//                          	  atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[1],
+//                          	  atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[2],
+// 		  					            atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[3]);         
+//       // try to connect slave device
+//       for( uint8_t try_connect = 1; try_connect <= atApp_HDM.number_of_try_to_connect; try_connect++)
+//       {     
+//         if(atService_MB_TCP_MA.isConnected(IP_module))
+// 		    {    
+//           for( uint8_t try_read = 0; try_read <= 2; try_read++)
+//           {
+//             atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_HDM.number_device);
+//             atService_MB_TCP_MA.writeCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,atApp_HDM.mode_operation);
+//             atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,atApp_HDM.low_limit_temperature);
+//             atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,atApp_HDM.high_limit_temperature);
+//             atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_POWER,atApp_HDM.power);
+//             atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,atApp_HDM.low_limit_power);
+//             atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,atApp_HDM.high_limit_power);
 
-            mb_TCP.readCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,
-                                       &atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode);
-            mb_TCP.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature);
-            mb_TCP.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature);
-            mb_TCP.readHreg(IP_module, HDM_REGISTER_RW_POWER,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].power);
-            mb_TCP.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power);  
-            mb_TCP.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power); 
-            mb_TCP.readIreg(IP_module, HDM_REGISTER_R_TEMPERATURE,
-                                         &atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature);
-            atService_MB_TCP_MA.check_In();   
-            atService_MB_TCP_MA.Run_Service();
-            atService_MB_TCP_MA.check_Out();
-          }     
-          atApp_HDM.buffer = 0;
-        }
-        else
-        {
-          mb_TCP.connect(IP_module);
-          atService_MB_TCP_MA.check_In();   
-          atService_MB_TCP_MA.Run_Service();
-          atService_MB_TCP_MA.check_Out();
-          atApp_HDM.buffer++;
-        }                                                                                                                   
-      }
-    if(atApp_HDM.buffer >= 1)
-    {
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].Status_of_HDMs = Offline;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].power = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature = 0;
-      atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature = 0;
-    //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[0] = 0; 
-    //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[1] = 0;    
-    //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[2] = 0;    
-    //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[3] = 0;     
-    //   atObject_HDMs_Data.HDM_number = atObject_HDMs_Data.HDM_number - 1 ;  
-    }
-    if(atApp_HDM.User_Mode == APP_USER_MODE_DEBUG)
-    {
+//             atService_MB_TCP_MA.readCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,
+//                                        &atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode);
+//             atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature);
+//             atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature);
+//             atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_POWER,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].power);
+//             atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power);  
+//             atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power); 
+//             atService_MB_TCP_MA.readIreg(IP_module, HDM_REGISTER_R_TEMPERATURE,
+//                                          &atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature);
+//             atService_MB_TCP_MA.check_In();   
+//             atService_MB_TCP_MA.Run_Service();
+//             atService_MB_TCP_MA.check_Out();
+//           }     
+//           atApp_HDM.buffer = 0;
+//         }
+//         else
+//         {
+//           atService_MB_TCP_MA.connect(IP_module);
+//           atService_MB_TCP_MA.check_In();   
+//           atService_MB_TCP_MA.Run_Service();
+//           atService_MB_TCP_MA.check_Out();
+//           atApp_HDM.buffer++;
+//         }                                                                                                                   
+//       }
+//     if(atApp_HDM.buffer >= 1)
+//     {
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].Status_of_HDMs = Offline;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].power = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature = 0;
+//       atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature = 0;
+//     //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[0] = 0; 
+//     //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[1] = 0;    
+//     //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[2] = 0;    
+//     //   atObject_HDMs_Data.HDM[atApp_HDM.number_device].IP[3] = 0;     
+//     //   atObject_HDMs_Data.HDM_number = atObject_HDMs_Data.HDM_number - 1 ;  
+//     }
+//     if(atApp_HDM.User_Mode == APP_USER_MODE_DEBUG)
+//     {
 
-    }
-  }
-}
-}
-void  App_HDM::App_HDM_Suspend(){}
-void  App_HDM::App_HDM_Resume(){}	  
-void  App_HDM::App_HDM_End(){}
-void atApp_HDM_Task_Func(void *parameter)
-{
-  while (1)
-  {
-    atApp_HDM.Run_Application(APP_RUN_MODE_AUTO);
-    vTaskDelay(1000/ portTICK_PERIOD_MS);
-  }
-}
-#endif
+//     }
+//   }
+// }
+// }
+// void  App_HDM::App_HDM_Suspend(){}
+// void  App_HDM::App_HDM_Resume(){}	  
+// void  App_HDM::App_HDM_End(){}
+// void atApp_HDM_Task_Func(void *parameter)
+// {
+//   while (1)
+//   {
+//     atApp_HDM.Run_Application(APP_RUN_MODE_AUTO);
+//     vTaskDelay(1000/ portTICK_PERIOD_MS);
+//   }
+// }
+// #endif

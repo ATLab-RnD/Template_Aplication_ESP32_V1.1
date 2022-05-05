@@ -167,27 +167,31 @@ void  App_DID::App_DID_Execute()
 	{
 		for( uint8_t count = 0; count <= 2; count++)
 		{
-			if(mb_TCP.isConnected(IP_module))
+			if(atService_MB_TCP_MA.isConnected(IP_module))
 			{
 				for( uint8_t count = 0; count <= 2; count++)
 				{
-					mb_TCP.readHreg(IP_module, GENERAL_REGISTER_R_DEVICE_TYPE, &atApp_DID.DT);
-					delay(50);
-					mb_TCP.readHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, &atApp_DID.DID);
-					delay(50);
 					atService_MB_TCP_MA.check_In();
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_R_DEVICE_TYPE, &atApp_DID.DT);
+					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, &atApp_DID.DID);
 					atService_MB_TCP_MA.check_Out();
 				}
 				atApp_DID.connecting_result = Successful_connection;
+				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
+    			{
+					Serial.println(" Successful_connection");
+				}
 				atApp_DID.buffer = 0;
 				break;
 			}
 			else 
 			{
-				mb_TCP.connect(IP_module); 
+				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
+    			{
+					Serial.println(" Connecting");
+				}
 				atService_MB_TCP_MA.check_In();
-				atService_MB_TCP_MA.Run_Service();
+				atService_MB_TCP_MA.connect(IP_module); 
 				atService_MB_TCP_MA.check_Out();
 				atApp_DID.buffer = atApp_DID.buffer + 1;
 			}
@@ -390,8 +394,7 @@ void App_DID::create_did_for_SNM()
 			for(uint8_t count = 1; count<= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_Out();
 				}
 				// save status device to obj
@@ -424,8 +427,7 @@ void App_DID::create_did_for_EMM()
 				for(uint8_t count = 1; count<= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_Out();
 				}
 				// save status device to obj
@@ -457,8 +459,7 @@ void App_DID::create_did_for_IDM()
 			for(uint8_t count = 1; count<= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_Out();
 				}
 				// save status device to obj
@@ -490,8 +491,7 @@ void App_DID::create_did_for_RDM()
 			for(uint8_t count = 1; count<= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_Out();
 				}
 				// save status device to obj
@@ -523,8 +523,7 @@ void App_DID::create_did_for_HDM()
 			for(uint8_t count = 1; count<= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
-					mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
-					atService_MB_TCP_MA.Run_Service();
+					atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, a);
 					atService_MB_TCP_MA.check_Out();
 				}
 				// save status device to obj

@@ -3,7 +3,7 @@
 #include "../src/apps/atApp_ABC.h"
 #include "../src/apps/atApp_Wifi.h"
 #include "../src/apps/atApp_CP.h"
-// #include "../src/apps/atApp_MB_TCP_MA.h"
+#include "../src/apps/atApp_MB_TCP_MA.h"
 #include "../src/apps/app_data_module/atApp_SNM.h"
 // #include "../src/apps/atApp_MB_RTU_SL.h"
 // #include "../src/apps/atApp_MB_TCP_SL.h"
@@ -43,7 +43,7 @@ void setup() {
   xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi      ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
-  // xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  100000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
+  xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  1024      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
   xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_SNM        ,    1     );
   xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DID       ,    1     );
@@ -57,9 +57,10 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Some tasks will be suspended after initing 
-  // vTaskSuspend(Task_atApp_MB_TCP_MA);
+  vTaskSuspend(Task_atApp_MB_TCP_MA);
   vTaskSuspend(Task_atApp_DID);
   vTaskSuspend(Task_atApp_SNM);
+ 
 }
 
 void loop() {}
