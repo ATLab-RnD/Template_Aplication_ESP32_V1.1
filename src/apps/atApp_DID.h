@@ -156,7 +156,7 @@ void  App_DID::App_DID_Restart()
  */
 void  App_DID::App_DID_Execute()
 {	
-	// Set Slave IP address
+	// Connect to Slave has IP address
 	IPAddress IP_module( 	atApp_DID.IP[0], 
                         	atApp_DID.IP[1],
                         	atApp_DID.IP[2], 
@@ -167,37 +167,50 @@ void  App_DID::App_DID_Execute()
 	{
 		for( uint8_t count = 0; count <= 2; count++)
 		{
-			if(atService_MB_TCP_MA.isConnected(IP_module))
-			{
-				for( uint8_t count = 0; count <= 2; count++)
-				{
-					atService_MB_TCP_MA.check_In();
-					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_R_DEVICE_TYPE, &atApp_DID.DT);
-					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, &atApp_DID.DID);
-					atService_MB_TCP_MA.check_Out();
-				}
-				atApp_DID.connecting_result = Successful_connection;
-				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
-    			{
-					Serial.println(" Successful_connection");
-				}
-				atApp_DID.buffer = 0;
-				break;
-			}
-			else 
+			if(atService_MB_TCP_MA.isConnected(IP_module) == false)
 			{
 				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
     			{
 					Serial.println(" Connecting");
 				}
 				atService_MB_TCP_MA.check_In();
+				Serial.println(" 1");
 				atService_MB_TCP_MA.connect(IP_module); 
+				Serial.println(" 2");
 				atService_MB_TCP_MA.check_Out();
 				atApp_DID.buffer = atApp_DID.buffer + 1;
 			}
+			else 
+			{
+				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
+    			{
+					Serial.println(" Successful_connection");
+				}
+				for( uint8_t count = 0; count <= 2; count++)
+				{
+					atService_MB_TCP_MA.check_In();
+					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_R_DEVICE_TYPE, &atApp_DID.DT);
+					atService_MB_TCP_MA.check_Out();
+					atService_MB_TCP_MA.check_In();
+					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, &atApp_DID.DID);
+					atService_MB_TCP_MA.check_Out();
+				}
+
+				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
+    			{
+					Serial.print(" Device type");
+					Serial.println(atApp_DID.DT);
+					Serial.print(" Device ID");
+					Serial.println(atApp_DID.DID);
+				}
+
+				atApp_DID.connecting_result = Successful_connection;
+				atApp_DID.buffer = 0;
+				break;
+			}
 		}
 
-		if(atApp_DID.buffer >> 0)
+		if(atApp_DID.buffer > 0)
 		{
 			atApp_DID.connecting_result = Connection_failed;
 			if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)

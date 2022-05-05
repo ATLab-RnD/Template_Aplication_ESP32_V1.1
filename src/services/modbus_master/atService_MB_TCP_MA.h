@@ -83,8 +83,7 @@ void  Service_Modbus_TCP_MA::Service_Modbus_Start()
  */
 void  Service_Modbus_TCP_MA::Service_Modbus_Execute()
 {   
-    atService_MB_TCP_MA.task();
-    yield();
+    
 }    
 void  Service_Modbus_TCP_MA::Service_Modbus_End(){}
 /**
@@ -103,6 +102,8 @@ void  Service_Modbus_TCP_MA::check_In()
  */
 void  Service_Modbus_TCP_MA::check_Out()
 {
+    atService_MB_TCP_MA.task();
+    yield();
     xSemaphoreGive( xMutex_MB_TCP_MA );
 }
 

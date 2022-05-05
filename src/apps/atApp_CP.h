@@ -112,8 +112,8 @@ void  App_CP::App_CP_Execute()
 	if(atApp_Wifi.status == WIFI_STATUS_Connected)
 	{
 		vTaskResume(Task_atApp_DID);
-		// vTaskResume(Task_atApp_SNM);
-		vTaskResume(Task_atApp_MB_TCP_MA);
+		vTaskResume(Task_atApp_SNM);
+		// vTaskResume(Task_atApp_MB_TCP_MA);
 		atApp_Wifi.Debug_Exit();
 	}
 

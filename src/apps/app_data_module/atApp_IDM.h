@@ -137,6 +137,7 @@
 //           {
 //             mb_TCP.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_IDM.number_device);
 //             mb_TCP.writeHreg(IP_module,IDM_REGISTER_RW_INVERTER_TYPE,atApp_IDM.invt_type);
+
 //             if(atApp_IDM.direction_run = Forward)
 //             {
 //               mb_TCP.writeHreg(IP_module,IDM_REGISTER_RW_DIRECTION_RUN,Forward);
