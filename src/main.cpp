@@ -5,6 +5,9 @@
 #include "../src/apps/atApp_CP.h"
 #include "../src/apps/atApp_MB_TCP_MA.h"
 #include "../src/apps/app_data_module/atApp_SNM.h"
+#include "../src/apps/app_data_module/atApp_IDM.h"
+#include "../src/apps/app_data_module/atApp_HDM.h"
+#include "../src/apps/app_data_module/atApp_EMM.h"
 // #include "../src/apps/atApp_MB_RTU_SL.h"
 // #include "../src/apps/atApp_MB_TCP_SL.h"
 // #include "../src/apps/atApp_INVT.h"
@@ -23,6 +26,9 @@ void setup() {
   // atApp_ABC.Debug();
   atApp_Wifi.Debug();
   atApp_SNM.Debug();
+  // atApp_IDM.Debug();
+  // atApp_EMM.Debug();
+  // atApp_HDM.Debug();
   atApp_DID.Debug();
   // atApp_CP.Debug();
   // atApp_MB_RTU_SL.Debug();
@@ -46,6 +52,9 @@ void setup() {
   xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  1024      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
   xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_SNM        ,    1     );
+  xTaskCreatePinnedToCore(  atApp_IDM_Task_Func        , "atApp_IDM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_IDM        ,    1     );
+  xTaskCreatePinnedToCore(  atApp_HDM_Task_Func        , "atApp_HDM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_HDM        ,    1     );
+  xTaskCreatePinnedToCore(  atApp_EMM_Task_Func        , "atApp_EMM_Module_Application" ,  5000      ,     NULL    ,   1       , &Task_atApp_EMM        ,    1     );
   xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application" ,  10000      ,     NULL    ,   1       , &Task_atApp_DID       ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
   // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
@@ -60,6 +69,9 @@ void setup() {
   vTaskSuspend(Task_atApp_MB_TCP_MA);
   vTaskSuspend(Task_atApp_DID);
   vTaskSuspend(Task_atApp_SNM);
+  vTaskSuspend(Task_atApp_IDM);
+  vTaskSuspend(Task_atApp_HDM);
+  vTaskSuspend(Task_atApp_EMM);
  
 }
 

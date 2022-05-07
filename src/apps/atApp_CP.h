@@ -19,6 +19,7 @@
 #include "atApp_Wifi.h"
 #include "atApp_DID.h"
 #include "..\apps\app_data_module\atApp_SNM.h"
+#include "..\apps\app_data_module\atApp_IDM.h"
 #include "..\apps\atApp_MB_TCP_MA.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
@@ -113,6 +114,7 @@ void  App_CP::App_CP_Execute()
 	{
 		vTaskResume(Task_atApp_DID);
 		vTaskResume(Task_atApp_SNM);
+		vTaskResume(Task_atApp_IDM);
 		// vTaskResume(Task_atApp_MB_TCP_MA);
 		atApp_Wifi.Debug_Exit();
 	}

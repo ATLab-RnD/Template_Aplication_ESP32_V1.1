@@ -39,20 +39,20 @@ void atApp_SNM_Task_Func(void *parameter);
 class App_SNM : public Application
 {
 public:
-  	App_SNM();
+  App_SNM();
  	~App_SNM();
-  	static void  App_SNM_Pend();
+  uint8_t number_of_try_to_connect = 3;
+protected:
+  uint8_t buffer;
+  uint8_t number_device;
+private:
+  static void  App_SNM_Pend();
 	static void  App_SNM_Start();
 	static void  App_SNM_Restart();
 	static void  App_SNM_Execute();
 	static void  App_SNM_Suspend();
 	static void  App_SNM_Resume();	  
 	static void  App_SNM_End();
-  uint8_t number_of_try_to_connect = 3;
-protected:
-  uint8_t buffer;
-  uint8_t number_device;
-private:
 } atApp_SNM ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -123,8 +123,15 @@ void  App_SNM::App_SNM_Execute()
       // try to connect slave device
       for( uint8_t try_connect = 1; try_connect <= atApp_SNM.number_of_try_to_connect; try_connect++)
       {     
-        if(atService_MB_TCP_MA.isConnected(IP_module))
+        if(atService_MB_TCP_MA.isConnected(IP_module) == false)
 		    {    
+          atService_MB_TCP_MA.check_In();
+          atService_MB_TCP_MA.connect(IP_module);
+          atService_MB_TCP_MA.check_Out();
+          atApp_SNM.buffer++;
+        }
+        else
+        {
           atService_MB_TCP_MA.check_In();
           atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_SNM.number_device);
           atService_MB_TCP_MA.readIreg(IP_module,SNM_REGISTER_R_TEMPERATURE_REAL_TIME, 
@@ -143,13 +150,6 @@ void  App_SNM::App_SNM_Execute()
     
           atObject_SNMs_Data.SNM[atApp_SNM.number_device].Status_of_SNMs = Online;
           atApp_SNM.buffer = 0;
-        }
-        else
-        {
-          atService_MB_TCP_MA.check_In();
-          atService_MB_TCP_MA.connect(IP_module);
-          atService_MB_TCP_MA.check_Out();
-          atApp_SNM.buffer++;
         }                                                                                                                   
       }
       

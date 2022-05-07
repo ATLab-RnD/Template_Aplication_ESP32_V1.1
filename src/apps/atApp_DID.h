@@ -70,16 +70,9 @@ class App_DID : public Application
 public:
   	App_DID();
  	~App_DID();
-  	static void  App_DID_Pend();
-	static void  App_DID_Start();
-	static void  App_DID_Restart();
-	static void  App_DID_Execute();
-	static void  App_DID_Suspend();
-	static void  App_DID_Resume();	  
-	static void  App_DID_End();
 
 	//value of host in IPv4 : (192, 168, Host_1, Host_2)
-	uint8_t IP[4]        = 	{192,168,1,12};
+	uint8_t IP[4]        = 	{192,168,1,6};
 
 	bool request_connecting = Yes;
 	bool connecting_result = 0;
@@ -103,6 +96,13 @@ protected:
 	//Device Identify
 	uint16_t DID = 0;
 private:
+  	static void  App_DID_Pend();
+	static void  App_DID_Start();
+	static void  App_DID_Restart();
+	static void  App_DID_Execute();
+	static void  App_DID_Suspend();
+	static void  App_DID_Resume();	  
+	static void  App_DID_End();
 } atApp_DID ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -174,9 +174,7 @@ void  App_DID::App_DID_Execute()
 					Serial.println(" Connecting");
 				}
 				atService_MB_TCP_MA.check_In();
-				Serial.println(" 1");
 				atService_MB_TCP_MA.connect(IP_module); 
-				Serial.println(" 2");
 				atService_MB_TCP_MA.check_Out();
 				atApp_DID.buffer = atApp_DID.buffer + 1;
 			}
@@ -186,21 +184,19 @@ void  App_DID::App_DID_Execute()
     			{
 					Serial.println(" Successful_connection");
 				}
-				for( uint8_t count = 0; count <= 2; count++)
+				for( uint8_t count = 0; count <= 3; count++)
 				{
 					atService_MB_TCP_MA.check_In();
 					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_R_DEVICE_TYPE, &atApp_DID.DT);
-					atService_MB_TCP_MA.check_Out();
-					atService_MB_TCP_MA.check_In();
 					atService_MB_TCP_MA.readHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, &atApp_DID.DID);
 					atService_MB_TCP_MA.check_Out();
 				}
 
 				if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
     			{
-					Serial.print(" Device type");
+					Serial.print(" Device type ");
 					Serial.println(atApp_DID.DT);
-					Serial.print(" Device ID");
+					Serial.print(" Device ID ");
 					Serial.println(atApp_DID.DID);
 				}
 
@@ -302,7 +298,7 @@ void  App_DID::App_DID_Execute()
 			{
 				Serial.print("   EMM");
 				Serial.print(count);
-				Serial.print("    |     ");
+				Serial.print("        |     ");
 				Serial.print(atObject_EMMs_Data.EMM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_EMMs_Data.EMM[count].IP[1]);
@@ -323,7 +319,7 @@ void  App_DID::App_DID_Execute()
 			{
 				Serial.print("   IDM");
 				Serial.print(count);
-				Serial.print("    |     ");
+				Serial.print("         |     ");
 				Serial.print(atObject_IDMs_Data.IDM[count].IP[0]);
 				Serial.print(".");
 				Serial.print(atObject_IDMs_Data.IDM[count].IP[1]);
