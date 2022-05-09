@@ -16,15 +16,21 @@ typedef struct Notified_Bar
       int hour = 14, minute = 10;
       char time[10];
     };
-
+// typedef struct Roller
+// {
+// 	char Option[100]="Connection\nMeasure\nLog Data\nFault & Alarm\nOthers\nDebug\nAbout";
+// };
 class Sources
 {
 public:
     bool wifi_active        = ON;
-    bool bluetooth_active   = ON;
     bool warning_active     = ON;
     bool SD_active          = ON;
     bool modbus_active      = ON;
+	int    get_roller_selected(lv_obj_t *roller);
+
+	lv_obj_t *roller_1;
+
 protected:
     void   setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str);
 
@@ -74,6 +80,8 @@ protected:
     void   render_warning_icon(lv_obj_t *icon_label, bool icon_active);
    
     void   create_buttons(lv_obj_t *object);
+
+
     
 
 private:
@@ -225,7 +233,10 @@ void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
 	}
 	else setup_label(icon_label,"  ");
 }
-
+int Sources::get_roller_selected(lv_obj_t *roller)
+{
+    return lv_roller_get_selected(roller);
+}
 void  Sources::create_buttons(lv_obj_t *Object)
 {
 #ifdef HMI_Lite

@@ -22,20 +22,20 @@
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail.h"
 #include "../gui/screen_system/atScr_Menu.h"
+#include "../gui/screen_system/Sources.h"
 #include "../services/SPI/atService_VSPI.h"
 // #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-
-
-
+bool count = 0;
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-
+static TimerHandle_t screen_monitoring_update_timer = NULL;
 ///////////////////////////////////////////////Testing part//
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
 TaskHandle_t Task_atApp_HMI;  
 void atApp_HMI_Task_Func(void *parameter);
+void update_data_to_screens(TimerHandle_t xTimer);
 /* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Application class is the application to manage the 
@@ -53,8 +53,10 @@ public:
 	static void  App_HMI_Resume();	  
 	static void  App_HMI_End();
 
+	static const TickType_t update_screen_time = 2000/ portTICK_PERIOD_MS;;   // 2 second
 	// bool update = 0;
 protected:
+
 private:
 }  atApp_HMI ;
 /**
@@ -98,6 +100,7 @@ void  App_HMI::App_HMI_Pend()
  */
 void  App_HMI::App_HMI_Start()
 {
+	//screens map
 	atScr_Monitoring.setup_Forward_Screen = *atScr_Menu.Start;
 	atScr_Monitoring.Forward_Screen = &atScr_Menu.Object;
 
@@ -110,18 +113,22 @@ void  App_HMI::App_HMI_Start()
 	atScr_Detail.setup_Backward_Screen = *atScr_Menu.Start;
 	atScr_Detail.Backward_Screen = &atScr_Menu.Object;
 
+	//init timer
+	screen_monitoring_update_timer = xTimerCreate(
+										"screen monitoring update timer",       // Name of timer
+										update_screen_time,  					// Period of timer (in ticks)
+										pdTRUE,                    				// Auto-reload
+										(void *)0,                  			// Timer ID
+										update_data_to_screens);           		// Callback function
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
-	// init atApp_HMI Service in the fist running time
-	atService_LVGL_HMI_Lite.Run_Service();
-	// setup_Monitoring_Screen();
-	// lv_scr_load(Monitoring_Screen);
-	atScr_Detail.Run_Screen();
-	atScr_Menu.Run_Screen();
+	atService_LVGL_HMI_Lite.Run_Service();	
+	// atScr_Detail.Run_Screen();
+	// atScr_Menu.Run_Screen();
 	atScr_Monitoring.Run_Screen();
-
+	//start timer
+	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
 	lv_scr_load(atScr_Monitoring.Object);
-
 	// atService_VSPI.check_Out();
 }  
 /**
@@ -141,18 +148,30 @@ void  App_HMI::App_HMI_Execute()
 	atService_VSPI.check_Out();
 	
 	if(atScr_Monitoring.screen_status == ACTIVE)
+	{
 		atScr_Monitoring.Run_Screen();
+	}
 
 	if(atScr_Menu.screen_status == ACTIVE)
+	{
 		atScr_Menu.Run_Screen();
-	
+		int roller_selected = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
+		if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
+    	{
+			Serial.printf("roller selected: %d\n",roller_selected);
+    	} 
+	}	
 	if(atScr_Detail.screen_status == ACTIVE)
+	{
 		atScr_Detail.Run_Screen();
+	}
 	// atScr_Monitoring.Update_Scr_Monitoring();
 
-	
+	//get roller selected
+
 	if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
     {
+		
     }   
 }
 void  App_HMI::App_HMI_Suspend(){}
@@ -165,5 +184,45 @@ void atApp_HMI_Task_Func(void *parameter)
     atApp_HMI.Run_Application(APP_RUN_MODE_AUTO);
     vTaskDelay(10/ portTICK_PERIOD_MS);
   }
+}
+
+void update_data_to_screens(TimerHandle_t xTimer)
+{
+	if(count == 0)
+	{
+		atScr_Detail.SD_active 		= ON;
+		atScr_Detail.wifi_active 	= ON;
+		atScr_Detail.modbus_active 	= ON;
+		atScr_Detail.warning_active = ON;
+
+		atScr_Monitoring.SD_active 		= ON;
+		atScr_Monitoring.wifi_active 	= ON;
+		atScr_Monitoring.modbus_active 	= ON;
+		atScr_Monitoring.warning_active = ON;
+
+		atScr_Menu.SD_active 		= ON;
+		atScr_Menu.wifi_active 		= ON;
+		atScr_Menu.modbus_active 	= ON;
+		atScr_Menu.warning_active 	= ON;
+		count =1;
+	}
+	else
+	{
+		atScr_Detail.SD_active 		= OFF;
+		atScr_Detail.wifi_active 	= OFF;
+		atScr_Detail.modbus_active 	= OFF;
+		atScr_Detail.warning_active = OFF;
+
+		atScr_Monitoring.SD_active 		= OFF;
+		atScr_Monitoring.wifi_active 	= OFF;
+		atScr_Monitoring.modbus_active 	= OFF;
+		atScr_Monitoring.warning_active = OFF;
+
+		atScr_Menu.SD_active 		= OFF;
+		atScr_Menu.wifi_active 		= OFF;
+		atScr_Menu.modbus_active 	= OFF;
+		atScr_Menu.warning_active 	= OFF;
+		count =0;
+	}
 }
 #endif
