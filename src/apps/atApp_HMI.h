@@ -16,11 +16,10 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
-// #include "../gui/hmi_lite/HMI_lite_Monitoring_Screen.h"
-// #include "../gui/hmi_lite/HMI_lite_Menu_Screen.h"
-// #include "../gui/hmi_lite/HMI_lite_Detail_Screen.h"
 #include "../gui/screen_system/atScr_Monitoring.h"
-#include "../gui/screen_system/atScr_Detail.h"
+#include "../gui/screen_system/atScr_Detail_1.h"
+#include "../gui/screen_system/atScr_Detail_2.h"
+#include "../gui/screen_system/atScr_Detail_3.h"
 #include "../gui/screen_system/atScr_Menu.h"
 #include "../gui/screen_system/Sources.h"
 #include "../services/SPI/atService_VSPI.h"
@@ -55,8 +54,11 @@ public:
 
 	static const TickType_t update_screen_time = 2000/ portTICK_PERIOD_MS;;   // 2 second
 	// bool update = 0;
+	bool wifi_active        = ON;
+    bool warning_active     = ON;
+    bool SD_active          = ON;
+    bool modbus_active      = ON;
 protected:
-
 private:
 }  atApp_HMI ;
 /**
@@ -104,14 +106,17 @@ void  App_HMI::App_HMI_Start()
 	atScr_Monitoring.setup_Forward_Screen = *atScr_Menu.Start;
 	atScr_Monitoring.Forward_Screen = &atScr_Menu.Object;
 
-	atScr_Menu.setup_Forward_Screen = *atScr_Detail.Start;
-	atScr_Menu.Forward_Screen = &atScr_Detail.Object;
-
 	atScr_Menu.setup_Backward_Screen = *atScr_Monitoring.Start;
 	atScr_Menu.Backward_Screen = &atScr_Monitoring.Object;
 
-	atScr_Detail.setup_Backward_Screen = *atScr_Menu.Start;
-	atScr_Detail.Backward_Screen = &atScr_Menu.Object;
+	atScr_Detail_1.setup_Backward_Screen = *atScr_Menu.Start;
+	atScr_Detail_1.Backward_Screen = &atScr_Menu.Object;
+
+	atScr_Detail_2.setup_Backward_Screen = *atScr_Menu.Start;
+	atScr_Detail_2.Backward_Screen = &atScr_Menu.Object;
+
+	atScr_Detail_3.setup_Backward_Screen = *atScr_Menu.Start;
+	atScr_Detail_3.Backward_Screen = &atScr_Menu.Object;
 
 	//init timer
 	screen_monitoring_update_timer = xTimerCreate(
@@ -123,8 +128,10 @@ void  App_HMI::App_HMI_Start()
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
 	atService_LVGL_HMI_Lite.Run_Service();	
-	// atScr_Detail.Run_Screen();
-	// atScr_Menu.Run_Screen();
+	atScr_Detail_1.Run_Screen();
+	atScr_Detail_2.Run_Screen();
+	atScr_Detail_3.Run_Screen();
+	atScr_Menu.Run_Screen();
 	atScr_Monitoring.Run_Screen();
 	//start timer
 	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
@@ -147,24 +154,29 @@ void  App_HMI::App_HMI_Execute()
 	atService_LVGL_HMI_Lite.Run_Service();
 	atService_VSPI.check_Out();
 	
-	if(atScr_Monitoring.screen_status == ACTIVE)
-	{
-		atScr_Monitoring.Run_Screen();
-	}
-
 	if(atScr_Menu.screen_status == ACTIVE)
 	{
 		atScr_Menu.Run_Screen();
-		int roller_selected = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
-		if(atApp_HMI.User_Mode == APP_USER_MODE_DEBUG)
-    	{
-			Serial.printf("roller selected: %d\n",roller_selected);
-    	} 
+		int roller_select = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
+		switch (roller_select)
+		{
+		case Detail_1:
+			atScr_Menu.setup_Forward_Screen = *atScr_Detail_1.Start;
+			atScr_Menu.Forward_Screen = &atScr_Detail_1.Object;
+			break;
+		case Detail_2:
+			atScr_Menu.setup_Forward_Screen = *atScr_Detail_2.Start;
+			atScr_Menu.Forward_Screen = &atScr_Detail_2.Object;
+			break;
+		case Detail_3:
+			atScr_Menu.setup_Forward_Screen = *atScr_Detail_3.Start;
+			atScr_Menu.Forward_Screen = &atScr_Detail_3.Object;
+			break;
+		default:
+			break;
+		}
 	}	
-	if(atScr_Detail.screen_status == ACTIVE)
-	{
-		atScr_Detail.Run_Screen();
-	}
+	
 	// atScr_Monitoring.Update_Scr_Monitoring();
 
 	//get roller selected
@@ -188,41 +200,47 @@ void atApp_HMI_Task_Func(void *parameter)
 
 void update_data_to_screens(TimerHandle_t xTimer)
 {
-	if(count == 0)
+	atScr_Detail_1.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_1.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_1.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_1.warning_active 	= atApp_HMI.warning_active;
+
+	atScr_Detail_2.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_2.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_2.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_2.warning_active 	= atApp_HMI.warning_active;
+
+	atScr_Detail_3.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_3.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_3.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_3.warning_active 	= atApp_HMI.warning_active;
+
+	atScr_Monitoring.SD_active 		= atApp_HMI.SD_active;
+	atScr_Monitoring.wifi_active 	= atApp_HMI.wifi_active;
+	atScr_Monitoring.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Monitoring.warning_active = atApp_HMI.warning_active;
+
+	atScr_Menu.SD_active 			= atApp_HMI.SD_active;
+	atScr_Menu.wifi_active 			= atApp_HMI.wifi_active;
+	atScr_Menu.modbus_active 		= atApp_HMI.modbus_active;
+	atScr_Menu.warning_active 		= atApp_HMI.warning_active;
+	
+	if(atScr_Monitoring.screen_status == ACTIVE)
 	{
-		atScr_Detail.SD_active 		= ON;
-		atScr_Detail.wifi_active 	= ON;
-		atScr_Detail.modbus_active 	= ON;
-		atScr_Detail.warning_active = ON;
-
-		atScr_Monitoring.SD_active 		= ON;
-		atScr_Monitoring.wifi_active 	= ON;
-		atScr_Monitoring.modbus_active 	= ON;
-		atScr_Monitoring.warning_active = ON;
-
-		atScr_Menu.SD_active 		= ON;
-		atScr_Menu.wifi_active 		= ON;
-		atScr_Menu.modbus_active 	= ON;
-		atScr_Menu.warning_active 	= ON;
-		count =1;
+		atScr_Monitoring.Run_Screen();
 	}
-	else
+	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
-		atScr_Detail.SD_active 		= OFF;
-		atScr_Detail.wifi_active 	= OFF;
-		atScr_Detail.modbus_active 	= OFF;
-		atScr_Detail.warning_active = OFF;
-
-		atScr_Monitoring.SD_active 		= OFF;
-		atScr_Monitoring.wifi_active 	= OFF;
-		atScr_Monitoring.modbus_active 	= OFF;
-		atScr_Monitoring.warning_active = OFF;
-
-		atScr_Menu.SD_active 		= OFF;
-		atScr_Menu.wifi_active 		= OFF;
-		atScr_Menu.modbus_active 	= OFF;
-		atScr_Menu.warning_active 	= OFF;
-		count =0;
+		atScr_Detail_1.Run_Screen();
 	}
+	else if(atScr_Detail_2.screen_status == ACTIVE)
+	{
+		atScr_Detail_2.Run_Screen();
+	}
+	else if(atScr_Detail_3.screen_status == ACTIVE)
+	{
+		atScr_Detail_3.Run_Screen();
+	}
+
 }
 #endif

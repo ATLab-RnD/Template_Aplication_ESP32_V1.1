@@ -22,7 +22,12 @@ Screen Template.
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 /* _____DEFINETIONS__________________________________________________________ */
-
+enum ROLLER_OPTION
+{
+	Detail_1,
+	Detail_2,
+	Detail_3
+};
 
 /*____CLASS DEFINITION_____________________________________________________ */
 /**
@@ -38,7 +43,9 @@ public:
 	
 protected:    
 	void Update();
-	char Option[100]="Connection\nMeasure\nLog Data\nFault & Alarm\nOthers\nDebug\nAbout";
+	char Option[100]="Detail_1\nDetail_2\nDetail_3";
+	uint8_t hour;
+	uint8_t minute;
 	// static Roller Roller_1;
 private:
     static void btn_Back_event_handler(lv_event_t *e);
@@ -66,7 +73,6 @@ Scr_Menu::~Scr_Menu()
  */
 void  Scr_Menu::Start()
 {
-	atScr_Menu.screen_status = ACTIVE;
     //Write codes screen
 	atScr_Menu.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -88,6 +94,7 @@ void  Scr_Menu::Start()
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_UP, atScr_Menu.btn_UP_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_DOWN, atScr_Menu.btn_DOWN_event_handler, LV_EVENT_ALL, NULL);
+	atScr_Menu.screen_status = ACTIVE;
 } 
 /**
  * Execute fuction of SNM app
@@ -104,7 +111,6 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Menu.screen_status = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
         {
 			(*atScr_Menu.setup_Backward_Screen)();
@@ -112,7 +118,8 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
-			lv_scr_load_anim(*atScr_Menu.Backward_Screen, LV_SCR_LOAD_ANIM_OVER_LEFT, 100, 100, true);
+			lv_scr_load_anim(*atScr_Menu.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
+			atScr_Menu.screen_status = DEACTIVE;
         }
 	}
 		break;
@@ -127,7 +134,6 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Menu.screen_status = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
         {
 			(*atScr_Menu.setup_Forward_Screen)();
@@ -136,6 +142,7 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Menu.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
+			atScr_Menu.screen_status = DEACTIVE;
         }
 	}
 		break;
@@ -151,7 +158,7 @@ void Scr_Menu::btn_DOWN_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected--;
+		roller_selected++;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;
@@ -167,7 +174,7 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected++;
+		roller_selected--;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;

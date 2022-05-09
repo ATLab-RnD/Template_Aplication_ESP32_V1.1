@@ -77,7 +77,7 @@ void  Scr_Monitoring::Start()
 	atScr_Monitoring.render_wifi_icon(atScr_Monitoring.Screen_label_wifi,atScr_Monitoring.wifi_active_old,0,0);
 	atScr_Monitoring.render_SD_Card_icon(atScr_Monitoring.Screen_label_SD,atScr_Monitoring.SD_active_old,15,0);
 	atScr_Monitoring.render_warning_icon(atScr_Monitoring.Screen_label_warning,atScr_Monitoring.warning_active_old,45,0);
-	
+	atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_time,atScr_Monitoring.Notified_Bar_1.time,120,0,40,15);
 	
 	// init every events
     lv_obj_add_event_cb(atScr_Monitoring.btn_OK, atScr_Monitoring.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -96,7 +96,6 @@ void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Monitoring.screen_status = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
         {
 			(*atScr_Monitoring.setup_Forward_Screen)();
@@ -105,6 +104,7 @@ void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Monitoring.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
+			atScr_Monitoring.screen_status = DEACTIVE;
         }
 	}
 		break;

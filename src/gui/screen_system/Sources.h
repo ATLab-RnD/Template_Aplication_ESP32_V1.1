@@ -149,7 +149,7 @@ void Sources::setup_roller(lv_obj_t *roller, char* option)
 /*
 Create notified bar for screen: icon wifi, bluetooth, warning, modbus active, SD Card, time
 */
-void Sources::create_notified_bar(lv_obj_t *screen)
+void   Sources::create_notified_bar(lv_obj_t *screen)
 {
 
 	//create font wifi
@@ -233,11 +233,11 @@ void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
 	}
 	else setup_label(icon_label,"  ");
 }
-int Sources::get_roller_selected(lv_obj_t *roller)
+int    Sources::get_roller_selected(lv_obj_t *roller)
 {
     return lv_roller_get_selected(roller);
 }
-void  Sources::create_buttons(lv_obj_t *Object)
+void   Sources::create_buttons(lv_obj_t *Object)
 {
 #ifdef HMI_Lite
     btn_BACK= lv_btn_create(Object);
