@@ -49,10 +49,10 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 #include <SPI.h>
 #include "lvgl.h"
 /* _____DEFINETIONS__________________________________________________________ */
-#define BUTTON1     2
-#define BUTTON2     4
-#define BUTTON3     34
-#define BUTTON4     39
+#define BUTTON1     27
+#define BUTTON2     32
+#define BUTTON3     4
+#define BUTTON4     2
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 /*Change to your screen resolution*/
 static const uint16_t screenWidth  = 160;
@@ -91,10 +91,10 @@ void my_disp_flush( lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *colo
 }
 byte my_button_read()
 {
-    if (!digitalRead(2))  return 0;
-    if (!digitalRead(4) ) return 1;
-    if (!digitalRead(34)) return 2;
-    if (!digitalRead(39)) return 3;
+    if (!digitalRead(BUTTON1))  return 0;
+    if (!digitalRead(BUTTON2) ) return 1;
+    if (!digitalRead(BUTTON3)) return 2;
+    if (!digitalRead(BUTTON4)) return 3;
     return 255;
 }
 void button_read(lv_indev_drv_t * drv, lv_indev_data_t*data){
@@ -185,8 +185,8 @@ void  Service_lvgl::Service_lvgl_Start()
 
     /*Assign buttons to points on the screen*/
     static const lv_point_t btn_points[4] = {
-            {50     ,   90},   /*Button UP -> x:50; y:90*/ 
-            {10     ,   90},     /*Button BACK*/
+            {50     ,   90},    /*Button UP -> x:50; y:90*/ 
+            {10     ,   90},    /*Button BACK*/
             {90     ,   90},    /*Button OK */
             {130    ,   90},    /*Button DOWN */
     };
