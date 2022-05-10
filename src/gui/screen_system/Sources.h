@@ -12,23 +12,31 @@ enum ICON_ACTIVE
     OFF
 };
 typedef struct Notified_Bar
-    {
-      int hour = 14, minute = 10;
-      char time[10];
-    };
-// typedef struct Roller
-// {
-// 	char Option[100]="Connection\nMeasure\nLog Data\nFault & Alarm\nOthers\nDebug\nAbout";
-// };
-class Sources
 {
-public:
+    int hour = 14, minute = 10;
     bool wifi_active        = ON;
     bool warning_active     = ON;
     bool SD_active          = ON;
     bool modbus_active      = ON;
+};
+typedef struct Value_old
+{
+    bool wifi_active        = OFF;
+    bool warning_active     = OFF;
+    bool SD_active          = OFF;
+    bool modbus_active      = OFF;
+    int minute = 14;
+    int hour = 10;
+    char time[10];
+};
+
+class Sources
+{
+public:
+    
 	int    get_roller_selected(lv_obj_t *roller);
 
+    Notified_Bar Notified_Bar_1;
 	lv_obj_t *roller_1;
 
 protected:
@@ -53,13 +61,9 @@ protected:
     #endif
     lv_obj_t *label_screen;
 
-    Notified_Bar Notified_Bar_1;
-
-    bool wifi_active_old        = OFF;
-    bool bluetooth_active_old   = OFF;
-    bool warning_active_old     = OFF;
-    bool SD_active_old          = OFF;
-    bool modbus_active_old      = OFF;
+    Value_old   Value_old_1;
+    
+    
 
     void   setup_label(lv_obj_t *label, char* label_text,int pos_x, int pos_y, int width,int height);
     void   setup_label(lv_obj_t *label, char* label_text);
@@ -78,7 +82,10 @@ protected:
 
     void   render_warning_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y);
     void   render_warning_icon(lv_obj_t *icon_label, bool icon_active);
-   
+
+    void   render_time(lv_obj_t *icon_label, char* label, int pos_x,int pos_y);
+    void   render_time(lv_obj_t *icon_label, char* label);
+
     void   create_buttons(lv_obj_t *object);
 
 
@@ -232,6 +239,14 @@ void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
 		setup_label(icon_label,LV_SYMBOL_WARNING);
 	}
 	else setup_label(icon_label,"  ");
+}
+void   Sources::render_time(lv_obj_t *icon_label, char* label, int pos_x,int pos_y)
+{
+    setup_label(icon_label,label,pos_x,pos_y,40,15);
+}
+void   Sources::render_time(lv_obj_t *icon_label, char* label)
+{
+    setup_label(icon_label,label);
 }
 int    Sources::get_roller_selected(lv_obj_t *roller)
 {

@@ -200,35 +200,36 @@ void atApp_HMI_Task_Func(void *parameter)
 
 void update_data_to_screens(TimerHandle_t xTimer)
 {
-	atScr_Detail_1.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_1.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_1.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_1.warning_active 	= atApp_HMI.warning_active;
+		atScr_Monitoring.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+		atScr_Monitoring.Notified_Bar_1.wifi_active 	= atApp_HMI.wifi_active;
+		atScr_Monitoring.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+		atScr_Monitoring.Notified_Bar_1.warning_active = atApp_HMI.warning_active;
 
-	atScr_Detail_2.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_2.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_2.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_2.warning_active 	= atApp_HMI.warning_active;
+		atScr_Menu.Notified_Bar_1.SD_active 			= atApp_HMI.SD_active;
+		atScr_Menu.Notified_Bar_1.wifi_active 			= atApp_HMI.wifi_active;
+		atScr_Menu.Notified_Bar_1.modbus_active 		= atApp_HMI.modbus_active;
+		atScr_Menu.Notified_Bar_1.warning_active 		= atApp_HMI.warning_active;
 
-	atScr_Detail_3.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_3.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_3.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_3.warning_active 	= atApp_HMI.warning_active;
+		atScr_Detail_1.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+		atScr_Detail_1.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+		atScr_Detail_1.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+		atScr_Detail_1.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
 
-	atScr_Monitoring.SD_active 		= atApp_HMI.SD_active;
-	atScr_Monitoring.wifi_active 	= atApp_HMI.wifi_active;
-	atScr_Monitoring.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Monitoring.warning_active = atApp_HMI.warning_active;
+		atScr_Detail_2.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+		atScr_Detail_2.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+		atScr_Detail_2.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+		atScr_Detail_2.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
 
-	atScr_Menu.SD_active 			= atApp_HMI.SD_active;
-	atScr_Menu.wifi_active 			= atApp_HMI.wifi_active;
-	atScr_Menu.modbus_active 		= atApp_HMI.modbus_active;
-	atScr_Menu.warning_active 		= atApp_HMI.warning_active;
+		atScr_Detail_3.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+		atScr_Detail_3.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+		atScr_Detail_3.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+		atScr_Detail_3.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
 	
 	if(atScr_Monitoring.screen_status == ACTIVE)
 	{
 		atScr_Monitoring.Run_Screen();
 	}
+	
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
 		atScr_Detail_1.Run_Screen();
