@@ -83,15 +83,15 @@ void  Scr_Menu::Start()
 	// atScr_Menu.setup_label(atScr_Menu.label_screen,"Menu.title",31,30,100,32);
 	//create notified bar
 	atScr_Menu.create_notified_bar(atScr_Menu.Object);
-	atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Notified_Bar_old_1.modbus_active,30,0);
-	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Notified_Bar_old_1.wifi_active,0,0);
-	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Notified_Bar_old_1.SD_active,15,0);
-	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Notified_Bar_old_1.warning_active,45,0);
+	atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Notified_Bar_old_1.modbus_active,ICON_MODBUS_POS_X,ICON_MODBUS_POS_Y);
+	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Notified_Bar_old_1.wifi_active,ICON_WIFI_POS_X,ICON_WIFI_POS_Y);
+	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Notified_Bar_old_1.SD_active,ICON_SD_CARD_POS_X,ICON_SD_CARD_POS_Y);
+	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Notified_Bar_old_1.warning_active,ICON_WARNING_POS_X,ICON_WARNING_POS_Y);
 	sprintf(atScr_Menu.char_time,"%d:%d",atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
-	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time,120,0,40,15);
+	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time,ICON_TIME_POS_X,ICON_TIME_POS_Y,ICON_TIME_W,ICON_SIZE);
 	//Menu_Screen_roller = lv_roller_create(Menu_Screen);
 	atScr_Menu.roller_1 = lv_roller_create(atScr_Menu.Object);
-	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,2,LV_ALIGN_CENTER,100,0,5);
+	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,ROLLER_ROW_COUNT,LV_ALIGN_CENTER,ROLLER_WIDTH,ROLLER_POS_X,ROLLER_POS_Y);
 	// init every events
     lv_obj_add_event_cb(atScr_Menu.btn_BACK, atScr_Menu.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -122,7 +122,7 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
-			lv_scr_load_anim(*atScr_Menu.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
+			lv_scr_load_anim(*atScr_Menu.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
 			atScr_Menu.screen_status = DEACTIVE;
         }
 	}
@@ -145,7 +145,7 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
-			lv_scr_load_anim(*atScr_Menu.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, 100, 100, true);
+			lv_scr_load_anim(*atScr_Menu.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
 			atScr_Menu.screen_status = DEACTIVE;
         }
 	}

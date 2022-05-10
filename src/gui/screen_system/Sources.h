@@ -3,12 +3,52 @@
 #include "lvgl.h"
 #include "Arduino.h"
 
-// #ifndef HMI_Lite
-// #define HMI_Lite
-// #endif
+#ifdef HMI_Lite
+    #define ICON_WIFI_POS_X         0
+    #define ICON_SD_CARD_POS_X      15
+    #define ICON_MODBUS_POS_X       30
+    #define ICON_WARNING_POS_X      45
+    #define ICON_TIME_POS_X         120
+    #define ICON_WIFI_POS_Y         0
+    #define ICON_SD_CARD_POS_Y      0
+    #define ICON_MODBUS_POS_Y       0
+    #define ICON_WARNING_POS_Y      0
+    #define ICON_TIME_POS_Y         0
+    #define ICON_TIME_W             40
+    #define ICON_SIZE               15
+    #define ROLLER_ROW_COUNT        2
+    #define ROLLER_WIDTH            100
+    #define ROLLER_POS_X            0
+    #define ROLLER_POS_Y            5
+    #define LABEL_POS_X             30
+    #define LABEL_POS_Y             30
+    #define LOAD_PAGE_TIME          100 //ms
+#endif
+#ifdef HMI
+    #define ICON_WIFI_POS_X         0
+    #define ICON_SD_CARD_POS_X      20
+    #define ICON_MODBUS_POS_X       40
+    #define ICON_WARNING_POS_X      60
+    #define ICON_TIME_POS_X         200
+    #define ICON_WIFI_POS_Y         0
+    #define ICON_SD_CARD_POS_Y      0
+    #define ICON_MODBUS_POS_Y       0
+    #define ICON_WARNING_POS_Y      0
+    #define ICON_TIME_POS_Y         0
+    #define ICON_TIME_W             40
+    #define ICON_SIZE               20
+    #define ROLLER_ROW_COUNT        5
+    #define ROLLER_WIDTH            120
+    #define ROLLER_POS_X            0
+    #define ROLLER_POS_Y            5
+    #define LABEL_POS_X             70
+    #define LABEL_POS_Y             70
+    #define LOAD_PAGE_TIME          100 //ms
+#endif
+
 enum ICON_ACTIVE
 {
-    
+    OFF,
     ON = 1
 };
 typedef struct Notified_Bar
@@ -169,20 +209,16 @@ void   Sources::create_notified_bar(lv_obj_t *screen)
 	Screen_label_SD = lv_label_create(screen);
 	//create label time
 	Screen_label_time = lv_label_create(screen);  
-	// setup_label(Screen_label_modbus,".",45,0,15,15);
-	// setup_label(Screen_label_warning,".",60,0,15,15);
-	// setup_label(Screen_label_SD,".",30,0,15,15);
-	// setup_label(Screen_label_bluetooth,".",15,0,15,15);
-	// setup_label(Screen_label_wifi,".",0,0,15,15);
+
 
 }
 void   Sources::render_modbus_icon(lv_obj_t *icon_label, bool icon_active, int pos_x,int pos_y)
 {
     if(icon_active == ON)
 	{
-		setup_label(icon_label,LV_SYMBOL_REFRESH, pos_x,pos_y,15,15);
+		setup_label(icon_label,LV_SYMBOL_REFRESH, pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 	}
-	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+	else setup_label(icon_label,"  ",pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 }
 void   Sources::render_modbus_icon(lv_obj_t *icon_label, bool icon_active)
 {
@@ -196,9 +232,9 @@ void   Sources::render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active, int 
 {
     if(icon_active == ON)
 	{
-		setup_label(icon_label,LV_SYMBOL_SD_CARD, pos_x,pos_y,15,15);
+		setup_label(icon_label,LV_SYMBOL_SD_CARD, pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 	}
-	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+	else setup_label(icon_label,"  ",pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 }
 void   Sources::render_SD_Card_icon(lv_obj_t *icon_label, bool icon_active)
 {
@@ -212,9 +248,9 @@ void   Sources::render_wifi_icon(lv_obj_t *icon_label, bool icon_active, int pos
 {
     if(icon_active == ON)
 	{
-		setup_label(icon_label,LV_SYMBOL_WIFI, pos_x,pos_y,15,15);
+		setup_label(icon_label,LV_SYMBOL_WIFI, pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 	}
-	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+	else setup_label(icon_label,"  ",pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 }
 void   Sources::render_wifi_icon(lv_obj_t *icon_label, bool icon_active)
 {
@@ -228,9 +264,9 @@ void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active, int 
 {
     if(icon_active == ON)
 	{
-		setup_label(icon_label,LV_SYMBOL_WARNING, pos_x,pos_y,15,15);
+		setup_label(icon_label,LV_SYMBOL_WARNING, pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 	}
-	else setup_label(icon_label,"  ",pos_x,pos_y,15,15);
+	else setup_label(icon_label,"  ",pos_x,pos_y,ICON_SIZE,ICON_SIZE);
 }
 void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
 {
@@ -242,7 +278,7 @@ void   Sources::render_warning_icon(lv_obj_t *icon_label, bool icon_active)
 }
 void   Sources::render_time(lv_obj_t *icon_label, char* label, int pos_x,int pos_y)
 {
-    setup_label(icon_label,label,pos_x,pos_y,40,15);
+    setup_label(icon_label,label,pos_x,pos_y,40,ICON_SIZE);
 }
 void   Sources::render_time(lv_obj_t *icon_label, char* label)
 {

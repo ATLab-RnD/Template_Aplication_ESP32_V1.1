@@ -38,7 +38,9 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 #define LED3_G 9
 #define LED3_B 0
 
+#ifndef OFF
 #define OFF     0
+#endif
 #define RED     1
 #define GREEN   2
 #define BLUE    3

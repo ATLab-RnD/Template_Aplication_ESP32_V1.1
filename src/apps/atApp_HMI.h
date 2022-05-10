@@ -16,19 +16,22 @@
 #define HMI
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-// #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+#ifdef HMI_Lite
+#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+#endif
+#include "../gui/screen_system/Sources.h"
+#ifdef HMI
 #include "../services/lvgl/atService_LVGL_HMI.h"
+#endif
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail_1.h"
 #include "../gui/screen_system/atScr_Detail_2.h"
 #include "../gui/screen_system/atScr_Detail_3.h"
 #include "../gui/screen_system/atScr_Menu.h"
-#include "../gui/screen_system/Sources.h"
 #include "../services/SPI/atService_VSPI.h"
-// #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-bool count = 0;
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 static TimerHandle_t screen_monitoring_update_timer = NULL;
 ///////////////////////////////////////////////Testing part//
@@ -158,7 +161,6 @@ void  App_HMI::App_HMI_Execute()
 	
 	if(atScr_Menu.screen_status == ACTIVE)
 	{
-		atScr_Menu.Run_Screen();
 		int roller_select = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
 		switch (roller_select)
 		{
@@ -231,7 +233,10 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	{
 		atScr_Monitoring.Run_Screen();
 	}
-	
+	else if(atScr_Menu.screen_status == ACTIVE)
+	{
+		atScr_Menu.Run_Screen();
+	}
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
 		atScr_Detail_1.Run_Screen();
