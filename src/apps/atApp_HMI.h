@@ -12,10 +12,12 @@
 
 #ifndef _Application_atApp_HMI_
 #define _Application_atApp_HMI_
-#define HMI_Lite
+// #define HMI_Lite
+#define HMI
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
-#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+// #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+#include "../services/lvgl/atService_LVGL_HMI.h"
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail_1.h"
 #include "../gui/screen_system/atScr_Detail_2.h"
@@ -127,7 +129,7 @@ void  App_HMI::App_HMI_Start()
 										update_data_to_screens);           		// Callback function
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();	
+	atService_LVGL_HMI.Run_Service();	
 	atScr_Detail_1.Run_Screen();
 	atScr_Detail_2.Run_Screen();
 	atScr_Detail_3.Run_Screen();
@@ -151,7 +153,7 @@ void  App_HMI::App_HMI_Restart()
 void  App_HMI::App_HMI_Execute()
 {	
 	atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
 	atService_VSPI.check_Out();
 	
 	if(atScr_Menu.screen_status == ACTIVE)

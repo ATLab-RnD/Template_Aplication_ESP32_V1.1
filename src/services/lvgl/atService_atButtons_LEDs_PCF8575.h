@@ -59,7 +59,7 @@ class Buttons : public Service
 {
 public:
     Buttons();
-    ~Buttons
+    ~Buttons();
     bool Up = Released;
     bool Down = Released;
     bool Back = Released;
@@ -77,7 +77,7 @@ protected:
     uint8_t LED_RGB_3_Status = 0;
     bool LCD_Led_Status = 1; 
 private:
-();
+
     static void  Service_Buttons_Start();
     static void  Service_Buttons_Execute();    
     static void  Service_Buttons_End();

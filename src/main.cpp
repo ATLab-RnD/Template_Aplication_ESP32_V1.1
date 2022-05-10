@@ -10,8 +10,8 @@
 // #include "../src/apps/atApp_INVT.h"
 // #include "../src/apps/atApp_ADE.h"
 // #include "../src/apps/atApp_CD.h"
-// #include "../src/apps/atApp_SHT30.h"
-// #include "../src/apps/atApp_SGP30.h"
+#include "../src/apps/atApp_SHT30.h"
+#include "../src/apps/atApp_SGP30.h"
 // #include "../src/apps/atApp_exHMI.h"
 // #include "../src/apps/atApp_DS18B20.h"
 #include "../src/apps/atApp_HMI.h"
@@ -32,11 +32,11 @@ void setup() {
   // atApp_MB_TCP_SL.Debug();
   // atApp_INVT.Debug();
   // atApp_CD.Debug();
-  // atApp_SGP30.Debug();
-  // atApp_SHT30.Debug();
+  atApp_SGP30.Debug();
+  atApp_SHT30.Debug();
   // atApp_ADE.Debug();
   // atApp_exHMI.Debug();
-  atApp_HMI.Debug();
+  // atApp_HMI.Debug();
 
 
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     

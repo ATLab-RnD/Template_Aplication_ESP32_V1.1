@@ -83,12 +83,12 @@ void  Scr_Menu::Start()
 	// atScr_Menu.setup_label(atScr_Menu.label_screen,"Menu.title",31,30,100,32);
 	//create notified bar
 	atScr_Menu.create_notified_bar(atScr_Menu.Object);
-	atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Value_old_1.modbus_active,30,0);
-	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Value_old_1.wifi_active,0,0);
-	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Value_old_1.SD_active,15,0);
-	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Value_old_1.warning_active,45,0);
-	sprintf(atScr_Menu.Value_old_1.time,"%d:%d",atScr_Menu.Value_old_1.hour,atScr_Menu.Value_old_1.minute);
-	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.Value_old_1.time,120,0,40,15);
+	atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Notified_Bar_old_1.modbus_active,30,0);
+	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Notified_Bar_old_1.wifi_active,0,0);
+	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Notified_Bar_old_1.SD_active,15,0);
+	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Notified_Bar_old_1.warning_active,45,0);
+	sprintf(atScr_Menu.char_time,"%d:%d",atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
+	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time,120,0,40,15);
 	//Menu_Screen_roller = lv_roller_create(Menu_Screen);
 	atScr_Menu.roller_1 = lv_roller_create(atScr_Menu.Object);
 	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,2,LV_ALIGN_CENTER,100,0,5);
@@ -162,7 +162,7 @@ void Scr_Menu::btn_DOWN_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected++;
+		roller_selected--;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;
@@ -178,7 +178,7 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected--;
+		roller_selected++;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;
@@ -189,35 +189,36 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 void Scr_Menu::Update()
 {
 
-	if((atScr_Menu.Value_old_1.hour != atScr_Menu.Notified_Bar_1.hour) || (atScr_Menu.Value_old_1.minute != atScr_Menu.Notified_Bar_1.minute))
+	if((atScr_Menu.Notified_Bar_old_1.hour != atScr_Menu.Notified_Bar_1.hour) || (atScr_Menu.Notified_Bar_old_1.minute != atScr_Menu.Notified_Bar_1.minute))
 	{
-
-		sprintf(atScr_Menu.Value_old_1.time,"%d:%d",atScr_Menu.Value_old_1.hour,atScr_Menu.Value_old_1.minute);
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.Value_old_1.time);
+		atScr_Menu.Notified_Bar_old_1.hour = atScr_Menu.Notified_Bar_1.hour;
+		atScr_Menu.Notified_Bar_old_1.minute = atScr_Menu.Notified_Bar_1.minute;
+		sprintf(atScr_Menu.char_time,"%d:%d",atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
+		atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time);
 	}
 	//check active wifi
-	if(atScr_Menu.Notified_Bar_1.wifi_active != atScr_Menu.Value_old_1.wifi_active)
+	if(atScr_Menu.Notified_Bar_1.wifi_active != atScr_Menu.Notified_Bar_old_1.wifi_active)
 	{
-		atScr_Menu.Value_old_1.wifi_active = atScr_Menu.Notified_Bar_1.wifi_active;
-		atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Value_old_1.wifi_active);
+		atScr_Menu.Notified_Bar_old_1.wifi_active = atScr_Menu.Notified_Bar_1.wifi_active;
+		atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Notified_Bar_old_1.wifi_active);
 	}
 	//check active
-	if (atScr_Menu.Notified_Bar_1.SD_active != atScr_Menu.Value_old_1.SD_active)
+	if (atScr_Menu.Notified_Bar_1.SD_active != atScr_Menu.Notified_Bar_old_1.SD_active)
 	{
-		atScr_Menu.Value_old_1.SD_active = atScr_Menu.Notified_Bar_1.SD_active;
-		atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Value_old_1.SD_active);
+		atScr_Menu.Notified_Bar_old_1.SD_active = atScr_Menu.Notified_Bar_1.SD_active;
+		atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Notified_Bar_old_1.SD_active);
 	}
 	//check active
-	if (atScr_Menu.Notified_Bar_1.modbus_active != atScr_Menu.Value_old_1.modbus_active)
+	if (atScr_Menu.Notified_Bar_1.modbus_active != atScr_Menu.Notified_Bar_old_1.modbus_active)
 	{
-		atScr_Menu.Value_old_1.modbus_active = atScr_Menu.Notified_Bar_1.modbus_active;
-		atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Value_old_1.modbus_active);
+		atScr_Menu.Notified_Bar_old_1.modbus_active = atScr_Menu.Notified_Bar_1.modbus_active;
+		atScr_Menu.render_modbus_icon(atScr_Menu.Screen_label_modbus,atScr_Menu.Notified_Bar_old_1.modbus_active);
 	}	
 	//check active
-	if (atScr_Menu.Notified_Bar_1.warning_active != atScr_Menu.Value_old_1.warning_active)
+	if (atScr_Menu.Notified_Bar_1.warning_active != atScr_Menu.Notified_Bar_old_1.warning_active)
 	{
-		atScr_Menu.Value_old_1.warning_active = atScr_Menu.Notified_Bar_1.warning_active;
-		atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Value_old_1.warning_active);
+		atScr_Menu.Notified_Bar_old_1.warning_active = atScr_Menu.Notified_Bar_1.warning_active;
+		atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Notified_Bar_old_1.warning_active);
 	}
 }
 #endif

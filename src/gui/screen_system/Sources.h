@@ -8,8 +8,8 @@
 // #endif
 enum ICON_ACTIVE
 {
-    ON,
-    OFF
+    
+    ON = 1
 };
 typedef struct Notified_Bar
 {
@@ -19,7 +19,7 @@ typedef struct Notified_Bar
     bool SD_active          = ON;
     bool modbus_active      = ON;
 };
-typedef struct Value_old
+typedef struct Notified_Bar_old
 {
     bool wifi_active        = OFF;
     bool warning_active     = OFF;
@@ -27,7 +27,6 @@ typedef struct Value_old
     bool modbus_active      = OFF;
     int minute = 14;
     int hour = 10;
-    char time[10];
 };
 
 class Sources
@@ -41,6 +40,7 @@ public:
 
 protected:
     void   setup_button(lv_obj_t *button, int pos_x, int pos_y, char * button_label_str);
+    char   char_time[10];
 
     lv_obj_t *Screen;
     
@@ -61,7 +61,7 @@ protected:
     #endif
     lv_obj_t *label_screen;
 
-    Value_old   Value_old_1;
+    Notified_Bar_old   Notified_Bar_old_1;
     
     
 
