@@ -52,26 +52,27 @@ enum pin_PCF8575
 };
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 PCF8575 atPCF8575(0x20);
-/* _____CLASS DEFINETION_____________________________________________________ */
+/* _____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Servicelication class is the Servicelication to manage the 
  */
 class Service_PCF8575 : public Service
 {
 public:
-  	Service_PCF8575();
+  Service_PCF8575();
  	~Service_PCF8575();
+  bool Pin_Modes[PCF8575_PIN_NUMBER]  = {MODE_PCF8575_Input};
+  bool Pin_Vals[PCF8575_PIN_NUMBER]   = {VAL_PCF8575_Low};
+
+protected:
+
+private:
 	static void  Service_PCF8575_Start();
 	static void  Service_PCF8575_Execute();
 	static void  Service_PCF8575_End();
-
-  bool Pin_Modes[PCF8575_PIN_NUMBER]  = {MODE_PCF8575_Input};
-  bool Pin_Vals[PCF8575_PIN_NUMBER]   = {VAL_PCF8575_Low};
-protected:
-private:
 } atService_PCF8575 ;
 /**
- * This function will be automatical called when a object is created by this class
+ * This function will be automaticaly called when a object is created by this class
  */
 Service_PCF8575::Service_PCF8575(/* args */)
 {
@@ -86,7 +87,7 @@ Service_PCF8575::Service_PCF8575(/* args */)
 	// change the ID of SNM
 }
 /**
- * This function will be automatical called when the object of class is delete
+ * This function will be automaticaly called when the object of class is delete
  */
 Service_PCF8575::~Service_PCF8575()
 {

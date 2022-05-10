@@ -14,12 +14,12 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "..\src\services\Service.h"
 #include <ModbusIP_ESP8266.h>
-#include "..\src\services\modbus_register\SNM_MB_Register.h"
-#include "..\src\services\modbus_register\EMM_MB_Register.h"
-#include "..\src\services\modbus_register\HDM_MB_Register.h"
-#include "..\src\services\modbus_register\IDM_MB_Register.h"
-#include "..\src\services\modbus_register\RDM_MB_Register.h"
-#include "..\src\services\modbus_register\General_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/SNM_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/EMM_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/HDM_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/IDM_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/RDM_MB_Register.h"
+#include "..\src\services\modbus_slave\modbus_register/General_MB_Register.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -38,14 +38,15 @@ class Service_Modbus_TCP_MA : public Service
 public:
     Service_Modbus_TCP_MA();
     ~Service_Modbus_TCP_MA();
-    static void  Service_Modbus_Start();
-    static void  Service_Modbus_Execute();    
-    static void  Service_Modbus_End();
     void check_In();
     void check_Out();
+    
 protected:
      
 private:
+    static void  Service_Modbus_Start();
+    static void  Service_Modbus_Execute();    
+    static void  Service_Modbus_End();
 }  atService_MB_TCP_MA ;
 
 /**

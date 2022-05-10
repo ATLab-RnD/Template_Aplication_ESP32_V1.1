@@ -35,23 +35,27 @@ void atApp_CD_Task_Func(void *parameter);
 class App_CD : public Application
 {
 public:
-  	App_CD();
+  App_CD();
  	~App_CD();
-  	static void  App_CD_Pend();
-	static void  App_CD_Start();
-	static void  App_CD_Restart();
-	static void  App_CD_Execute();
-	static void  App_CD_Suspend();
-	static void  App_CD_Resume();	  
-	static void  App_CD_End();
+   
   bool relay = 0;
   bool Led = 0;
   bool relay_feedback = 0;
   bool contactor_feedback = 0;
   bool aptomat_feedback = 0;
   uint16_t port = 0;
+
 protected:
+
 private:
+  static void  App_CD_Pend();
+	static void  App_CD_Start();
+	static void  App_CD_Restart();
+	static void  App_CD_Execute();
+	static void  App_CD_Suspend();
+	static void  App_CD_Resume();	  
+	static void  App_CD_End();
+
 } atApp_CD ;
 /**
  * This function will be automaticaly called when a object is created by this class

@@ -40,33 +40,34 @@ SemaphoreHandle_t xMutex_MB_RTU_MA = NULL;
 class Service_MB_RTU_MA : public Service, public ModbusMaster
 {
 public:
-    Service_MB_RTU_MA();
-    ~Service_MB_RTU_MA();
-    static void  Service_MB_RTU_MA_Start();
-    static void  Service_MB_RTU_MA_Execute();    
-    static void  Service_MB_RTU_MA_End();
+  Service_MB_RTU_MA();
+  ~Service_MB_RTU_MA();
+  
+  int Baudrate = 9600; 
+  SoftwareSerialConfig Serial_config = SWSERIAL_8E1;
+  
+  void check_In();
+  void check_Out();
+  
+  uint8_t  Status = NOT_OPENNED;
+  char*    Modbus_Error(uint8_t u8Result);
+  uint8_t  readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
+  uint8_t  readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
+  uint8_t  readHoldingRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty);
+  uint8_t  readInputRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint8_t u16ReadQty);
+  uint8_t  writeSingleCoil_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint8_t u8State);
+  uint8_t  writeSingleRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteValue);
+  uint8_t  writeMultipleCoils_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16BitQty);
+  uint8_t  writeMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteQty);
+  uint8_t  maskWriteRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16AndMask, uint16_t u16OrMask);
+  uint8_t  readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty, uint16_t u16WriteAddress, uint16_t u16WriteQty);
 
-    int Baudrate = 9600; 
-    SoftwareSerialConfig Serial_config = SWSERIAL_8E1;
-    
-    void check_In();
-    void check_Out();
-    
-    uint8_t  Status = NOT_OPENNED;
-    char*    Modbus_Error(uint8_t u8Result);
-    uint8_t  readCoils_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
-    uint8_t  readDiscreteInputs_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16BitQty);
-    uint8_t  readHoldingRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty);
-    uint8_t  readInputRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint8_t u16ReadQty);
-    uint8_t  writeSingleCoil_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint8_t u8State);
-    uint8_t  writeSingleRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteValue);
-    uint8_t  writeMultipleCoils_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16BitQty);
-    uint8_t  writeMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16WriteQty);
-    uint8_t  maskWriteRegister_at(uint8_t u8IDSlave, uint16_t u16WriteAddress, uint16_t u16AndMask, uint16_t u16OrMask);
-    uint8_t  readWriteMultipleRegisters_at(uint8_t u8IDSlave, uint16_t u16ReadAddress, uint16_t u16ReadQty, uint16_t u16WriteAddress, uint16_t u16WriteQty);
 protected:
      
 private:
+  static void  Service_MB_RTU_MA_Start();
+  static void  Service_MB_RTU_MA_Execute();    
+  static void  Service_MB_RTU_MA_End();
 }atService_MB_RTU_MA ;
 /**
  * This function will be automaticaly called when a object is created by this class

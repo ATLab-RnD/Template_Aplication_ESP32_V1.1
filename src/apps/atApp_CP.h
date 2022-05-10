@@ -38,6 +38,10 @@ class App_CP : public Application
 public:
   	App_CP();
  	~App_CP();
+
+protected:
+
+private:
   	static void  App_CP_Pend();
 	static void  App_CP_Start();
 	static void  App_CP_Restart();
@@ -45,8 +49,6 @@ public:
 	static void  App_CP_Suspend();
 	static void  App_CP_Resume();	  
 	static void  App_CP_End();
-protected:
-private:
 } atApp_CP ;
 /**
  * This function will be automaticaly called when a object is created by this class

@@ -34,6 +34,8 @@ class App_Modbus_Slave : public Application
 public:
   	App_Modbus_Slave();
  	~App_Modbus_Slave();
+protected:
+private:
   	static void  App_Modbus_Slave_Pend();
 	static void  App_Modbus_Slave_Start();
 	static void  App_Modbus_Slave_Restart();
@@ -41,8 +43,6 @@ public:
 	static void  App_Modbus_Slave_Suspend();
 	static void  App_Modbus_Slave_Resume();	  
 	static void  App_Modbus_Slave_End();
-protected:
-private:
 } atApp_MB_RTU_SL ;
 /**
  * This function will be automaticaly called when a object is created by this class

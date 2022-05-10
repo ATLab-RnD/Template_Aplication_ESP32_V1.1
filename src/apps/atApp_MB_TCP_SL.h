@@ -12,8 +12,6 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "..\src\services\modbus_slave\atService_MB_TCP_SL.h"
-#include "..\src\services\modbus_slave\Modbus_Registers.h"
-
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -28,16 +26,16 @@ class App_MB_TCP : public Application
 {
 public:
     App_MB_TCP();
- 	  ~App_MB_TCP();
-  static void  App_MB_Pend();
+	~App_MB_TCP();
+protected:
+private:
+  	static void  App_MB_Pend();
 	static void  App_MB_Start();
 	static void  App_MB_Restart();
 	static void  App_MB_Execute();
 	static void  App_MB_Suspend();
 	static void  App_MB_Resume();	  
 	static void  App_MB_End();
-protected:
-private:
 } atApp_MB_TCP_SL ;
 /**
  * This function will be automaticaly called when a object is created by this class

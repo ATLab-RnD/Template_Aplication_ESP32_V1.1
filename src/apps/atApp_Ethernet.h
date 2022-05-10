@@ -54,15 +54,6 @@ void prt_ethval(uint8_t refval);
 class App_Ethernet : public Application
 {
 public:
-  	App_Ethernet();
- 	~App_Ethernet();
-  	static void  App_Ethernet_Pend();
-	static void  App_Ethernet_Start();
-	static void  App_Ethernet_Restart();
-	static void  App_Ethernet_Execute();
-	static void  App_Ethernet_Suspend();
-	static void  App_Ethernet_Resume();	  
-	static void  App_Ethernet_End();
 
     Ethernet_Status status = Ethernet_STATUS_Disconnected;
     Ethernet_IP_Mode ip_mode = Ethernet_IP_MODE_Static; 
@@ -72,6 +63,15 @@ public:
     EthernetUDP Udp;
 protected:
 private:
+  	App_Ethernet();
+ 	~App_Ethernet();
+  	static void  App_Ethernet_Pend();
+	static void  App_Ethernet_Start();
+	static void  App_Ethernet_Restart();
+	static void  App_Ethernet_Execute();
+	static void  App_Ethernet_Suspend();
+	static void  App_Ethernet_Resume();	  
+	static void  App_Ethernet_End();
 } atApp_Ethernet ;
 /**
  * This function will be automaticaly called when a object is created by this class

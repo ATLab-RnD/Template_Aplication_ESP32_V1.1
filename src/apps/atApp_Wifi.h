@@ -65,16 +65,8 @@ enum Wifi_IP_Mode
 class App_Wifi : public Application
 {
 public:
-  	App_Wifi();
+    App_Wifi();
  	~App_Wifi();
-  	static void  App_Wifi_Pend();
-	static void  App_Wifi_Start();
-	static void  App_Wifi_Restart();
-	static void  App_Wifi_Execute();
-	static void  App_Wifi_Suspend();
-	static void  App_Wifi_Resume();	  
-	static void  App_Wifi_End();
-
 
     Wifi_Status status = WIFI_STATUS_Idle;
     Wifi_Request request = WIFI_REQUEST_Scanning;
@@ -113,6 +105,13 @@ protected:
     void connect();
     void disconnect();
 private:
+  	static void  App_Wifi_Pend();
+	static void  App_Wifi_Start();
+	static void  App_Wifi_Restart();
+	static void  App_Wifi_Execute();
+	static void  App_Wifi_Suspend();
+	static void  App_Wifi_Resume();	  
+	static void  App_Wifi_End();
 
 } atApp_Wifi ;
 /**

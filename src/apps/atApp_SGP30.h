@@ -35,11 +35,16 @@ class App_SGP30 : public Application
 public:
   	App_SGP30();
  	~App_SGP30();
+	 
 	float CO2 = 0;
 	float TVOC = 0;
 	float H2  = 0;
 	float Ethanol = 0;
 	bool Plugging = 0;
+
+protected:
+
+private:
   	static void  App_SGP30_Pend();
 	static void  App_SGP30_Start();
 	static void  App_SGP30_Restart();
@@ -47,8 +52,6 @@ public:
 	static void  App_SGP30_Suspend();
 	static void  App_SGP30_Resume();	  
 	static void  App_SGP30_End();
-protected:
-private:
 } atApp_SGP30 ;
 /**
  * This function will be automaticaly called when a object is created by this class
