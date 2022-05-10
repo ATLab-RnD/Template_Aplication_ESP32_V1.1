@@ -19,6 +19,12 @@ Objective for control with Esp32 Wrover.
 /* _____DEFINETIONS__________________________________________________________ */
 #define Max_IDM  20
 
+enum direction_run
+{
+	Forward,
+	Reverse
+};
+
 struct IDMs_data
 {
     bool Status_of_IDMs = 0;

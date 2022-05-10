@@ -20,11 +20,7 @@
 #include "..\src\obj\atObj_IDMs_Data.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-enum direction_run
-{
-	Forward,
-	Reverse
-};
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_IDM;  
 void atApp_IDM_Task_Func(void *parameter);

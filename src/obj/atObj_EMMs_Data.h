@@ -19,6 +19,12 @@ Objective for control with Esp32 Wrover.
 /* _____DEFINETIONS__________________________________________________________ */
 #define Max_EMM  20
 
+enum Status_of_relay
+{
+	Open,
+	Close
+};
+
 struct EMMs_data
 {
     bool Status_of_EMMs = 0;

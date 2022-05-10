@@ -20,11 +20,7 @@
 #include "..\src\obj\atObj_SNMs_Data.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-// enum Status_of_device
-// {
-// 	Offline,
-// 	Online
-// };
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_SNM;  
 void atApp_SNM_Task_Func(void *parameter);

@@ -19,11 +19,7 @@
 #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
 #include "..\src\obj\atObj_EMMs_Data.h"
 /* _____DEFINETIONS__________________________________________________________ */
-enum Status_of_relay
-{
-	Open,
-	Close
-};
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_EMM;  
 void atApp_EMM_Task_Func(void *parameter);
@@ -108,6 +104,7 @@ void  App_EMM::App_EMM_Restart()
  */
 void  App_EMM::App_EMM_Execute()
 {	
+  Serial.println("EMM app run");
   if(atObject_EMMs_Data.EMM_number >= 1)
   {
     if(atApp_EMM.User_Mode == APP_USER_MODE_DEBUG)

@@ -72,7 +72,7 @@ public:
  	~App_DID();
 
 	//value of host in IPv4 : (192, 168, Host_1, Host_2)
-	uint8_t IP[4]        = 	{192,168,1,6};
+	uint8_t IP[4]        = 	{192,168,1,14};
 
 	bool request_connecting = Yes;
 	bool connecting_result = 0;

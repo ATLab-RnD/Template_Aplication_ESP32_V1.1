@@ -25,9 +25,9 @@ void setup() {
 
   // atApp_ABC.Debug();
   atApp_Wifi.Debug();
-  atApp_SNM.Debug();
+  // atApp_SNM.Debug();
   // atApp_IDM.Debug();
-  // atApp_EMM.Debug();
+  atApp_EMM.Debug();
   // atApp_HDM.Debug();
   atApp_DID.Debug();
   // atApp_CP.Debug();
