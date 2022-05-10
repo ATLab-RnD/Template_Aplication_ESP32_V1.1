@@ -65,13 +65,14 @@ void  Scr_Detail_3::Start()
 	//Write codes screen_1_label_1
 	atScr_Detail_3.label_screen = lv_label_create(atScr_Detail_3.Object);
 	atScr_Detail_3.setup_label(atScr_Detail_3.label_screen,"Detail_3.title",31,30,100,32);
+	
 	//create notified bar
 	atScr_Detail_3.create_notified_bar(atScr_Detail_3.Object);
 	atScr_Detail_3.render_modbus_icon(atScr_Detail_3.Screen_label_modbus,atScr_Detail_3.modbus_active_old,30,0);
 	atScr_Detail_3.render_wifi_icon(atScr_Detail_3.Screen_label_wifi,atScr_Detail_3.wifi_active_old,0,0);
 	atScr_Detail_3.render_SD_Card_icon(atScr_Detail_3.Screen_label_SD,atScr_Detail_3.SD_active_old,15,0);
 	atScr_Detail_3.render_warning_icon(atScr_Detail_3.Screen_label_warning,atScr_Detail_3.warning_active_old,45,0);
-	
+	atScr_Detail_3.setup_label(atScr_Detail_3.Screen_label_time,atScr_Detail_3.Notified_Bar_1.time,120,0,40,15);
 	// init every events
     lv_obj_add_event_cb(atScr_Detail_3.btn_BACK, atScr_Detail_3.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 } 

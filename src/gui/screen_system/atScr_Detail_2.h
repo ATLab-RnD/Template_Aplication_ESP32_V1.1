@@ -71,6 +71,7 @@ void  Scr_Detail_2::Start()
 	atScr_Detail_2.render_wifi_icon(atScr_Detail_2.Screen_label_wifi,atScr_Detail_2.wifi_active_old,0,0);
 	atScr_Detail_2.render_SD_Card_icon(atScr_Detail_2.Screen_label_SD,atScr_Detail_2.SD_active_old,15,0);
 	atScr_Detail_2.render_warning_icon(atScr_Detail_2.Screen_label_warning,atScr_Detail_2.warning_active_old,45,0);
+	atScr_Detail_2.setup_label(atScr_Detail_2.Screen_label_time,atScr_Detail_2.Notified_Bar_1.time,120,0,40,15);
 	// init every events
     lv_obj_add_event_cb(atScr_Detail_2.btn_BACK, atScr_Detail_2.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 } 

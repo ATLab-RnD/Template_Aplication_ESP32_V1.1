@@ -86,6 +86,7 @@ void  Scr_Menu::Start()
 	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.wifi_active_old,0,0);
 	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.SD_active_old,15,0);
 	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.warning_active_old,45,0);
+	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.Notified_Bar_1.time,120,0,40,15);
 	//Menu_Screen_roller = lv_roller_create(Menu_Screen);
 	atScr_Menu.roller_1 = lv_roller_create(atScr_Menu.Object);
 	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,2,LV_ALIGN_CENTER,100,0,5);
