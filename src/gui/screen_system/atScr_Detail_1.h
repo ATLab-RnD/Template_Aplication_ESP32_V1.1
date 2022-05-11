@@ -58,6 +58,7 @@ Scr_Detail_1::~Scr_Detail_1()
  */
 void  Scr_Detail_1::Start()
 {
+	atScr_Detail_1.screen_status = ACTIVE;
     //Write codes screen
 	atScr_Detail_1.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -76,7 +77,6 @@ void  Scr_Detail_1::Start()
 	
 	// init every events
     lv_obj_add_event_cb(atScr_Detail_1.btn_BACK, atScr_Detail_1.btn_Back_event_handler, LV_EVENT_ALL, NULL);
-	atScr_Detail_1.screen_status = ACTIVE;
 
 } 
 /**
@@ -84,6 +84,7 @@ void  Scr_Detail_1::Start()
  */
 void  Scr_Detail_1::Execute()
 {
+	atScr_Detail_1.screen_status = ACTIVE;
 	atScr_Detail_1.Update();
 }
 
@@ -94,15 +95,15 @@ void Scr_Detail_1::btn_Back_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		if (!lv_obj_is_valid(*atScr_Detail_1.Backward_Screen))
-        {
+		atScr_Detail_1.screen_status = DEACTIVE;
+		// if (!lv_obj_is_valid(*atScr_Detail_1.Backward_Screen))
+        // {
 			(*atScr_Detail_1.setup_Backward_Screen)();
-        }
+        // }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Detail_1.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
-			atScr_Detail_1.screen_status = DEACTIVE;
         }
 	}
 		break;

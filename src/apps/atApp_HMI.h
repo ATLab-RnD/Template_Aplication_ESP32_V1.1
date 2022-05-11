@@ -57,7 +57,7 @@ public:
 	static void  App_HMI_Resume();	  
 	static void  App_HMI_End();
 
-	static const TickType_t update_screen_time = 2000/ portTICK_PERIOD_MS;;   // 2 second
+	static const TickType_t update_screen_time = 1000/ portTICK_PERIOD_MS;;   // 1 second
 	// bool update = 0;
 	bool wifi_active        = ON;
     bool warning_active     = ON;
@@ -111,7 +111,7 @@ void  App_HMI::App_HMI_Pend()
 void  App_HMI::App_HMI_Start()
 {
 	//screens map
-	atScr_Monitoring.setup_Forward_Screen = *atScr_Menu.Start;
+	atScr_Monitoring.setup_Forward_Screen = atScr_Menu.Start;
 	atScr_Monitoring.Forward_Screen = &atScr_Menu.Object;
 
 	atScr_Menu.setup_Backward_Screen = *atScr_Monitoring.Start;
@@ -140,10 +140,14 @@ void  App_HMI::App_HMI_Start()
 	atScr_Detail_2.Run_Screen();
 	atScr_Detail_3.Run_Screen();
 	atScr_Menu.Run_Screen();
+	atScr_Detail_1.screen_status = DEACTIVE;
+	atScr_Detail_2.screen_status = DEACTIVE;
+	atScr_Detail_3.screen_status = DEACTIVE;
+	atScr_Menu.screen_status = DEACTIVE;
 	atScr_Monitoring.Run_Screen();
 	//start timer
 	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
-	lv_scr_load(atScr_Monitoring.Object);
+	lv_scr_load_anim(atScr_Monitoring.Object, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
 	// atService_VSPI.check_Out();
 }  
 /**
@@ -242,6 +246,8 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	atScr_Detail_3.Notified_Bar_1.hour 				= atApp_HMI.notified_hour;
 	atScr_Detail_3.Notified_Bar_1.minute 			= atApp_HMI.notified_minute;
 	
+	atApp_HMI.notified_minute++;
+	
 	if(atScr_Monitoring.screen_status == ACTIVE)
 	{
 		atScr_Monitoring.Run_Screen();
@@ -252,13 +258,15 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	}
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
+		Serial.printf("screen detail 1 running \n");
 		atScr_Detail_1.Run_Screen();
 	}
 	else if(atScr_Detail_2.screen_status == ACTIVE)
 	{
+		Serial.printf("screen detail 2 running \n");
 		atScr_Detail_2.Run_Screen();
 	}
-	else if(atScr_Detail_3.screen_status == ACTIVE)
+	if(atScr_Detail_3.screen_status == ACTIVE)
 	{
 		atScr_Detail_3.Run_Screen();
 	}

@@ -20,7 +20,7 @@
 
 void setup() {
 // uncomment to put the app in debug mod
-
+Serial.begin(115200);
   // atApp_ABC.Debug();
   // atApp_RTC.Debug();
   // atApp_Wifi.Debug();
@@ -32,8 +32,8 @@ void setup() {
   // atApp_MB_TCP_SL.Debug();
   // atApp_INVT.Debug();
   // atApp_CD.Debug();
-  atApp_SGP30.Debug();
-  atApp_SHT30.Debug();
+  // atApp_SGP30.Debug();
+  // atApp_SHT30.Debug();
   // atApp_ADE.Debug();
   // atApp_exHMI.Debug();
   // atApp_HMI.Debug();
@@ -42,7 +42,7 @@ void setup() {
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // || Creation           ||     Task function         ||     PC name                    || heap size  || Parameter || Priority  || Task handle          || CoreID   ||
-  // xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     
+  // xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_RTC_Task_Func       , "atApp_RTC_Application"         ,  10000       ,     NULL    ,   1       , &Task_atApp_RTC       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP          ,    0     );
   // xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi        ,    1     );

@@ -74,6 +74,7 @@ Scr_Menu::~Scr_Menu()
  */
 void  Scr_Menu::Start()
 {
+	atScr_Menu.screen_status = ACTIVE;
     //Write codes screen
 	atScr_Menu.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -97,14 +98,15 @@ void  Scr_Menu::Start()
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_UP, atScr_Menu.btn_UP_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_DOWN, atScr_Menu.btn_DOWN_event_handler, LV_EVENT_ALL, NULL);
-	atScr_Menu.screen_status = ACTIVE;
-
+	Serial.printf("start screen menu\n");
 } 
 /**
  * Execute fuction of SNM app
  */
 void  Scr_Menu::Execute()
 {
+	atScr_Menu.screen_status = ACTIVE;
+	Serial.printf("screen menu is executing\n");
 	atScr_Menu.Update();
 }
 
@@ -115,15 +117,15 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
-        {
+		atScr_Menu.screen_status = DEACTIVE;
+		// if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
+        // {
 			(*atScr_Menu.setup_Backward_Screen)();
-        }
+        // }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Menu.Backward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
-			atScr_Menu.screen_status = DEACTIVE;
         }
 	}
 		break;
@@ -138,15 +140,15 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
-        {
+		atScr_Menu.screen_status = DEACTIVE;
+		// if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
+        // {
 			(*atScr_Menu.setup_Forward_Screen)();
-        }
+        // }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Menu.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
-			atScr_Menu.screen_status = DEACTIVE;
         }
 	}
 		break;
@@ -188,7 +190,8 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 }
 void Scr_Menu::Update()
 {
-
+	Serial.printf("%d\n",atScr_Menu.Notified_Bar_1.minute);
+	Serial.printf("%d\n",atScr_Menu.Notified_Bar_old_1.minute);
 	if((atScr_Menu.Notified_Bar_old_1.hour != atScr_Menu.Notified_Bar_1.hour) || (atScr_Menu.Notified_Bar_old_1.minute != atScr_Menu.Notified_Bar_1.minute))
 	{
 		atScr_Menu.Notified_Bar_old_1.hour = atScr_Menu.Notified_Bar_1.hour;

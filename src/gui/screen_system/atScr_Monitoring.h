@@ -37,9 +37,8 @@ public:
 
 protected:
 	void Update();
-
+	// bool load_to_menu_screen = 
 private:
-
     static void btn_OK_event_handler(lv_event_t *e);
     
 }atScr_Monitoring;
@@ -61,6 +60,7 @@ Scr_Monitoring::~Scr_Monitoring()
  */
 void  Scr_Monitoring::Start()
 {
+	atScr_Monitoring.screen_status = ACTIVE;
     //Write codes screen
 	atScr_Monitoring.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -81,13 +81,13 @@ void  Scr_Monitoring::Start()
 	
 	// init every events
     lv_obj_add_event_cb(atScr_Monitoring.btn_OK, atScr_Monitoring.btn_OK_event_handler, LV_EVENT_ALL, NULL);
-	atScr_Monitoring.screen_status = ACTIVE;
 } 
 /**
  * Execute fuction of SNM app
  */
 void  Scr_Monitoring::Execute()
 {
+	atScr_Monitoring.screen_status = ACTIVE;
 	atScr_Monitoring.Update();
 }
 void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
@@ -97,15 +97,15 @@ void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
-        {
+		atScr_Monitoring.screen_status = DEACTIVE;
+		// if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
+		// {
 			(*atScr_Monitoring.setup_Forward_Screen)();
-        }
+		// }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
 			lv_scr_load_anim(*atScr_Monitoring.Forward_Screen, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
-			atScr_Monitoring.screen_status = DEACTIVE;
         }
 	}
 		break;
