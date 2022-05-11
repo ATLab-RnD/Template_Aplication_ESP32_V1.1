@@ -104,14 +104,13 @@ void  App_EMM::App_EMM_Restart()
  */
 void  App_EMM::App_EMM_Execute()
 {	
-  Serial.println("EMM app run");
   if(atObject_EMMs_Data.EMM_number >= 1)
   {
-    if(atApp_EMM.User_Mode == APP_USER_MODE_DEBUG)
-    {
-      Serial.println("EMM number | Alert |   Voltage   |   Current   |   Power  | cosfi |Frequency|C_Relay| Feedback ");
-      Serial.println("                   | A  | B | C  | A | B |  C  | P | Q | S|       |         |       | Af | Cf  |Rf  ");      
-    }
+    // if(atApp_EMM.User_Mode == APP_USER_MODE_DEBUG)
+    // {
+    //   Serial.println("EMM number | Alert |   Voltage   |   Current   |   Power  | cosfi |Frequency|C_Relay| Feedback ");
+    //   Serial.println("                   | A  | B | C  | A | B |  C  | P | Q | S|       |         |       | Af | Cf  |Rf  ");      
+    // }
 
     for( atApp_EMM.number_device = 1; atApp_EMM.number_device <= atObject_EMMs_Data.EMM_number;
                                                                     atApp_EMM.number_device++ )
@@ -232,7 +231,7 @@ void  App_EMM::App_EMM_Execute()
         Serial.printf("frequency EMM %d:",atApp_EMM.number_device); 
 	    Serial.print(atObject_EMMs_Data.EMM[atApp_EMM.number_device].frequency);
         Serial.print("\n");
-        Serial.printf("frequency EMM %d:",atApp_EMM.number_device); 
+        Serial.printf("control relay EMM %d:",atApp_EMM.number_device); 
 	    Serial.print(atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay);
         Serial.print("\n");
         Serial.printf("relay_feedback EMM %d:",atApp_EMM.number_device); 
