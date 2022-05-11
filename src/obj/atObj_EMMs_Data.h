@@ -17,6 +17,13 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
+#define Max_EMM  20
+
+enum Status_of_relay
+{
+	Open,
+	Close
+};
 
 struct EMMs_data
 {
@@ -63,7 +70,7 @@ public:
     ~Object_EMMs_Data();
     uint8_t EMM_number = 0;
     //Max number of devices = 20;
-    EMMs_data EMM[21];
+    EMMs_data EMM[Max_EMM + 1];
 
 protected: 
     

@@ -17,6 +17,7 @@
 
 /* _____DEFINETIONS__________________________________________________________ */
 
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 
@@ -32,12 +33,14 @@ public:
     Service_Modbus_TCP();
     ~Service_Modbus_TCP();
 
+
 protected:
      
 private:
     static void  Service_Modbus_Start();
     static void  Service_Modbus_Execute();    
     static void  Service_Modbus_End();
+
 }  atService_MB_TCP_SL ;
 
 /**

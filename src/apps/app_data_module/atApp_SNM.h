@@ -15,16 +15,12 @@
 #ifndef _Application_atApp_SNM_
 #define _Application_atApp_SNM_
 /* _____PROJECT INCLUDES____________________________________________________ */
-#include "..\App.h"
+#include "..\\App.h"
 #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
 #include "..\src\obj\atObj_SNMs_Data.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-enum status_connect
-{
-  disconnect,
-  connect
-};
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_SNM;  
 void atApp_SNM_Task_Func(void *parameter);
@@ -39,20 +35,20 @@ void atApp_SNM_Task_Func(void *parameter);
 class App_SNM : public Application
 {
 public:
-  	App_SNM();
+  App_SNM();
  	~App_SNM();
-  	static void  App_SNM_Pend();
+  uint8_t number_of_try_to_connect = 3;
+protected:
+  uint8_t buffer;
+  uint8_t number_device;
+private:
+  static void  App_SNM_Pend();
 	static void  App_SNM_Start();
 	static void  App_SNM_Restart();
 	static void  App_SNM_Execute();
 	static void  App_SNM_Suspend();
 	static void  App_SNM_Resume();	  
 	static void  App_SNM_End();
-  uint8_t number_of_try_to_connect = 3;
-protected:
-  uint8_t buffer;
-  uint8_t number_device;
-private:
 } atApp_SNM ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -85,7 +81,7 @@ App_SNM::~App_SNM()
  */
 void  App_SNM::App_SNM_Pend()
 {
-    atService_MB_TCP_MA.Run_Service();
+    
 }
 /**
  * This start function will init some critical function 
@@ -93,7 +89,7 @@ void  App_SNM::App_SNM_Pend()
 void  App_SNM::App_SNM_Start()
 {
 	// init atXYZ Service in the fist running time
-	
+  atService_MB_TCP_MA.Run_Service();
 }  
 /**
  * Restart function of SNM  app
@@ -109,6 +105,10 @@ void  App_SNM::App_SNM_Execute()
 {	
   if(atObject_SNMs_Data.SNM_number >= 1)
   {
+    if(atApp_SNM.User_Mode == APP_USER_MODE_DEBUG)
+    {
+      Serial.println(" SNM number | Temperature (C) |  Humidity  |  CO2  |  H2  |  TVOC  |  Ethanol  ");
+    }
     for( atApp_SNM.number_device = 1; atApp_SNM.number_device <= atObject_SNMs_Data.SNM_number;
                                                                     atApp_SNM.number_device++ )
     {	
@@ -119,73 +119,74 @@ void  App_SNM::App_SNM_Execute()
       // try to connect slave device
       for( uint8_t try_connect = 1; try_connect <= atApp_SNM.number_of_try_to_connect; try_connect++)
       {     
-        if(mb_TCP.isConnected(IP_module))
+        if(atService_MB_TCP_MA.isConnected(IP_module) == false)
 		    {    
-          for( uint8_t try_read = 0; try_read <= 2; try_read++)
-          {
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP,SNM_REGISTER_R_TEMPERATURE_REAL_TIME, 
-                                                        &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Temperature);
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP, SNM_REGISTER_R_HUMIDITY_REAL_TIME,
-                                                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Humidity);
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP, SNM_REGISTER_R_CO2_REAL_TIME,
-                                                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].CO2);
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP, SNM_REGISTER_R_H2_REAL_TIME,
-                                                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].H2);
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP, SNM_REGISTER_R_TVOC_REAL_TIME,
-                                                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].TVOC);  
-            mb_TCP.readHreg(atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP, SNM_REGISTER_R_ETHANOL_REAL_TIME,
-                                                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Ethanol); 
-            atService_MB_TCP_MA.check_In();   
-            atService_MB_TCP_MA.Run_Service();
-            atService_MB_TCP_MA.check_Out();
-          }     
-          atApp_SNM.buffer = 0;
+          atService_MB_TCP_MA.check_In();
+          atService_MB_TCP_MA.connect(IP_module);
+          atService_MB_TCP_MA.check_Out();
+          atApp_SNM.buffer++;
         }
         else
         {
-          mb_TCP.connect(IP_module);
-          atService_MB_TCP_MA.check_In();   
-          atService_MB_TCP_MA.Run_Service();
+          atService_MB_TCP_MA.check_In();
+          atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_SNM.number_device);
+          atService_MB_TCP_MA.readIreg(IP_module,SNM_REGISTER_R_TEMPERATURE_REAL_TIME, 
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Temperature);
+          atService_MB_TCP_MA.readIreg(IP_module, SNM_REGISTER_R_HUMIDITY_REAL_TIME,
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Humidity);
+          atService_MB_TCP_MA.readIreg(IP_module, SNM_REGISTER_R_CO2_REAL_TIME,
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].CO2);
+          atService_MB_TCP_MA.readIreg(IP_module, SNM_REGISTER_R_H2_REAL_TIME,
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].H2);
+          atService_MB_TCP_MA.readIreg(IP_module, SNM_REGISTER_R_TVOC_REAL_TIME,
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].TVOC);  
+          atService_MB_TCP_MA.readIreg(IP_module, SNM_REGISTER_R_ETHANOL_REAL_TIME,
+                          &atObject_SNMs_Data.SNM[atApp_SNM.number_device].Ethanol); 
           atService_MB_TCP_MA.check_Out();
-          atApp_SNM.buffer++;
+    
+          atObject_SNMs_Data.SNM[atApp_SNM.number_device].Status_of_SNMs = Online;
+          atApp_SNM.buffer = 0;
         }                                                                                                                   
       }
+      
     if(atApp_SNM.buffer >= 1)
     {
-      atObject_SNMs_Data.SNM[atApp_SNM.number_device].Status_of_SNMs = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].Status_of_SNMs = Offline;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].Temperature = 0;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].Humidity = 0;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].CO2 = 0;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].H2 = 0;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].TVOC = 0;
       atObject_SNMs_Data.SNM[atApp_SNM.number_device].Ethanol = 0;
-      atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[0] = 0; 
-      atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[1] = 0;    
-      atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[2] = 0;    
-      atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[3] = 0;     
-      atObject_SNMs_Data.SNM_number = atObject_SNMs_Data.SNM_number - 1 ;  
+      // atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[0] = 0; 
+      // atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[1] = 0;    
+      // atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[2] = 0;    
+      // atObject_SNMs_Data.SNM[atApp_SNM.number_device].IP[3] = 0;     
+      // atObject_SNMs_Data.SNM_number = atObject_SNMs_Data.SNM_number - 1 ;  
     }
     if(atApp_SNM.User_Mode == APP_USER_MODE_DEBUG)
-    {
-      Serial.printf(" - Module SNM %d \n",atApp_SNM.number_device);
-      Serial.print("Temperature:"); 
+    { 
+      Serial.printf("   SNM %d ",atApp_SNM.number_device);
+      Serial.print(" |       ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].Temperature);
-      Serial.print("\n");
-      Serial.print("Humidity:"); 
+      Serial.print("       |     ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].Humidity);
-      Serial.print("\n");
-      Serial.print("CO2:"); 
+      Serial.print("    |   ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].CO2);
-      Serial.print("\n");
-      Serial.print("H2:"); 
+      Serial.print("   |  ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].H2);
-      Serial.print("\n");
-      Serial.print("TVOC:"); 
+      Serial.print("  |   ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].TVOC);
-      Serial.print("\n");
-      Serial.print("Ethanol:"); 
+      Serial.print("   |    ");
 			Serial.print(atObject_SNMs_Data.SNM[atApp_SNM.number_device].Ethanol);
       Serial.print("\n");
+
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].Temperature = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].Humidity = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].CO2 = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].H2 = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].TVOC = 0;
+      atObject_SNMs_Data.SNM[atApp_SNM.number_device].Ethanol = 0;
     }
   }
 }

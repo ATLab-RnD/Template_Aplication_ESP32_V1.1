@@ -22,6 +22,7 @@ void setup() {
 // uncomment to put the app in debug mod
 Serial.begin(115200);
   // atApp_ABC.Debug();
+
   // atApp_RTC.Debug();
   // atApp_Wifi.Debug();
   // atApp_SNM.Debug();
@@ -47,7 +48,7 @@ Serial.begin(115200);
   // xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP          ,    0     );
   // xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi        ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_RTU_SL_Task_Func , "atApp_MB_RTU_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_RTU_SL ,    1     );
-  // xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  100000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
+  xTaskCreatePinnedToCore(  atApp_MB_TCP_MA_Task_Func , "atApp_MB_TCP_MA_Application"   ,  1024      ,     NULL    ,   1       , &Task_atApp_MB_TCP_MA ,    1     );
   // xTaskCreatePinnedToCore(  atApp_MB_TCP_SL_Task_Func , "atApp_MB_TCP_SL_Application"   ,  10000      ,     NULL    ,   1       , &Task_atApp_MB_TCP_SL ,    1     );
   // xTaskCreatePinnedToCore(  atApp_SNM_Task_Func        , "atApp_SNM_Module_Application" ,  5000       ,     NULL    ,   1       , &Task_atApp_SNM         ,    1     );
   // xTaskCreatePinnedToCore(  atApp_DID_Task_Func        , "atApp_DID_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_DID         ,    1     );
@@ -67,6 +68,5 @@ Serial.begin(115200);
   // vTaskSuspend(Task_atApp_MB_TCP_MA);
   // vTaskSuspend(Task_atApp_DID);
   // vTaskSuspend(Task_atApp_SNM);
-
 }
 void loop() {}

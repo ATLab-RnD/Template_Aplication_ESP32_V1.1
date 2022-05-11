@@ -18,7 +18,12 @@
 #include "App.h"
 #include "atApp_Wifi.h"
 #include "atApp_DID.h"
-#include "atApp_SNM.h"
+#include "..\apps\app_data_module\atApp_SNM.h"
+#include "..\apps\app_data_module\atApp_IDM.h"
+#include "..\apps\app_data_module\atApp_HDM.h"
+#include "..\apps\app_data_module\atApp_EMM.h"
+#include "..\apps\atApp_MB_TCP_MA.h"
+
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -113,8 +118,22 @@ void  App_CP::App_CP_Execute()
 	{
 		vTaskResume(Task_atApp_DID);
 		vTaskResume(Task_atApp_SNM);
+		vTaskResume(Task_atApp_IDM);
+		vTaskResume(Task_atApp_EMM);
+		vTaskResume(Task_atApp_HDM);
+		// vTaskResume(Task_atApp_MB_TCP_MA);
 		atApp_Wifi.Debug_Exit();
 	}
+
+	// if(atApp_DID.App_DID_Execute)
+	// {
+	// 	vTaskSuspend(Task_atApp_MB_TCP_MA);
+	// }
+	// else
+	// {
+	// 	vTaskResume(Task_atApp_MB_TCP_MA);
+	// }
+	
 
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
