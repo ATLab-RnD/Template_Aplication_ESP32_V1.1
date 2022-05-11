@@ -10,11 +10,11 @@
 // #include "../src/apps/atApp_INVT.h"
 // #include "../src/apps/atApp_ADE.h"
 // #include "../src/apps/atApp_CD.h"
-#include "../src/apps/atApp_SHT30.h"
-#include "../src/apps/atApp_SGP30.h"
+// #include "../src/apps/atApp_SHT30.h"
+// #include "../src/apps/atApp_SGP30.h"
 // #include "../src/apps/atApp_exHMI.h"
 // #include "../src/apps/atApp_DS18B20.h"
-#include "../src/apps/atApp_HMI.h"
+// #include "../src/apps/atApp_HMI.h"
 // #include "../src/apps/atApp_DID.h"
 // #include "../src/apps/atApp_RTC.h"
 
@@ -42,7 +42,7 @@ Serial.begin(115200);
 //--------------------------------------------------------------------Tasks table ----------------------------------------------------------------------------------//     
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // || Creation           ||     Task function         ||     PC name                    || heap size  || Parameter || Priority  || Task handle          || CoreID   ||
-  // xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     );
+  xTaskCreatePinnedToCore(  atApp_ABC_Task_Func       , "atApp_ABC_Application"         ,  1000       ,     NULL    ,   1       , &Task_atApp_ABC       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_RTC_Task_Func       , "atApp_RTC_Application"         ,  10000       ,     NULL    ,   1       , &Task_atApp_RTC       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_CP_Task_Func        , "atApp_CP_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CP          ,    0     );
   // xTaskCreatePinnedToCore(  atApp_Wifi_Task_Func      , "atApp_Wifi_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_Wifi        ,    1     );
