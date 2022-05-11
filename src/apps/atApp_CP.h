@@ -17,8 +17,8 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "atApp_Wifi.h"
-#include "atApp_DID.h"
-#include "atApp_SNM.h"
+#include "atApp_OTA.h"
+
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -104,15 +104,13 @@ void  App_CP::App_CP_Restart()
 void  App_CP::App_CP_Execute()
 {	
 
-	if( (atApp_Wifi.scanned_Wifi_SSIDs_Number > 0) && (WiFi.status() == WL_DISCONNECTED))
+	if( (atApp_Wifi.scanned_Wifi_SSIDs_Number > 0) && (WiFi.status() != WL_CONNECTED))
 	{
-		atApp_Wifi.wifi_SSID_Index_To_Connect = 0;
 		atApp_Wifi.request = WIFI_REQUEST_Connecting;
 	}
 	if(atApp_Wifi.status == WIFI_STATUS_Connected)
 	{
-		vTaskResume(Task_atApp_DID);
-		vTaskResume(Task_atApp_SNM);
+		vTaskResume(Task_atApp_OTA);
 		atApp_Wifi.Debug_Exit();
 	}
 

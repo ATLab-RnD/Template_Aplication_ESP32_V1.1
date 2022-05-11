@@ -17,11 +17,17 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/atService_XYZ.h"
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <AsyncElegantOTA.h>
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_OTA;  
 void atApp_OTA_Task_Func(void *parameter);
+
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -85,6 +91,15 @@ void  App_OTA::App_OTA_Start()
 {
 	// init atXYZ Service in the fist running time
 	// atService_XYZ.Run_Service();
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(200, "text/plain", "Hi! I am ESP32.");
+  	});
+	AsyncElegantOTA.begin(&server);    // Start ElegantOTA
+	server.begin();
+	if(atApp_OTA.User_Mode == APP_USER_MODE_DEBUG)
+    {	
+		Serial.println("HTTP server started");
+    }   
 }  
 /**
  * Restart function of SNM  app

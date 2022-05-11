@@ -17,11 +17,11 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #ifdef HMI_Lite
-#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+	#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
 #endif
 #include "../gui/screen_system/Sources.h"
 #ifdef HMI
-#include "../services/lvgl/atService_LVGL_HMI.h"
+	#include "../services/lvgl/atService_LVGL_HMI.h"
 #endif
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail_1.h"
