@@ -38,7 +38,9 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 #define LED3_G 9
 #define LED3_B 0
 
+#ifndef OFF
 #define OFF     0
+#endif
 #define RED     1
 #define GREEN   2
 #define BLUE    3
@@ -60,10 +62,6 @@ class Buttons : public Service
 public:
     Buttons();
     ~Buttons();
-    static void  Service_Buttons_Start();
-    static void  Service_Buttons_Execute();    
-    static void  Service_Buttons_End(); 
-
     bool Up = Released;
     bool Down = Released;
     bool Back = Released;
@@ -81,6 +79,10 @@ protected:
     uint8_t LED_RGB_3_Status = 0;
     bool LCD_Led_Status = 1; 
 private:
+
+    static void  Service_Buttons_Start();
+    static void  Service_Buttons_Execute();    
+    static void  Service_Buttons_End();
 } atService_Buttons_LEDs_PCF8575 ;
 /**
  * This function will be automaticaly called when a object is created by this class

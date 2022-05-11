@@ -28,12 +28,13 @@ class Service_XYZ : public Service
 public:
     Service_XYZ();
     ~Service_XYZ();
-    static void  Service_XYZ_Start();
-    static void  Service_XYZ_Execute();    
-    static void  Service_XYZ_End();
+    
 protected:
      
 private:
+    static void  Service_XYZ_Start();
+    static void  Service_XYZ_Execute();    
+    static void  Service_XYZ_End();
 } atService_XYZ ;
 /**
  * This function will be automaticaly called when a object is created by this class

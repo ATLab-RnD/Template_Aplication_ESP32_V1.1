@@ -20,7 +20,7 @@ Application
 #include "WEMOS_SHT3X.h"
 /* _____DEFINETIONS__________________________________________________________ */
 /* _____GLOBAL VARIABLES_____________________________________________________ */
-  SHT3X sht30(0x45);
+  SHT3X sht30(0x44);
 //   SHT3X sht30(0x44);
 ///////////////////////////////////////////////Testing part//
 /* _____GLOBAL FUNCTION______________________________________________________ */
@@ -35,9 +35,14 @@ class App_SHT30 : public Application
 public:
   	App_SHT30();
  	~App_SHT30();
+	 
 	float flTemperature = 0;
    	float flHumidity = 0;
    	bool Plugging = 0;
+
+protected:
+
+private:
   	static void  App_SHT30_Pend();
 	static void  App_SHT30_Start();
 	static void  App_SHT30_Restart();
@@ -45,8 +50,6 @@ public:
 	static void  App_SHT30_Suspend();
 	static void  App_SHT30_Resume();	  
 	static void  App_SHT30_End();
-protected:
-private:
 } atApp_SHT30 ;
 /**
  * This function will be automaticaly called when a object is created by this class

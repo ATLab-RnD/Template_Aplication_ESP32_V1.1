@@ -35,16 +35,17 @@ class Service_Modbus_RTU_Slave : public Service, public ModbusRTU
 public:
     Service_Modbus_RTU_Slave();
     ~Service_Modbus_RTU_Slave();
-    static void  Service_Modbus_RTU_Slave_Start();
-    static void  Service_Modbus_RTU_Slave_Execute();    
-    static void  Service_Modbus_RTU_Slave_End();
-
+    
     unsigned int baudrate = 9600;
     uint32_t Serial_config = SERIAL_8N1;
     int Slave_ID = 1;
+
 protected:
      
 private:
+    static void  Service_Modbus_RTU_Slave_Start();
+    static void  Service_Modbus_RTU_Slave_Execute();    
+    static void  Service_Modbus_RTU_Slave_End();
 } atService_MB_RTU_SL ;
 /**
  * This function will be automaticaly called when a object is created by this class

@@ -44,10 +44,6 @@ class Service_INVT_GD200 : public Service
 public:
     Service_INVT_GD200();
     ~Service_INVT_GD200();
-    static void  Service_INVT_GD200_Start();
-    static void  Service_INVT_GD200_Execute();    
-    static void  Service_INVT_GD200_End();
-
     uint8_t   ID_Modbus = 0;
     float     Frequency  = 0;
     bool direction = FORWARD;
@@ -81,6 +77,10 @@ protected:
     uint16_t INVT_Buffer_R_Registers_2[16];
 private :
     uint16_t INVT_Buffer_Fault_Code = 0;
+    static void  Service_INVT_GD200_Start();
+    static void  Service_INVT_GD200_Execute();    
+    static void  Service_INVT_GD200_End();
+
 } atService_INVT_GD200 ;
 /**
  * This function will be automaticaly called when a object is created by this class

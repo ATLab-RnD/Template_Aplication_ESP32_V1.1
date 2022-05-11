@@ -30,14 +30,6 @@ class App_ADE : public Application
 public:
   	App_ADE();
  	~App_ADE();
-  	static void  App_ADE_Pend();
-	static void  App_ADE_Start();
-	static void  App_ADE_Restart();
-	static void  App_ADE_Execute();
-	static void  App_ADE_Suspend();
-	static void  App_ADE_Resume();	  
-	static void  App_ADE_End();
-
 	// formula to cal data form raw data 
 	// data = Calib_Index_A * raw_data + Calib_Index_B;
 	float Calib_Index_A_RMS_Volatge[PHASE_NUMBER];
@@ -68,6 +60,13 @@ public:
 protected:
 	float Round(float numb);
 private:
+  	static void  App_ADE_Pend();
+	static void  App_ADE_Start();
+	static void  App_ADE_Restart();
+	static void  App_ADE_Execute();
+	static void  App_ADE_Suspend();
+	static void  App_ADE_Resume();	  
+	static void  App_ADE_End();
 } atApp_ADE ;
 /**
  * This function will be automaticaly called when a object is created by this class

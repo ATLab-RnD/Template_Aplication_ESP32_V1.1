@@ -369,10 +369,6 @@ class Service_ADE7758 : public Service
 public:
     Service_ADE7758();
     ~Service_ADE7758();
-    static void  Service_ADE7758_Start();
-    static void  Service_ADE7758_Execute();    
-    static void  Service_ADE7758_End();
-
     float get_RMS_Voltage(phase_index_enum phase_index);
     float get_RMS_Current(phase_index_enum phase_index);
     float get_Active_Power(phase_index_enum phase_index);
@@ -388,6 +384,9 @@ protected:
     uint16_t read12bit(uint8_t reg);
     uint8_t  read8bit(uint8_t reg);
 private:
+    static void  Service_ADE7758_Start();
+    static void  Service_ADE7758_Execute();    
+    static void  Service_ADE7758_End();
 } atService_ADE7758 ;
 /**
  * This function will be automaticaly called when a object is created by this class

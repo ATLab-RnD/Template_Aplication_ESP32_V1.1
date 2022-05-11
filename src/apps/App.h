@@ -81,8 +81,6 @@ protected:
   char*     State_Application_String();
   void      Information();  
 private:
-  
-
   bool Run_Mode = Run_Mode_Auto;// the executing task will run APP_RUN_MODE_AUTOally
 
   static const bool Run_Mode_Auto = 1;

@@ -34,14 +34,16 @@ class Service_VSPI : public Service
 public:
     Service_VSPI();
     ~Service_VSPI();
-    static void  Service_VSPI_Start();
-    static void  Service_VSPI_Execute();    
-    static void  Service_VSPI_End();
+    
     void check_In();
     void check_Out();
+
 protected:
      
 private:
+    static void  Service_VSPI_Start();
+    static void  Service_VSPI_Execute();    
+    static void  Service_VSPI_End();
 } atService_VSPI ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -71,7 +73,7 @@ Service_VSPI::~Service_VSPI()
 void  Service_VSPI::Service_VSPI_Start()
 {
     xMutex_VSPI = xSemaphoreCreateMutex();
-    SPI.begin();
+    // SPI.begin();
 }  
 
 /**
