@@ -17,6 +17,13 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
+#define Max_IDM  20
+
+enum direction_run
+{
+	Forward,
+	Reverse
+};
 
 struct IDMs_data
 {
@@ -24,15 +31,15 @@ struct IDMs_data
     //value in IPv4 
     uint8_t IP[4]        = 	{192,168,0,0};
 
-    uint8_t invt_type;  
-    bool direction_run;
-    uint8_t set_frequency;
-	uint8_t operating_frequency;
-	uint8_t input_voltage;
-	uint8_t input_current;
-	uint8_t output_voltage;
-	uint8_t output_current;
-    uint8_t fault_code; 
+    uint16_t invt_type = 2;  
+    bool direction_run = 1;
+    uint16_t set_frequency = 50;
+	uint16_t operating_frequency;
+	uint16_t input_voltage;
+	uint16_t input_current;
+	uint16_t output_voltage;
+	uint16_t output_current;
+    uint16_t fault_code; 
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -57,7 +64,7 @@ public:
     ~Object_IDMs_Data();
     uint8_t IDM_number = 0;
     //Max number of devices = 20;
-    IDMs_data IDM[21];
+    IDMs_data IDM[Max_IDM + 1];
 
 protected: 
     

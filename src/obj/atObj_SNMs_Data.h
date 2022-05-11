@@ -17,6 +17,7 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
+#define Max_SNM  20
 
 struct SNMs_data
 {
@@ -55,7 +56,7 @@ public:
   ~Object_SNMs_Data();
   uint8_t SNM_number = 0;
   //Max number of devices = 20;
-  SNMs_data SNM[21];
+  SNMs_data SNM[Max_SNM + 1];
 
 protected: 
 private:

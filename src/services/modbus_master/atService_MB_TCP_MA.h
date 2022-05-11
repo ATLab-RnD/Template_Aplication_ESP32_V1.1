@@ -25,7 +25,6 @@
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 SemaphoreHandle_t xMutex_MB_TCP_MA = NULL;
-ModbusIP mb_TCP;
 
 /* _____GLOBAL FUNCTION______________________________________________________ */
 
@@ -33,7 +32,7 @@ ModbusIP mb_TCP;
 /**
  * This Service class is the Service to manage the 
  */
-class Service_Modbus_TCP_MA : public Service
+class Service_Modbus_TCP_MA : public Service, public ModbusIP
 {
 public:
     Service_Modbus_TCP_MA();
@@ -77,7 +76,7 @@ Service_Modbus_TCP_MA::~Service_Modbus_TCP_MA()
 void  Service_Modbus_TCP_MA::Service_Modbus_Start()
 {
     xMutex_MB_TCP_MA = xSemaphoreCreateMutex();
-    mb_TCP.client();
+    atService_MB_TCP_MA.client();
 }  
 
 /**
@@ -85,8 +84,7 @@ void  Service_Modbus_TCP_MA::Service_Modbus_Start()
  */
 void  Service_Modbus_TCP_MA::Service_Modbus_Execute()
 {   
-    mb_TCP.task();
-    yield();
+    
 }    
 void  Service_Modbus_TCP_MA::Service_Modbus_End(){}
 /**
@@ -105,6 +103,8 @@ void  Service_Modbus_TCP_MA::check_In()
  */
 void  Service_Modbus_TCP_MA::check_Out()
 {
+    atService_MB_TCP_MA.task();
+    yield();
     xSemaphoreGive( xMutex_MB_TCP_MA );
 }
 
