@@ -46,11 +46,11 @@
     #define LOAD_PAGE_TIME          100 //ms
 #endif
 
-enum ICON_ACTIVE
-{
-    OFF,
-    ON = 1
-};
+// enum ICON_ACTIVE
+// {
+//     OFF,
+//     ON = 1
+// };
 typedef struct Notified_Bar
 {
     int hour = 14, minute = 10;
