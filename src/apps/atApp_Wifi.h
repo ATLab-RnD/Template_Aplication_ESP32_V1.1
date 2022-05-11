@@ -225,6 +225,19 @@ void  App_Wifi::App_Wifi_Execute()
             
     if(atApp_Wifi.User_Mode == APP_USER_MODE_DEBUG)
     { 
+        switch (atApp_Wifi.request)
+        {
+        case WIFI_REQUEST_Scanning:
+            Serial.println("WIFI REQUEST Scanning");
+
+        case WIFI_REQUEST_Connecting:
+            Serial.println("WIFI REQUEST Connecting");
+
+        case WIFI_REQUEST_Disconnecting:
+            Serial.println("WIFI REQUEST Disconnecting");
+        
+        }
+        
         // for scanning request
         Serial.println("Scanned networks:");
         Serial.println(atApp_Wifi.scanned_Wifi_SSIDs);
