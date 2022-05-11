@@ -98,7 +98,6 @@ void  Scr_Menu::Start()
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_UP, atScr_Menu.btn_UP_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_DOWN, atScr_Menu.btn_DOWN_event_handler, LV_EVENT_ALL, NULL);
-	Serial.printf("start screen menu\n");
 } 
 /**
  * Execute fuction of SNM app
@@ -106,7 +105,6 @@ void  Scr_Menu::Start()
 void  Scr_Menu::Execute()
 {
 	atScr_Menu.screen_status = ACTIVE;
-	Serial.printf("screen menu is executing\n");
 	atScr_Menu.Update();
 }
 

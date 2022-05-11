@@ -49,6 +49,7 @@ private:
 	static void  App_CP_Suspend();
 	static void  App_CP_Resume();	  
 	static void  App_CP_End();
+	int count = 0;
 } atApp_CP ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -113,10 +114,18 @@ void  App_CP::App_CP_Execute()
 		vTaskResume(Task_atApp_OTA);
 		atApp_Wifi.Debug_Exit();
 	}
-
+	//example for OTA Enable
+	if(atApp_CP.count < 50 ) atApp_OTA.Enable = TRUE;
+	else
+	{
+		atApp_OTA.Enable = FALSE;
+	}
+	atApp_CP.count++;
+	Serial.printf("count %d\n",atApp_CP.count);
+	//
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
-		
+		Serial.printf("server state %d\n",atApp_OTA.Server_State);
     }   
 }
 void  App_CP::App_CP_Suspend(){}

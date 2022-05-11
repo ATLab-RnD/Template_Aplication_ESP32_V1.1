@@ -91,7 +91,7 @@ public:
     
 
     // information of connecting wifi 
-    uint8_t delaying_time_to_check_collecting_wifi_RSSI = 3;// second           
+    uint8_t delaying_time_to_check_collecting_wifi_RSSI = 5;// second           
     char connecting_SSID[100] = "";
     char connecting_Password[100] = "";
     int collecting_wifi_RSSI;

@@ -258,12 +258,10 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	}
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
-		Serial.printf("screen detail 1 running \n");
 		atScr_Detail_1.Run_Screen();
 	}
 	else if(atScr_Detail_2.screen_status == ACTIVE)
 	{
-		Serial.printf("screen detail 2 running \n");
 		atScr_Detail_2.Run_Screen();
 	}
 	if(atScr_Detail_3.screen_status == ACTIVE)
