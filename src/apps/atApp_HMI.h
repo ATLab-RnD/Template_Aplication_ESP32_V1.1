@@ -12,21 +12,26 @@
 
 #ifndef _Application_atApp_HMI_
 #define _Application_atApp_HMI_
-#define HMI_Lite
+// #define HMI_Lite
+#define HMI
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
+#ifdef HMI_Lite
 #include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+#endif
+#include "../gui/screen_system/Sources.h"
+#ifdef HMI
+#include "../services/lvgl/atService_LVGL_HMI.h"
+#endif
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail_1.h"
 #include "../gui/screen_system/atScr_Detail_2.h"
 #include "../gui/screen_system/atScr_Detail_3.h"
 #include "../gui/screen_system/atScr_Menu.h"
-#include "../gui/screen_system/Sources.h"
 #include "../services/SPI/atService_VSPI.h"
-// #include "../services/lvgl/atService_atButtons_LEDs_PCF8575.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-bool count = 0;
+
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 static TimerHandle_t screen_monitoring_update_timer = NULL;
 ///////////////////////////////////////////////Testing part//
@@ -52,12 +57,15 @@ public:
 	static void  App_HMI_Resume();	  
 	static void  App_HMI_End();
 
-	static const TickType_t update_screen_time = 2000/ portTICK_PERIOD_MS;;   // 2 second
+	static const TickType_t update_screen_time = 1000/ portTICK_PERIOD_MS;;   // 1 second
 	// bool update = 0;
 	bool wifi_active        = ON;
     bool warning_active     = ON;
     bool SD_active          = ON;
     bool modbus_active      = ON;
+
+	int notified_hour = 1;
+	int notified_minute = 15;
 protected:
 private:
 }  atApp_HMI ;
@@ -103,7 +111,7 @@ void  App_HMI::App_HMI_Pend()
 void  App_HMI::App_HMI_Start()
 {
 	//screens map
-	atScr_Monitoring.setup_Forward_Screen = *atScr_Menu.Start;
+	atScr_Monitoring.setup_Forward_Screen = atScr_Menu.Start;
 	atScr_Monitoring.Forward_Screen = &atScr_Menu.Object;
 
 	atScr_Menu.setup_Backward_Screen = *atScr_Monitoring.Start;
@@ -127,15 +135,19 @@ void  App_HMI::App_HMI_Start()
 										update_data_to_screens);           		// Callback function
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();	
+	atService_LVGL_HMI.Run_Service();	
 	atScr_Detail_1.Run_Screen();
 	atScr_Detail_2.Run_Screen();
 	atScr_Detail_3.Run_Screen();
 	atScr_Menu.Run_Screen();
+	atScr_Detail_1.screen_status = DEACTIVE;
+	atScr_Detail_2.screen_status = DEACTIVE;
+	atScr_Detail_3.screen_status = DEACTIVE;
+	atScr_Menu.screen_status = DEACTIVE;
 	atScr_Monitoring.Run_Screen();
 	//start timer
 	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
-	lv_scr_load(atScr_Monitoring.Object);
+	lv_scr_load_anim(atScr_Monitoring.Object, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);
 	// atService_VSPI.check_Out();
 }  
 /**
@@ -151,12 +163,11 @@ void  App_HMI::App_HMI_Restart()
 void  App_HMI::App_HMI_Execute()
 {	
 	atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
 	atService_VSPI.check_Out();
 	
 	if(atScr_Menu.screen_status == ACTIVE)
 	{
-		atScr_Menu.Run_Screen();
 		int roller_select = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
 		switch (roller_select)
 		{
@@ -200,44 +211,62 @@ void atApp_HMI_Task_Func(void *parameter)
 
 void update_data_to_screens(TimerHandle_t xTimer)
 {
-	atScr_Detail_1.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_1.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_1.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_1.warning_active 	= atApp_HMI.warning_active;
+	atScr_Monitoring.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+	atScr_Monitoring.Notified_Bar_1.wifi_active 	= atApp_HMI.wifi_active;
+	atScr_Monitoring.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Monitoring.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
+	atScr_Monitoring.Notified_Bar_1.hour 			= atApp_HMI.notified_hour;
+	atScr_Monitoring.Notified_Bar_1.minute 			= atApp_HMI.notified_minute;
 
-	atScr_Detail_2.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_2.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_2.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_2.warning_active 	= atApp_HMI.warning_active;
+	atScr_Menu.Notified_Bar_1.SD_active 			= atApp_HMI.SD_active;
+	atScr_Menu.Notified_Bar_1.wifi_active 			= atApp_HMI.wifi_active;
+	atScr_Menu.Notified_Bar_1.modbus_active 		= atApp_HMI.modbus_active;
+	atScr_Menu.Notified_Bar_1.warning_active 		= atApp_HMI.warning_active;
+	atScr_Menu.Notified_Bar_1.hour 					= atApp_HMI.notified_hour;
+	atScr_Menu.Notified_Bar_1.minute 				= atApp_HMI.notified_minute;
 
-	atScr_Detail_3.SD_active 		= atApp_HMI.SD_active;
-	atScr_Detail_3.wifi_active 		= atApp_HMI.wifi_active;
-	atScr_Detail_3.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Detail_3.warning_active 	= atApp_HMI.warning_active;
+	atScr_Detail_1.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_1.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_1.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_1.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
+	atScr_Detail_1.Notified_Bar_1.hour 				= atApp_HMI.notified_hour;
+	atScr_Detail_1.Notified_Bar_1.minute 			= atApp_HMI.notified_minute;
 
-	atScr_Monitoring.SD_active 		= atApp_HMI.SD_active;
-	atScr_Monitoring.wifi_active 	= atApp_HMI.wifi_active;
-	atScr_Monitoring.modbus_active 	= atApp_HMI.modbus_active;
-	atScr_Monitoring.warning_active = atApp_HMI.warning_active;
+	atScr_Detail_2.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_2.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_2.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_2.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
+	atScr_Detail_2.Notified_Bar_1.hour 				= atApp_HMI.notified_hour;
+	atScr_Detail_2.Notified_Bar_1.minute 			= atApp_HMI.notified_minute;
 
-	atScr_Menu.SD_active 			= atApp_HMI.SD_active;
-	atScr_Menu.wifi_active 			= atApp_HMI.wifi_active;
-	atScr_Menu.modbus_active 		= atApp_HMI.modbus_active;
-	atScr_Menu.warning_active 		= atApp_HMI.warning_active;
+	atScr_Detail_3.Notified_Bar_1.SD_active 		= atApp_HMI.SD_active;
+	atScr_Detail_3.Notified_Bar_1.wifi_active 		= atApp_HMI.wifi_active;
+	atScr_Detail_3.Notified_Bar_1.modbus_active 	= atApp_HMI.modbus_active;
+	atScr_Detail_3.Notified_Bar_1.warning_active 	= atApp_HMI.warning_active;
+	atScr_Detail_3.Notified_Bar_1.hour 				= atApp_HMI.notified_hour;
+	atScr_Detail_3.Notified_Bar_1.minute 			= atApp_HMI.notified_minute;
+	
+	atApp_HMI.notified_minute++;
 	
 	if(atScr_Monitoring.screen_status == ACTIVE)
 	{
 		atScr_Monitoring.Run_Screen();
 	}
+	else if(atScr_Menu.screen_status == ACTIVE)
+	{
+		atScr_Menu.Run_Screen();
+	}
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
+		Serial.printf("screen detail 1 running \n");
 		atScr_Detail_1.Run_Screen();
 	}
 	else if(atScr_Detail_2.screen_status == ACTIVE)
 	{
+		Serial.printf("screen detail 2 running \n");
 		atScr_Detail_2.Run_Screen();
 	}
-	else if(atScr_Detail_3.screen_status == ACTIVE)
+	if(atScr_Detail_3.screen_status == ACTIVE)
 	{
 		atScr_Detail_3.Run_Screen();
 	}
