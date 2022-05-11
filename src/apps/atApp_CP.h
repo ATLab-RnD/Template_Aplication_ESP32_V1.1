@@ -17,12 +17,14 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "atApp_Wifi.h"
+#include "atApp_OTA.h"
 #include "atApp_DID.h"
 #include "..\apps\app_data_module\atApp_SNM.h"
 #include "..\apps\app_data_module\atApp_IDM.h"
 #include "..\apps\app_data_module\atApp_HDM.h"
 #include "..\apps\app_data_module\atApp_EMM.h"
 #include "..\apps\atApp_MB_TCP_MA.h"
+
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -54,6 +56,7 @@ private:
 	static void  App_CP_Suspend();
 	static void  App_CP_Resume();	  
 	static void  App_CP_End();
+	int count = 0;
 } atApp_CP ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -109,13 +112,25 @@ void  App_CP::App_CP_Restart()
 void  App_CP::App_CP_Execute()
 {	
 
-	if( (atApp_Wifi.scanned_Wifi_SSIDs_Number > 0) && (WiFi.status() == WL_DISCONNECTED))
+	if( (atApp_Wifi.scanned_Wifi_SSIDs_Number > 0) && (WiFi.status() != WL_CONNECTED))
 	{
-		atApp_Wifi.wifi_SSID_Index_To_Connect = 0;
 		atApp_Wifi.request = WIFI_REQUEST_Connecting;
 	}
 	if(atApp_Wifi.status == WIFI_STATUS_Connected)
 	{
+		vTaskResume(Task_atApp_OTA);
+		atApp_Wifi.Debug_Exit();
+	}
+	//example for OTA Enable
+	if(atApp_CP.count < 50 ) atApp_OTA.Enable = TRUE;
+	else
+	{
+		atApp_OTA.Enable = FALSE;
+	}
+	atApp_CP.count++;
+	Serial.printf("count %d\n",atApp_CP.count);
+	//
+
 		vTaskResume(Task_atApp_DID);
 		vTaskResume(Task_atApp_SNM);
 		vTaskResume(Task_atApp_IDM);
@@ -133,11 +148,10 @@ void  App_CP::App_CP_Execute()
 	// {
 	// 	vTaskResume(Task_atApp_MB_TCP_MA);
 	// }
-	
 
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
-		
+		Serial.printf("server state %d\n",atApp_OTA.Server_State);
     }   
 }
 void  App_CP::App_CP_Suspend(){}
