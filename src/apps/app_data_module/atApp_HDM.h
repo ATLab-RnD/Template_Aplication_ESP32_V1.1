@@ -41,12 +41,6 @@ public:
 protected:
   uint8_t buffer;
   uint8_t number_device;
-  bool old_operation_mode;
-  uint16_t old_low_limit_temperature;
-  uint16_t old_high_limit_temperature;
-  uint16_t old_power;
-  uint16_t old_low_limit_power;
-  uint16_t old_high_limit_power;
 private:
   static void  App_HDM_Pend();
 	static void  App_HDM_Start();
@@ -135,69 +129,67 @@ void  App_HDM::App_HDM_Execute()
                 atService_MB_TCP_MA.check_In();
                 // Write DID for slave
                 atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_HDM.number_device);
+                
+                //read data
+                atService_MB_TCP_MA.readCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,
+                                           &atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode_old);
+                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature_old);
+                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature_old);
+                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_POWER,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].power_old);
+                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power_old);  
+                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power_old); 
+                atService_MB_TCP_MA.readIreg(IP_module, HDM_REGISTER_R_TEMPERATURE,
+                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature); 
+                
                 // Write operation mode for HDM
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode != atApp_HDM.old_operation_mode)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode_old)
                 {
                   atService_MB_TCP_MA.writeCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode);
                 
-                  atApp_HDM.old_operation_mode = atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode;
                 }
                 // Write low limit temperature
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature != atApp_HDM.old_low_limit_temperature)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature_old)
                 {
                   atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature);
-                
-                  atApp_HDM.old_low_limit_temperature = atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature;
                 }
                 // Write high limit temperature
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature != atApp_HDM.old_high_limit_temperature)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature_old)
                 {
                   atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature);
-                
-                  atApp_HDM.old_high_limit_temperature = atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature;
                 }
                 // Write low power
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].power != atApp_HDM.old_power)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].power != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].power_old)
                 {
                   atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_POWER,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].power);
-
-                  atApp_HDM.old_power = atObject_HDMs_Data.HDM[atApp_HDM.number_device].power;
                 }      
                 // Write low limit power
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power != atApp_HDM.old_low_limit_power)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power_old)
                 {       
                   atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power);
-
-                  atApp_HDM.old_low_limit_power = atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power;
                 }
                 // Write high limit power
-                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power != atApp_HDM.old_high_limit_power)
+                if(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power != 
+                    atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power_old)
                 { 
                   atService_MB_TCP_MA.writeHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,
                                                 atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power);
-
-                  atApp_HDM.old_high_limit_power = atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power;
                 }
 
-                atService_MB_TCP_MA.readCoil(IP_module,HDM_REGISTER_RW_MODE_OPERATION,
-                                           &atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode);
-                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_TEMPERATURE,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature);
-                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_TEMPERATURE,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature);
-                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_POWER,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].power);
-                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_LOW_LIMIT_POWER,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power);  
-                atService_MB_TCP_MA.readHreg(IP_module, HDM_REGISTER_RW_HIGH_LIMIT_POWER,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power); 
-                atService_MB_TCP_MA.readIreg(IP_module, HDM_REGISTER_R_TEMPERATURE,
-                                             &atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature); 
                 atService_MB_TCP_MA.check_Out();
             }
             atApp_HDM.buffer = 0;
@@ -223,17 +215,17 @@ void  App_HDM::App_HDM_Execute()
     {
         Serial.printf("   HDM %d ",atApp_HDM.number_device);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].operation_mode_old);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_power_old);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_power_old);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].power);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].power_old);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].low_limit_temperature_old);
         Serial.print("\n");
-        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature);
+        Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].high_limit_temperature_old);
         Serial.print("\n");
         Serial.print(atObject_HDMs_Data.HDM[atApp_HDM.number_device].temperature);
         Serial.print("\n");

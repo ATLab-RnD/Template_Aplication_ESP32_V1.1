@@ -40,6 +40,8 @@ struct IDMs_data
 	uint16_t output_voltage;
 	uint16_t output_current;
     uint16_t fault_code; 
+    uint16_t set_frequency_old;
+    bool direction_run_old;
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

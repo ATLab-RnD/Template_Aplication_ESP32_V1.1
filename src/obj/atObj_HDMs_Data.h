@@ -32,6 +32,12 @@ struct HDMs_data
     uint16_t low_limit_power;
     uint16_t high_limit_power;
     uint16_t temperature;
+    bool operation_mode_old;
+    uint16_t low_limit_temperature_old;
+    uint16_t high_limit_temperature_old;
+    uint16_t power_old;
+    uint16_t low_limit_power_old;
+    uint16_t high_limit_power_old;
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

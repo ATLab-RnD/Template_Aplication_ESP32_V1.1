@@ -41,9 +41,7 @@ public:
 protected:
   uint8_t buffer;
   uint8_t number_device;
-  uint16_t old_invt_type;
-  uint16_t old_set_frequency;
-  bool old_direction_run;
+
 private:
   static void  App_IDM_Pend();
 	static void  App_IDM_Start();
@@ -130,39 +128,14 @@ void  App_IDM::App_IDM_Execute()
                 atService_MB_TCP_MA.check_In();  
                 // Write DID to module slave if it is power loss
                 atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_IDM.number_device);
-                // Select inverter 
-                if(atObject_IDMs_Data.IDM[atApp_IDM.number_device].invt_type != atApp_IDM.old_invt_type)
-                {
-                atService_MB_TCP_MA.writeHreg(IP_module,IDM_REGISTER_RW_INVERTER_TYPE,
-                                            atObject_IDMs_Data.IDM[atApp_IDM.number_device].invt_type);
-
-                atApp_IDM.old_invt_type = atObject_IDMs_Data.IDM[atApp_IDM.number_device].invt_type;
-                }
-
-                // Write frequency
-                if(atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency != atApp_IDM.old_set_frequency)
-                {
-                atService_MB_TCP_MA.writeHreg(IP_module,IDM_REGISTER_RW_SET_FREQUENCY,
-                                            atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency);
-
-                atApp_IDM.old_set_frequency = atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency;
-                }
-
-                // Select direction run for motor 
-                if(atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run != atApp_IDM.old_direction_run)
-                {
-                  atService_MB_TCP_MA.writeHreg(IP_module,IDM_REGISTER_RW_DIRECTION_RUN,
-                                                atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run);
-
-                  atApp_IDM.old_direction_run = atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run;
-                }
-      
-                atService_MB_TCP_MA.readHreg(IP_module,IDM_REGISTER_RW_INVERTER_TYPE, 
+                
+                // read data
+                atService_MB_TCP_MA.readHreg(IP_module,IDM_REGISTER_R_INVERTER_TYPE, 
                                           &atObject_IDMs_Data.IDM[atApp_IDM.number_device].invt_type);
                 atService_MB_TCP_MA.readCoil(IP_module, IDM_REGISTER_RW_DIRECTION_RUN,
-                                          &atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run);
+                                          &atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run_old);
                 atService_MB_TCP_MA.readHreg(IP_module, IDM_REGISTER_RW_SET_FREQUENCY,
-                                          &atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency);
+                                          &atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency_old);
                 atService_MB_TCP_MA.readIreg(IP_module, IDM_REGISTER_R_OPERATION_FREQUENCY,
                                           &atObject_IDMs_Data.IDM[atApp_IDM.number_device].operating_frequency);
                 atService_MB_TCP_MA.readIreg(IP_module, IDM_REGISTER_R_INPUT_VOLTAGE,
@@ -175,6 +148,23 @@ void  App_IDM::App_IDM_Execute()
                                           &atObject_IDMs_Data.IDM[atApp_IDM.number_device].output_current);
                 atService_MB_TCP_MA.readIreg(IP_module, IDM_REGISTER_R_FAULT_CODE,
                                           &atObject_IDMs_Data.IDM[atApp_IDM.number_device].fault_code); 
+                
+                // Write frequency
+                if(atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency != 
+                    atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency_old)
+                {
+                atService_MB_TCP_MA.writeHreg(IP_module,IDM_REGISTER_RW_SET_FREQUENCY,
+                                            atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency);
+                }
+
+                // Select direction run for motor 
+                if(atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run != 
+                    atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run_old)
+                {
+                  atService_MB_TCP_MA.writeHreg(IP_module,IDM_REGISTER_RW_DIRECTION_RUN,
+                                                atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run);
+                }
+
                 atService_MB_TCP_MA.check_Out();
 
                 atApp_IDM.buffer = 0;
@@ -205,9 +195,9 @@ void  App_IDM::App_IDM_Execute()
     Serial.print("\n");
     Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].invt_type);
     Serial.print("\n");
-    Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run);
+    Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].direction_run_old);
     Serial.print("\n");
-    Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency);
+    Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].set_frequency_old);
     Serial.print("\n");
     Serial.print(atObject_IDMs_Data.IDM[atApp_IDM.number_device].operating_frequency);
     Serial.print("\n");

@@ -46,6 +46,9 @@ struct EMMs_data
     bool aptomat_feedback;
     bool contactor_feedback;
     bool relay_feedback;
+    uint16_t Alert_old;
+    bool control_relay_old;
+
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

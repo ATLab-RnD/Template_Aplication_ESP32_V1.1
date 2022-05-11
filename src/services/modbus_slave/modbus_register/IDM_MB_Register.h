@@ -11,7 +11,7 @@ enum IDM_REGISTER_INDEX
 */
 
 // Name Of Inverter Used
-IDM_REGISTER_RW_INVERTER_TYPE = 5001,     
+IDM_REGISTER_R_INVERTER_TYPE = 5001,     
 IDM_REGISTER_RW_DIRECTION_RUN,     
 // Communication setting frequency  
 IDM_REGISTER_RW_SET_FREQUENCY,      
