@@ -140,14 +140,7 @@ void  App_CP::App_CP_Execute()
 		atApp_Wifi.Debug_Exit();
 	}
 
-	// if(atApp_DID.App_DID_Execute)
-	// {
-	// 	vTaskSuspend(Task_atApp_MB_TCP_MA);
-	// }
-	// else
-	// {
-	// 	vTaskResume(Task_atApp_MB_TCP_MA);
-	// }
+
 
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {

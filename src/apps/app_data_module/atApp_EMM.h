@@ -37,11 +37,9 @@ public:
   App_EMM();
  	~App_EMM();
   uint8_t number_of_try_to_connect = 3;
-  bool control_relay = 0;
 protected:
   uint8_t buffer;
   uint8_t number_device;
-  bool old_control_relay;
 private:
   static void  App_EMM_Pend();
 	static void  App_EMM_Start();
@@ -106,11 +104,6 @@ void  App_EMM::App_EMM_Execute()
 {	
   if(atObject_EMMs_Data.EMM_number >= 1)
   {
-    // if(atApp_EMM.User_Mode == APP_USER_MODE_DEBUG)
-    // {
-    //   Serial.println("EMM number | Alert |   Voltage   |   Current   |   Power  | cosfi |Frequency|C_Relay| Feedback ");
-    //   Serial.println("                   | A  | B | C  | A | B |  C  | P | Q | S|       |         |       | Af | Cf  |Rf  ");      
-    // }
 
     for( atApp_EMM.number_device = 1; atApp_EMM.number_device <= atObject_EMMs_Data.EMM_number;
                                                                     atApp_EMM.number_device++ )
@@ -133,17 +126,10 @@ void  App_EMM::App_EMM_Execute()
         {
             atService_MB_TCP_MA.check_In();
             atService_MB_TCP_MA.writeHreg(IP_module, GENERAL_REGISTER_RW_DEVICE_ID, atApp_EMM.number_device);
-            // control relay
-            if( atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay != atApp_EMM.old_control_relay)
-            {
-              atService_MB_TCP_MA.writeCoil(IP_module, EMM_REGISTER_RW_CONTROL_RELAY, 
-                                            atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay);
-
-              atApp_EMM.old_control_relay == atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay;
-            }
             
+            // read data
             atService_MB_TCP_MA.readHreg(IP_module,EMM_REGISTER_RW_ALERT, 
-                                        &atObject_EMMs_Data.EMM[atApp_EMM.number_device].Alert);
+                                        &atObject_EMMs_Data.EMM[atApp_EMM.number_device].Alert_old);
             atService_MB_TCP_MA.readIreg(IP_module, EMM_REGISTER_R_VOLTAGE_PHASE_A,
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].voltage_phase_A);
             atService_MB_TCP_MA.readIreg(IP_module, EMM_REGISTER_R_VOLTAGE_PHASE_B,
@@ -166,12 +152,30 @@ void  App_EMM::App_EMM_Execute()
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].cosfi);
             atService_MB_TCP_MA.readIreg(IP_module, EMM_REGISTER_R_FREQUENCY,
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].frequency);
+            atService_MB_TCP_MA.readIsts(IP_module, EMM_REGISTER_RW_CONTROL_RELAY,
+                                        &atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay_old);
             atService_MB_TCP_MA.readIsts(IP_module, EMM_REGISTER_R_APTOMAT_FEEDBACK,
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].aptomat_feedback);
             atService_MB_TCP_MA.readIsts(IP_module, EMM_REGISTER_R_CONTACTOR_FEEDBACK,
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].contactor_feedback);
             atService_MB_TCP_MA.readIsts(IP_module, EMM_REGISTER_R_RELAY_FEEDBACK,
                                         &atObject_EMMs_Data.EMM[atApp_EMM.number_device].relay_feedback);   
+            
+            // control relay
+            if( atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay != 
+                atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay_old)
+            {
+              atService_MB_TCP_MA.writeCoil(IP_module, EMM_REGISTER_RW_CONTROL_RELAY, 
+                                            atObject_EMMs_Data.EMM[atApp_EMM.number_device].control_relay);
+            }
+            // Write Alert
+            if( atObject_EMMs_Data.EMM[atApp_EMM.number_device].Alert != 
+                atObject_EMMs_Data.EMM[atApp_EMM.number_device].Alert_old)
+            {
+              atService_MB_TCP_MA.writeCoil(IP_module, EMM_REGISTER_RW_CONTROL_RELAY, 
+                                            atObject_EMMs_Data.EMM[atApp_EMM.number_device].Alert);
+            }
+
             atService_MB_TCP_MA.check_Out();    
             atApp_EMM.buffer = 0;
         }                                                                                                                   

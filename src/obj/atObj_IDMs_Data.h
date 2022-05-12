@@ -17,7 +17,7 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-#define Max_IDM  20
+#define Max_IDM  10
 
 enum direction_run
 {
@@ -40,6 +40,8 @@ struct IDMs_data
 	uint16_t output_voltage;
 	uint16_t output_current;
     uint16_t fault_code; 
+    uint16_t set_frequency_old;
+    bool direction_run_old;
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */

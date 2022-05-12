@@ -17,7 +17,7 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-#define Max_EMM  20
+#define Max_EMM  10
 
 enum Status_of_relay
 {
@@ -46,6 +46,9 @@ struct EMMs_data
     bool aptomat_feedback;
     bool contactor_feedback;
     bool relay_feedback;
+    uint16_t Alert_old;
+    bool control_relay_old;
+
 };
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
