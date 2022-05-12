@@ -130,7 +130,7 @@ void  App_CP::App_CP_Execute()
 	atApp_CP.count++;
 	Serial.printf("count %d\n",atApp_CP.count);
 	//
-
+	{
 		vTaskResume(Task_atApp_DID);
 		vTaskResume(Task_atApp_SNM);
 		vTaskResume(Task_atApp_IDM);
