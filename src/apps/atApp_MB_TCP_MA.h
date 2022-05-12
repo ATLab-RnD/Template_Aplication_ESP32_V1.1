@@ -12,7 +12,6 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
-#include "..\src\services\modbus_slave\Modbus_Registers.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -24,11 +23,11 @@ void atApp_MB_TCP_MA_Task_Func(void *parameter);
 /**
  * This Application class is the application to manage the 
  */
-class App_MB_TCP : public Application
+class App_MB_TCP_MA : public Application
 {
 public:
-    App_MB_TCP();
- 	  ~App_MB_TCP();
+    App_MB_TCP_MA();
+ 	  ~App_MB_TCP_MA();
   static void  App_MB_Pend();
 	static void  App_MB_Start();
 	static void  App_MB_Restart();
@@ -42,7 +41,7 @@ private:
 /**
  * This function will be automaticaly called when a object is created by this class
  */
-App_MB_TCP::App_MB_TCP(/* args */)
+App_MB_TCP_MA::App_MB_TCP_MA(/* args */)
 {
   	_Pend_User 	     = *App_MB_Pend;
 	_Start_User 	 = *App_MB_Start;
@@ -60,7 +59,7 @@ App_MB_TCP::App_MB_TCP(/* args */)
 /**
  * This function will be automaticaly called when the object of class is delete
  */
-App_MB_TCP::~App_MB_TCP()
+App_MB_TCP_MA::~App_MB_TCP_MA()
 {
 	
 }
@@ -68,14 +67,14 @@ App_MB_TCP::~App_MB_TCP()
  * Pend to start is the first task of this application it will do prerequisite condition. 
  * In the debug mode, task will send information of application to terminal to start the application.
  */
-void  App_MB_TCP::App_MB_Pend()
+void  App_MB_TCP_MA::App_MB_Pend()
 {
 
 }
 /**
  * This start function will init some critical function 
  */
-void  App_MB_TCP::App_MB_Start()
+void  App_MB_TCP_MA::App_MB_Start()
 {
 	// init atXYZ Service in the fist running time
 	atService_MB_TCP_MA.Run_Service();
@@ -83,20 +82,20 @@ void  App_MB_TCP::App_MB_Start()
 /**
  * Restart function of SNM  app
  */
-void  App_MB_TCP::App_MB_Restart()
+void  App_MB_TCP_MA::App_MB_Restart()
 {
 
 }
 /**
  * Execute fuction of SNM app
  */
-void  App_MB_TCP::App_MB_Execute()
+void  App_MB_TCP_MA::App_MB_Execute()
 {	    
 	atService_MB_TCP_MA.Run_Service();
 }
-void  App_MB_TCP::App_MB_Suspend(){}
-void  App_MB_TCP::App_MB_Resume(){}
-void  App_MB_TCP::App_MB_End(){}
+void  App_MB_TCP_MA::App_MB_Suspend(){}
+void  App_MB_TCP_MA::App_MB_Resume(){}
+void  App_MB_TCP_MA::App_MB_End(){}
 void atApp_MB_TCP_MA_Task_Func(void *parameter)
 {
   while (1)
