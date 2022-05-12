@@ -17,7 +17,7 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-#define Max_IDM  20
+#define Max_IDM  10
 
 enum direction_run
 {

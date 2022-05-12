@@ -17,7 +17,7 @@ Objective for control with Esp32 Wrover.
 #include "Object.h"
 
 /* _____DEFINETIONS__________________________________________________________ */
-#define Max_HDM  20
+#define Max_HDM  10
 
 struct HDMs_data
 {
