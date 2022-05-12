@@ -119,6 +119,12 @@ void  App_CP::App_CP_Execute()
 	if(atApp_Wifi.status == WIFI_STATUS_Connected)
 	{
 		vTaskResume(Task_atApp_OTA);
+		vTaskResume(Task_atApp_DID);
+		vTaskResume(Task_atApp_SNM);
+		vTaskResume(Task_atApp_IDM);
+		vTaskResume(Task_atApp_EMM);
+		vTaskResume(Task_atApp_HDM);
+		// vTaskResume(Task_atApp_MB_TCP_MA);
 		atApp_Wifi.Debug_Exit();
 	}
 	//example for OTA Enable
@@ -128,20 +134,8 @@ void  App_CP::App_CP_Execute()
 		atApp_OTA.Enable = FALSE;
 	}
 	atApp_CP.count++;
+
 	Serial.printf("count %d\n",atApp_CP.count);
-	//
-	{
-		vTaskResume(Task_atApp_DID);
-		vTaskResume(Task_atApp_SNM);
-		vTaskResume(Task_atApp_IDM);
-		vTaskResume(Task_atApp_EMM);
-		vTaskResume(Task_atApp_HDM);
-		// vTaskResume(Task_atApp_MB_TCP_MA);
-		atApp_Wifi.Debug_Exit();
-	}
-
-
-
     if(atApp_CP.User_Mode == APP_USER_MODE_DEBUG)
     {
 		Serial.printf("server state %d\n",atApp_OTA.Server_State);
