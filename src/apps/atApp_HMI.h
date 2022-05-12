@@ -17,11 +17,11 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #ifdef HMI_Lite
-#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
+	#include "../services/lvgl/atService_LVGL_HMI_Lite.h"
 #endif
 #include "../gui/screen_system/Sources.h"
 #ifdef HMI
-#include "../services/lvgl/atService_LVGL_HMI.h"
+	#include "../services/lvgl/atService_LVGL_HMI.h"
 #endif
 #include "../gui/screen_system/atScr_Monitoring.h"
 #include "../gui/screen_system/atScr_Detail_1.h"
@@ -258,12 +258,10 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	}
 	else if(atScr_Detail_1.screen_status == ACTIVE)
 	{
-		Serial.printf("screen detail 1 running \n");
 		atScr_Detail_1.Run_Screen();
 	}
 	else if(atScr_Detail_2.screen_status == ACTIVE)
 	{
-		Serial.printf("screen detail 2 running \n");
 		atScr_Detail_2.Run_Screen();
 	}
 	if(atScr_Detail_3.screen_status == ACTIVE)
