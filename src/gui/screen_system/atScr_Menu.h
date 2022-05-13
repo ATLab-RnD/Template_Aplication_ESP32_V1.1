@@ -188,8 +188,6 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 }
 void Scr_Menu::Update()
 {
-	Serial.printf("%d\n",atScr_Menu.Notified_Bar_1.minute);
-	Serial.printf("%d\n",atScr_Menu.Notified_Bar_old_1.minute);
 	if((atScr_Menu.Notified_Bar_old_1.hour != atScr_Menu.Notified_Bar_1.hour) || (atScr_Menu.Notified_Bar_old_1.minute != atScr_Menu.Notified_Bar_1.minute))
 	{
 		atScr_Menu.Notified_Bar_old_1.hour = atScr_Menu.Notified_Bar_1.hour;
