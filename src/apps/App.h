@@ -27,6 +27,7 @@ enum App_User_Mode
 enum App_State
 {
   APP_STATE_PENDING,
+  APP_STATE_RESTARTING,
   APP_STATE_STARTING,
   APP_STATE_READY,
   APP_STATE_EXECUTING,
@@ -47,7 +48,6 @@ class Application
 {
 public:
   Application();
-  
   
   void      Run_Application(bool autoRun);
   // 
@@ -70,8 +70,8 @@ public:
   bool Step_Forward = 0;
 protected:
   void (*_Pend_User)();
-  void (*_Start_User)();
   void (*_Restart_User)();
+  void (*_Start_User)();
   void (*_Execute_User)();
   void (*_Suspend_User)();
   void (*_Resume_User)();
@@ -102,6 +102,7 @@ private:
 Application::Application(void)
 {
   _Pend_User    = 0;
+  _Restart_User = 0;
   _Start_User   = 0;
   _Restart_User = 0;
   _Execute_User = 0;
@@ -127,10 +128,10 @@ void Application::Debug_Exit()
 /**
  * The main task of application, need to bee call regularly for attack like a 
  * task in freertos. There are 7 state of an application. Pending state is the state of 
- * application is waiting to start. Starting is initing the prerequisite condition to
+ * application is waiting to start. Starting is initting the prerequisite condition to
  * execute. To be Ready for executing is need for executing the task. Executing state is
- * main state to hanble the task of application. Suspend state will freeze the application
- * but will not remore the parameter. Application will finish all task and save all
+ * main state to handle the task of application. Suspend state will freeze the application
+ * but will not remote the parameter. Application will finish all task and save all
  * parameter, strop and remove all parameter. Error is the indicator for user when the 
  * application is executing wrongly.
  * @param autoRun  APP_RUN_MODE_AUTO for auto execute and APP_RUN_MODE_MANUAL for wait for execute manually by user
@@ -139,12 +140,15 @@ void Application::Run_Application(bool autoRun = APP_RUN_MODE_AUTO)
 {
   switch (Application_State)
   {
-    // pening to start tha task
+    // pending to start the task
     case APP_STATE_PENDING:
       Run_Mode = autoRun;
       Pend();
       break;
-
+    // restarting to start the task
+    case APP_STATE_RESTARTING:
+      Restart();
+      break;
     // starting the task
     case APP_STATE_STARTING:
       Start();
@@ -191,9 +195,12 @@ char* Application::State_Application_String()
   case APP_STATE_PENDING:
     return (char*)"Pending State";
     break;
+  case APP_STATE_RESTARTING:
+    return (char*)"Restarting State";
+    break;
   case APP_STATE_STARTING:
     return (char*)"Starting State";
-    break;
+    break; 
   case APP_STATE_READY:
     return (char*)"Ready State";
     break;
@@ -213,7 +220,7 @@ char* Application::State_Application_String()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Pend_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -235,9 +242,18 @@ void Application::Pend()
   Application_State = APP_STATE_STARTING;
   Step_Forward = 1;
 }
+
+void Application::Restart()
+{
+  if (User_Mode == APP_USER_MODE_DEBUG) Information();
+  // the user function
+  (*_Restart_User)();
+  Application_State = APP_STATE_STARTING;
+  Step_Forward = 1;
+}
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Start_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -252,7 +268,7 @@ void Application::Start()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Start_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -266,22 +282,14 @@ void Application::Ready()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Restart_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
  */
-void Application::Restart()
-{
-  if (User_Mode == APP_USER_MODE_DEBUG) Information();
-  // the user function
-  (*_Restart_User)();
-  Application_State = APP_STATE_READY;
-  Step_Forward = 1;
-}
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Execute_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -295,7 +303,7 @@ void Application::Execute()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Suspend_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -309,7 +317,7 @@ void Application::Suspend()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_Resume_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -325,7 +333,7 @@ void Application::Resume()
 }
 /**
  *  Pend to start is the first task of this application it will do prerequisite
- *  condition. In the debug mode, task will send Informationmation of application to 
+ *  condition. In the debug mode, task will send Information of application to 
  * terminal to start the application.
  * @param (*_End_User)() this function pointer will be define by user
  * @param User_Mode will be specified by user
@@ -339,8 +347,8 @@ void Application::End()
 }
 
 /**
- * Print the the Informationmation of application. These Informationmations are ID, name,
- *  state of application and the remaining free head size. The Informationmation will be 
+ * Print the the Information of application. These Informations are ID, name,
+ *  state of application and the remaining free head size. The Information will be 
  * write to the Serial terminal
  */
 void Application::Information()

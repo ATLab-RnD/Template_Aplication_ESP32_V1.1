@@ -27,6 +27,7 @@ enum SER_Run_Mode
   };
  enum SER_State
   {
+    SER_STATE_RESTARTING,
     SER_STATE_STARTING,
     SER_STATE_EXECUTING,
     SER_STATE_ENDING,
@@ -64,6 +65,7 @@ public:
   // this var will be set to 1 whenever ser done a state execution 
   bool Step_Forward = 0;
 protected:
+  void (*_Restart_User)();
   void (*_Start_User)();
   void (*_Execute_User)();
   void (*_End_User)();
@@ -78,7 +80,7 @@ private:
   static const bool Run_Mode_Manual = 0;
 
   //  Tasks default of Service
- 
+  void Restart(void);
   void Start(void);
   void Execute(void);
   void End(void);
@@ -88,6 +90,7 @@ private:
  */
 Service::Service(void)
 {
+  _Restart_User = 0;
   _Start_User   = 0;
   _Execute_User = 0;
   _End_User     = 0;
@@ -119,6 +122,10 @@ void Service::Run_Service(bool autoRun = SER_RUN_MODE_AUTO)
 {
   switch (Service_State)
   {
+    // restarting the task
+    case SER_STATE_RESTARTING:
+      Restart();
+      break;
     // starting the task
     case SER_STATE_STARTING:
       Run_Mode = autoRun;
@@ -153,6 +160,9 @@ char* Service::State_Service_String()
 {
   switch (Service_State)
   {
+  case SER_STATE_RESTARTING:
+    return (char*)"Restarting State";
+    break;
   case SER_STATE_STARTING:
     return (char*)"Starting State";
     break;
@@ -168,6 +178,32 @@ char* Service::State_Service_String()
   }
 }
 
+/**
+ *  restart is the task of this Service it will do reset parameters of
+ *  service. In the debug mode, task will send information of Service to 
+ * terminal to start the Service.
+ * @param (*_End_User)() this function pointer will be define by user
+ * @param User_Mode will be specified by user
+ */
+void Service::Restart()
+{
+  if (User_Mode == SER_USER_MODE_DEBUG) 
+  {
+    if(!Serial_Hardware_Port_Is_Opened) 
+    {
+      Serial.begin(Serial_Hardware_Port_Baudrate);
+      Serial_Hardware_Port_Is_Opened = 1;
+    }
+    Information();
+  }
+  // the user function
+  (*_Restart_User)();
+  // if(Run_Mode == SER_RUN_MODE_AUTO)
+  // {
+    Service_State = SER_STATE_STARTING;
+  // }
+  Step_Forward = 1;
+}
 /**
  *  start is the first task of this Service it will do prerequisite
  *  condition. In the debug mode, task will send information of Service to 
