@@ -162,7 +162,7 @@ void Scr_Menu::btn_DOWN_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected--;
+		roller_selected++;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;
@@ -178,7 +178,7 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected++;
+		roller_selected--;
 		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
 	}
 		break;

@@ -48,11 +48,19 @@ copy lv_conf_template.h and rename to lv_conf.h. Open file and change #if 0 /*Se
 #include <TFT_eSPI.h> // Hardware-specific library
 #include <SPI.h>
 #include "lvgl.h"
+// 39 menu
 /* _____DEFINETIONS__________________________________________________________ */
-#define BUTTON1     27
-#define BUTTON2     32
-#define BUTTON3     4
-#define BUTTON4     2
+/******** BUTTON OF FIELD DEVICES ******/
+#define BUTTON1     2
+#define BUTTON2     4
+#define BUTTON3     34
+#define BUTTON4     39
+/********* BUTTON OF SENSOR **********
+    // #define BUTTON1     27
+    // #define BUTTON2     32
+    // #define BUTTON3     4
+    // #define BUTTON4     2
+*/
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 /*Change to your screen resolution*/
 static const uint16_t screenWidth  = 160;
