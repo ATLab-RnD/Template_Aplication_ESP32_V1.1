@@ -18,6 +18,7 @@ Service for communicating with OP320A&S SNM over RS232/485 (via RTU protocol).
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "../Service.h"
 #include "Wire.h"
+#include "I2CScanner.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -36,12 +37,15 @@ public:
     ~Service_I2C();
     void check_In();
     void check_Out();
+
+    void Scan();
 protected:
      
 private:
     static void  Service_I2C_Start();
     static void  Service_I2C_Execute();    
     static void  Service_I2C_End();
+    I2CScanner scanner;
 } atService_I2C ;
 /**
  * This function will be automaticaly called when a object is created by this class
@@ -103,7 +107,11 @@ void  Service_I2C::check_Out()
 {
     xSemaphoreGive( xMutex_I2C );
 }
-
+void  Service_I2C::Scan()
+{
+    atService_I2C.scanner.Scan();
+	delay(5000);
+}
 #endif
 
 

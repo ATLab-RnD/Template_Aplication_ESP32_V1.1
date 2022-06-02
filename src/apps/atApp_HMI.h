@@ -102,7 +102,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI_Lite.Debug();
+	// atService_LVGL_HMI_Lite.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**

@@ -20,7 +20,7 @@
 #define RELAY_PIN               PCF8575_PIN_P15
 #define RELAY_FEEDBACK_PIN      PCF8575_PIN_P16
 #define CONTACTOR_FEEDBACK_PIN  PCF8575_PIN_P14
-#define APTOMA_FEEDBACK_PIN     27// esp32 pin
+#define APTOMAT_FEEDBACK_PIN     27// esp32 pin
 #define LED_PIN                 PCF8575_PIN_P17
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_CD;  
@@ -38,7 +38,7 @@ public:
   App_CD();
  	~App_CD();
    
-  bool relay = 0;
+  bool relay = 1;
   bool Led = 0;
   bool relay_feedback = 0;
   bool contactor_feedback = 0;
@@ -89,7 +89,7 @@ App_CD::~App_CD()
  */
 void  App_CD::App_CD_Pend()
 {
-  atService_PCF8575.Debug();
+  // atService_PCF8575.Debug();
 }
 /**
  * This start function will init some critical function 
@@ -97,13 +97,15 @@ void  App_CD::App_CD_Pend()
 void  App_CD::App_CD_Start()
 {
   atService_PCF8575.Run_Service();
-  pinMode(APTOMA_FEEDBACK_PIN,INPUT);
+  pinMode(APTOMAT_FEEDBACK_PIN,INPUT);
+  atService_PCF8575.Pin_Modes[LED_PIN] = MODE_PCF8575_Output;
+  atService_PCF8575.Pin_Modes[RELAY_PIN] = MODE_PCF8575_Output;
   // init contactor driver
-  atApp_CD.relay = 0;
+  atApp_CD.relay = 1;
   atService_PCF8575.Pin_Vals[RELAY_PIN] =  atApp_CD.relay;
   atApp_CD.relay_feedback = atService_PCF8575.Pin_Vals[RELAY_FEEDBACK_PIN];
   atApp_CD.contactor_feedback = atService_PCF8575.Pin_Vals[CONTACTOR_FEEDBACK_PIN];
-  atApp_CD.aptomat_feedback = digitalRead(APTOMA_FEEDBACK_PIN);
+  atApp_CD.aptomat_feedback = digitalRead(APTOMAT_FEEDBACK_PIN);
 }  
 /**
  * Restart function of SNM  app
@@ -130,7 +132,7 @@ void  App_CD::App_CD_Execute()
   atService_PCF8575.Pin_Vals[RELAY_PIN] = atApp_CD.relay ;
   atApp_CD.relay_feedback = atService_PCF8575.Pin_Vals[RELAY_FEEDBACK_PIN];
   atApp_CD.contactor_feedback = atService_PCF8575.Pin_Vals[CONTACTOR_FEEDBACK_PIN];
-  atApp_CD.aptomat_feedback = digitalRead(APTOMA_FEEDBACK_PIN);
+  atApp_CD.aptomat_feedback = digitalRead(APTOMAT_FEEDBACK_PIN);
 
   atService_PCF8575.Run_Service();
   if(atApp_CD.User_Mode == APP_USER_MODE_DEBUG)
@@ -149,7 +151,7 @@ void atApp_CD_Task_Func(void *parameter)
   while (1)
   {
     atApp_CD.Run_Application(APP_RUN_MODE_AUTO);
-    vTaskDelay(1000/ portTICK_PERIOD_MS);
+    vTaskDelay(2000/ portTICK_PERIOD_MS);
   }
 }
 #endif

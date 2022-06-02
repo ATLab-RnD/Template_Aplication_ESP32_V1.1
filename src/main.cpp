@@ -33,7 +33,7 @@ void setup() {
 // uncomment to put the app in debug mod
   // atApp_ABC.Debug();
   // atApp_RTC.Debug();
-  atApp_Wifi.Debug();
+  // atApp_Wifi.Debug();
   // atApp_MB_RTU_SL.Debug();
   // atApp_MB_TCP_MA.Debug();
   // atApp_MB_TCP_SL.Debug();
@@ -41,10 +41,10 @@ void setup() {
   // atApp_CD.Debug();
   // atApp_SGP30.Debug();
   // atApp_SHT30.Debug();
-  // atApp_ADE.Debug();
+  atApp_ADE.Debug();
   // atApp_exHMI.Debug();
   // atApp_HMI.Debug();
-  atApp_OTA.Debug();
+  // atApp_OTA.Debug();
 
   // atApp_SNM.Debug();
   // atApp_DID.Debug();
@@ -64,12 +64,12 @@ void setup() {
   // xTaskCreatePinnedToCore(  atApp_SNM_Task_Func       , "atApp_SNM_Module_Application"  ,  5000       ,     NULL    ,   1       , &Task_atApp_SNM       ,    1     );
   // xTaskCreatePinnedToCore(  atApp_DID_Task_Func       , "atApp_DID_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_DID       ,    1     );
   // xTaskCreatePinnedToCore(  atApp_INVT_Task_Func      , "atApp_INVT_Application"        ,  10000      ,     NULL    ,   1       , &Task_atApp_CP        ,    0     );
-  // xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
-  // xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
+  xTaskCreatePinnedToCore(  atApp_ADE_Task_Func       , "atApp_ADE_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_ADE       ,    0     );
+  xTaskCreatePinnedToCore(  atApp_CD_Task_Func        , "atApp_CD_Application"          ,  10000      ,     NULL    ,   1       , &Task_atApp_CD        ,    0     );
   // xTaskCreatePinnedToCore(  atApp_SGP30_Task_Func     , "atApp_SGP30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SGP30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_SHT30_Task_Func     , "atApp_SHT30_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_SHT30     ,    0     );
   // xTaskCreatePinnedToCore(  atApp_exHMI_Task_Func     , "atApp_exHMI_Application"       ,  10000      ,     NULL    ,   1       , &Task_atApp_exHMI     ,    0     );
-  xTaskCreatePinnedToCore(  atApp_HMI_Task_Func       , "atApp_HMI_Application"         ,  10000      ,     NULL    ,   2       , &Task_atApp_HMI       ,    0     );
+  xTaskCreatePinnedToCore(  atApp_HMI_Task_Func       , "atApp_HMI_Application"         ,  50000      ,     NULL    ,   1       , &Task_atApp_HMI       ,    0     );
   // xTaskCreatePinnedToCore(  atApp_DS18B20_Task_Func   , "atApp_DS18B20_Application"     ,  10000      ,     NULL    ,   1       , &Task_atApp_DS18B20   ,    0     );
   xTaskCreatePinnedToCore(  atApp_OTA_Task_Func       , "atApp_OTA_Application"         ,  10000      ,     NULL    ,   1       , &Task_atApp_OTA       ,    1     );
 
