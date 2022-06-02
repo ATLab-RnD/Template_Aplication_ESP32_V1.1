@@ -136,15 +136,7 @@ void  App_HMI::App_HMI_Start()
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
 	atService_LVGL_HMI.Run_Service();	
-	atScr_Detail_1.Run_Screen();
-	atScr_Detail_2.Run_Screen();
-	atScr_Detail_3.Run_Screen();
-	atScr_Menu.Run_Screen();
-	atScr_Detail_1.screen_status = DEACTIVE;
-	atScr_Detail_2.screen_status = DEACTIVE;
-	atScr_Detail_3.screen_status = DEACTIVE;
-	atScr_Menu.screen_status = DEACTIVE;
-	atScr_Monitoring.Run_Screen();
+	atScr_Monitoring.Start();
 	//start timer
 	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
 	lv_scr_load_anim(atScr_Monitoring.Object, LV_SCR_LOAD_ANIM_NONE, LOAD_PAGE_TIME, LOAD_PAGE_TIME, true);

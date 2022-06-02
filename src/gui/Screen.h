@@ -44,7 +44,7 @@ public:
     bool screen_status = DEACTIVE;
 
     // user can existing state of screen by change Screen_State into below state
-    uint8_t Screen_State = SCREEN_STATE_STARTING;
+    uint8_t Screen_State = SCREEN_STATE_EXECUTING;
     
     // this var will be set to 1 whenever ser done a state execution 
     bool Step_Forward = 0;
