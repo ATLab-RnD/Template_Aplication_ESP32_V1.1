@@ -27,7 +27,6 @@ enum App_User_Mode
 enum App_State
 {
   APP_STATE_PENDING,
-  APP_STATE_RESTARTING,
   APP_STATE_STARTING,
   APP_STATE_READY,
   APP_STATE_EXECUTING,
@@ -70,8 +69,8 @@ public:
   bool Step_Forward = 0;
 protected:
   void (*_Pend_User)();
-  void (*_Restart_User)();
   void (*_Start_User)();
+  void (*_Restart_User)();
   void (*_Execute_User)();
   void (*_Suspend_User)();
   void (*_Resume_User)();
@@ -102,7 +101,6 @@ private:
 Application::Application(void)
 {
   _Pend_User    = 0;
-  _Restart_User = 0;
   _Start_User   = 0;
   _Restart_User = 0;
   _Execute_User = 0;
@@ -144,10 +142,6 @@ void Application::Run_Application(bool autoRun = APP_RUN_MODE_AUTO)
     case APP_STATE_PENDING:
       Run_Mode = autoRun;
       Pend();
-      break;
-    // restarting to start the task
-    case APP_STATE_RESTARTING:
-      Restart();
       break;
     // starting the task
     case APP_STATE_STARTING:
@@ -195,9 +189,6 @@ char* Application::State_Application_String()
   case APP_STATE_PENDING:
     return (char*)"Pending State";
     break;
-  case APP_STATE_RESTARTING:
-    return (char*)"Restarting State";
-    break;
   case APP_STATE_STARTING:
     return (char*)"Starting State";
     break; 
@@ -239,15 +230,6 @@ void Application::Pend()
     }
     Information();
   }
-  Application_State = APP_STATE_STARTING;
-  Step_Forward = 1;
-}
-
-void Application::Restart()
-{
-  if (User_Mode == APP_USER_MODE_DEBUG) Information();
-  // the user function
-  (*_Restart_User)();
   Application_State = APP_STATE_STARTING;
   Step_Forward = 1;
 }
