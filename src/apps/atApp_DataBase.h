@@ -16,6 +16,7 @@
 #define _Application_atApp_DataBase_
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
+#include "../services/EEPROM/atService_EEPROM.h"
 #include "../services/SD_Card/atService_uSD.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
@@ -35,7 +36,8 @@ class App_DataBase : public Application
 public:
   	App_DataBase();
 	~App_DataBase();
-
+	
+	bool Uploaded_data_to_Object();
   // bool Write_To_File(char *file_name, char *data);
   // String Read_File(char *file_name);
     
@@ -47,6 +49,8 @@ protected:
 	static void  App_DataBase_Suspend();
 	static void  App_DataBase_Resume();	  
 	static void  App_DataBase_End();
+	bool somethingChange = 0;
+	bool count_upload_data_to_object = 0;
 private:
 } atApp_DataBase ;
 /**
@@ -80,7 +84,7 @@ App_DataBase::~App_DataBase()
  */
 void  App_DataBase::App_DataBase_Pend()
 {
-    atService_uSD.Debug();
+    // atService_uSD.Debug();
 }
 /**
  * This start function will init some critical function 
@@ -88,9 +92,10 @@ void  App_DataBase::App_DataBase_Pend()
 void  App_DataBase::App_DataBase_Start()
 {
 	// init atXYZ Service in the fist running time
-	atService_uSD.Run_Service();
-  // atApp_DataBase.Write_To_File("/database","Hello");
-  // atApp_DataBase.Read_File("/database");
+	// atService_uSD.Run_Service();
+	atService_EEPROM.Run_Service();
+	
+	atApp_DataBase.count_upload_data_to_object = 1;
 }  
 /**
  * Restart function of SNM  app
@@ -104,7 +109,20 @@ void  App_DataBase::App_DataBase_Restart()
  */
 void  App_DataBase::App_DataBase_Execute()
 {	
-  atService_uSD.Run_Service();
+//   atService_uSD.Run_Service();
+  	atApp_DataBase.somethingChange = 0;
+
+
+	//if value is changed, commit to EEPROM
+	if(atApp_DataBase.somethingChange) 
+	{
+		atService_EEPROM.Commit();
+		if(atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
+		{
+			Serial.print("	Something have change and saved in flash\n");
+		}
+		atApp_DataBase.somethingChange = 0;
+	}
   if(atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
   {
   
@@ -113,57 +131,10 @@ void  App_DataBase::App_DataBase_Execute()
 void  App_DataBase::App_DataBase_Suspend(){}
 void  App_DataBase::App_DataBase_Resume(){}	  
 void  App_DataBase::App_DataBase_End(){}
-// /**
-//  * @brief 
-//  * 
-//  * @param file_name 
-//  * @param data 
-//  * @return 1 : successfull write
-//  * @return 0 : failed write 
-//  */
-// bool App_DataBase::Write_To_File(char *file_name, char * data)
-// {
-//   File file = SD.open(file_name);
-//   if(!file) {
-//     if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-//     {
-//       Serial.println("File doesn't exist");
-//       Serial.println("Creating file...");
-//     }
-//   }
-//   else {
-//     atService_uSD.appendFile(file_name,data);
-//     return 1;
-//   }
-//   return 0;
-// }
-// /**
-//  * @brief 
-//  * 
-//  * @param file_name 
-//  * @return 0: failed read
-//  */
-// String App_DataBase::Read_File(char *file_name)
-// {
-//   if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-//   {
-//       Serial.printf("Reading file: %s\n", file_name);
-//   }
-//   File file = SD.open(file_name);
-//   if(!file){
-//       if (atApp_DataBase.User_Mode == APP_USER_MODE_DEBUG)
-//       {
-//           Serial.println("Failed to open file for reading");
-//           return String(false);
-//       }
-//   }
-//   String read_from_file;
-//   while(file.available()){
-//       read_from_file =  file.read();
-//   }
-//   file.close();
-//   return read_from_file;
-// }
+bool  App_DataBase::Uploaded_data_to_Object()
+{
+	return atApp_DataBase.count_upload_data_to_object;
+}
 void atApp_DataBase_Task_Func(void *parameter)
 {
   while (1)
