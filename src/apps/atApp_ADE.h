@@ -13,6 +13,7 @@
 #include "App.h"
 #include "math.h"
 #include "../services/ADE7758/atService_ADE7758.h"
+#include "../services/PCF8575/atService_PCF8575.h"
 /* _____DEFINETIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
@@ -159,6 +160,7 @@ App_ADE::~App_ADE()
 void  App_ADE::App_ADE_Pend()
 {
     // atService_ADE7758.Debug();
+	// atService_PCF8575.Debug();
 }
 /**
  * This start function will init some critical function 
@@ -167,6 +169,11 @@ void  App_ADE::App_ADE_Start()
 {
 	// init atXYZ Service in the fist running time
 	atService_ADE7758.Run_Service();
+	atService_PCF8575.Run_Service();
+
+	atService_PCF8575.Pin_Modes[PCF8575_PIN_P1] = MODE_PCF8575_Output;
+	atService_PCF8575.Pin_Vals[PCF8575_PIN_P1]	= VAL_PCF8575_Low;
+	atService_PCF8575.Run_Service();
 }  
 /**
  * Restart function of SNM  app
@@ -180,6 +187,7 @@ void  App_ADE::App_ADE_Restart()
  */
 void  App_ADE::App_ADE_Execute()
 {	
+	
 	atService_ADE7758.Run_Service();
 	float RMS_Voltage_raw[PHASE_NUMBER];
 	float RMS_Current_raw[PHASE_NUMBER];
