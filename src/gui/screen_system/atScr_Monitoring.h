@@ -76,8 +76,7 @@ void  Scr_Monitoring::Start()
 	atScr_Monitoring.render_wifi_icon(atScr_Monitoring.Screen_label_wifi,atScr_Monitoring.Notified_Bar_old_1.wifi_active,ICON_WIFI_POS_X,ICON_WIFI_POS_Y);
 	atScr_Monitoring.render_SD_Card_icon(atScr_Monitoring.Screen_label_SD,atScr_Monitoring.Notified_Bar_old_1.SD_active,ICON_SD_CARD_POS_X,ICON_SD_CARD_POS_Y);
 	atScr_Monitoring.render_warning_icon(atScr_Monitoring.Screen_label_warning,atScr_Monitoring.Notified_Bar_old_1.warning_active,ICON_WARNING_POS_X,ICON_WARNING_POS_Y);
-	sprintf(atScr_Monitoring.char_time,"%d:%d",atScr_Monitoring.Notified_Bar_old_1.hour,atScr_Monitoring.Notified_Bar_old_1.minute);
-	atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_time,atScr_Monitoring.char_time,ICON_TIME_POS_X,ICON_TIME_POS_Y,ICON_TIME_W,ICON_SIZE);
+	atScr_Monitoring.render_time(atScr_Monitoring.Screen_label_time,atScr_Monitoring.Notified_Bar_old_1.hour,atScr_Monitoring.Notified_Bar_old_1.minute,ICON_TIME_POS_X,ICON_TIME_POS_Y);
 	
 	// init every events
     lv_obj_add_event_cb(atScr_Monitoring.btn_OK, atScr_Monitoring.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -98,10 +97,10 @@ void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		atScr_Monitoring.screen_status = DEACTIVE;
-		// if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
-		// {
+		if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
+		{
 			(*atScr_Monitoring.setup_Forward_Screen)();
-		// }
+		}
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
@@ -119,8 +118,7 @@ void Scr_Monitoring::Update()
 	{
 		atScr_Monitoring.Notified_Bar_old_1.hour = atScr_Monitoring.Notified_Bar_1.hour;
 		atScr_Monitoring.Notified_Bar_old_1.minute = atScr_Monitoring.Notified_Bar_1.minute;
-		sprintf(atScr_Monitoring.char_time,"%d:%d",atScr_Monitoring.Notified_Bar_old_1.hour,atScr_Monitoring.Notified_Bar_old_1.minute);
-		atScr_Monitoring.setup_label(atScr_Monitoring.Screen_label_time,atScr_Monitoring.char_time);
+		atScr_Monitoring.render_time(atScr_Monitoring.Screen_label_time,atScr_Monitoring.Notified_Bar_old_1.hour,atScr_Monitoring.Notified_Bar_old_1.minute);
 	}
 	//check active wifi
 	if(atScr_Monitoring.Notified_Bar_1.wifi_active != atScr_Monitoring.Notified_Bar_old_1.wifi_active)

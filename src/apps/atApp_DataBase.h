@@ -38,8 +38,6 @@ public:
 	~App_DataBase();
 	
 	bool Uploaded_data_to_Object();
-  // bool Write_To_File(char *file_name, char *data);
-  // String Read_File(char *file_name);
     
 protected:
 	static void  App_DataBase_Pend();

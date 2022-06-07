@@ -13,7 +13,7 @@
 #ifndef _Application_atApp_HMI_
 #define _Application_atApp_HMI_
 // #define HMI_Lite
-#define HMI_Lite
+#define HMI
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #ifdef HMI_Lite
@@ -102,7 +102,7 @@ App_HMI::~App_HMI()
  */
 void  App_HMI::App_HMI_Pend()
 {
-	atService_LVGL_HMI_Lite.Debug();
+	// atService_LVGL_HMI.Debug();
 	// atButtons_LEDs_PCF8575.Debug();
 }
 /**
@@ -135,7 +135,7 @@ void  App_HMI::App_HMI_Start()
 										update_data_to_screens);           		// Callback function
 	atService_VSPI.Run_Service();
 	// atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();	
+	atService_LVGL_HMI.Run_Service();	
 	atScr_Monitoring.Start();
 	//start timer
 	xTimerStart(screen_monitoring_update_timer, portMAX_DELAY);
@@ -155,7 +155,7 @@ void  App_HMI::App_HMI_Restart()
 void  App_HMI::App_HMI_Execute()
 {	
 	atService_VSPI.check_In();
-	atService_LVGL_HMI_Lite.Run_Service();
+	atService_LVGL_HMI.Run_Service();
 	atService_VSPI.check_Out();
 	
 	if(atScr_Menu.screen_status == ACTIVE)

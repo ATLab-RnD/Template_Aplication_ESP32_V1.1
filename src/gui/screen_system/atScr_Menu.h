@@ -28,7 +28,7 @@ enum ROLLER_OPTION
 	Detail_2,
 	Detail_3
 };
-
+#define number_of_option_menu 3
 /*____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Screen class is base class for implement another class by inheritance 
@@ -48,6 +48,7 @@ protected:
 	uint8_t minute;
 	// static Roller Roller_1;
 private:
+	uint8_t roller_position = 0;
     static void btn_Back_event_handler(lv_event_t *e);
     static void btn_OK_event_handler(lv_event_t *e);
 	static void btn_UP_event_handler(lv_event_t *e);
@@ -88,11 +89,10 @@ void  Scr_Menu::Start()
 	atScr_Menu.render_wifi_icon(atScr_Menu.Screen_label_wifi,atScr_Menu.Notified_Bar_old_1.wifi_active,ICON_WIFI_POS_X,ICON_WIFI_POS_Y);
 	atScr_Menu.render_SD_Card_icon(atScr_Menu.Screen_label_SD,atScr_Menu.Notified_Bar_old_1.SD_active,ICON_SD_CARD_POS_X,ICON_SD_CARD_POS_Y);
 	atScr_Menu.render_warning_icon(atScr_Menu.Screen_label_warning,atScr_Menu.Notified_Bar_old_1.warning_active,ICON_WARNING_POS_X,ICON_WARNING_POS_Y);
-	sprintf(atScr_Menu.char_time,"%d:%d",atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
-	atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time,ICON_TIME_POS_X,ICON_TIME_POS_Y,ICON_TIME_W,ICON_SIZE);
+	atScr_Menu.render_time(atScr_Menu.Screen_label_time,atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute,ICON_TIME_POS_X,ICON_TIME_POS_Y);
 	//Menu_Screen_roller = lv_roller_create(Menu_Screen);
 	atScr_Menu.roller_1 = lv_roller_create(atScr_Menu.Object);
-	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,ROLLER_ROW_COUNT,LV_ALIGN_CENTER,ROLLER_WIDTH,ROLLER_POS_X,ROLLER_POS_Y);
+	atScr_Menu.setup_roller(atScr_Menu.roller_1,atScr_Menu.Option,ROLLER_ROW_COUNT,LV_ALIGN_CENTER,ROLLER_WIDTH,ROLLER_POS_X,ROLLER_POS_Y,atScr_Menu.roller_position);
 	// init every events
     lv_obj_add_event_cb(atScr_Menu.btn_BACK, atScr_Menu.btn_Back_event_handler, LV_EVENT_ALL, NULL);
 	lv_obj_add_event_cb(atScr_Menu.btn_OK, atScr_Menu.btn_OK_event_handler, LV_EVENT_ALL, NULL);
@@ -116,10 +116,10 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		atScr_Menu.screen_status = DEACTIVE;
-		// if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
-        // {
+		if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
+        {
 			(*atScr_Menu.setup_Backward_Screen)();
-        // }
+        }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
@@ -139,10 +139,10 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 	case LV_EVENT_CLICKED:
 	{
 		atScr_Menu.screen_status = DEACTIVE;
-		// if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
-        // {
+		if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
+        {
 			(*atScr_Menu.setup_Forward_Screen)();
-        // }
+        }
 		lv_disp_t * d = lv_obj_get_disp(lv_scr_act());
 		if (d->prev_scr == NULL && d->scr_to_load == NULL)
         {
@@ -154,16 +154,20 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 		break;
 	}
 }
-void Scr_Menu::btn_DOWN_event_handler(lv_event_t *e)
+void Scr_Menu:: btn_DOWN_event_handler(lv_event_t *e)
 {
 	lv_event_code_t code = lv_event_get_code(e);
 	switch (code)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected++;
-		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
+		atScr_Menu.roller_position = lv_roller_get_selected(atScr_Menu.roller_1);
+		atScr_Menu.roller_position++;
+		if (atScr_Menu.roller_position == number_of_option_menu)
+		{
+			atScr_Menu.roller_position = 0;
+		}
+		lv_roller_set_selected(atScr_Menu.roller_1,atScr_Menu.roller_position,LV_ANIM_ON);
 	}
 		break;
 	default:
@@ -177,9 +181,9 @@ void Scr_Menu::btn_UP_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		uint8_t roller_selected = lv_roller_get_selected(atScr_Menu.roller_1);
-		roller_selected--;
-		lv_roller_set_selected(atScr_Menu.roller_1,roller_selected,LV_ANIM_ON);
+		atScr_Menu.roller_position = lv_roller_get_selected(atScr_Menu.roller_1);
+		atScr_Menu.roller_position--;
+		lv_roller_set_selected(atScr_Menu.roller_1,atScr_Menu.roller_position,LV_ANIM_ON);
 	}
 		break;
 	default:
@@ -192,8 +196,7 @@ void Scr_Menu::Update()
 	{
 		atScr_Menu.Notified_Bar_old_1.hour = atScr_Menu.Notified_Bar_1.hour;
 		atScr_Menu.Notified_Bar_old_1.minute = atScr_Menu.Notified_Bar_1.minute;
-		sprintf(atScr_Menu.char_time,"%d:%d",atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
-		atScr_Menu.setup_label(atScr_Menu.Screen_label_time,atScr_Menu.char_time);
+		atScr_Menu.render_time(atScr_Menu.Screen_label_time,atScr_Menu.Notified_Bar_old_1.hour,atScr_Menu.Notified_Bar_old_1.minute);
 	}
 	//check active wifi
 	if(atScr_Menu.Notified_Bar_1.wifi_active != atScr_Menu.Notified_Bar_old_1.wifi_active)
