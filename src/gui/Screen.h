@@ -41,7 +41,7 @@ public:
     char*     Name_Screen = (char*)"Screen Name";
     uint16_t  ID_Screen = 0;
 
-    bool screen_status = DEACTIVE;
+    bool State = DEACTIVE;
 
     // user can existing state of screen by change Screen_State into below state
     uint8_t Screen_State = SCREEN_STATE_EXECUTING;

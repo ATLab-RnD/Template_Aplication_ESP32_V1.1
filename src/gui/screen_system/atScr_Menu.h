@@ -62,7 +62,7 @@ Scr_Menu::Scr_Menu()
     _Start_User     = *Start;
     _Execute_User   = *Execute;
     ID_Screen = 2;
-	screen_status = DEACTIVE;
+	State = DEACTIVE;
     Name_Screen = (char*)"Menu Screen";
 
 }
@@ -75,7 +75,7 @@ Scr_Menu::~Scr_Menu()
  */
 void  Scr_Menu::Start()
 {
-	atScr_Menu.screen_status = ACTIVE;
+	atScr_Menu.State = ACTIVE;
     //Write codes screen
 	atScr_Menu.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -104,7 +104,7 @@ void  Scr_Menu::Start()
  */
 void  Scr_Menu::Execute()
 {
-	atScr_Menu.screen_status = ACTIVE;
+	atScr_Menu.State = ACTIVE;
 	atScr_Menu.Update();
 }
 
@@ -115,7 +115,7 @@ void Scr_Menu::btn_Back_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Menu.screen_status = DEACTIVE;
+		atScr_Menu.State = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Menu.Backward_Screen))
         {
 			(*atScr_Menu.setup_Backward_Screen)();
@@ -138,7 +138,7 @@ void Scr_Menu:: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Menu.screen_status = DEACTIVE;
+		atScr_Menu.State = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Menu.Forward_Screen))
         {
 			(*atScr_Menu.setup_Forward_Screen)();

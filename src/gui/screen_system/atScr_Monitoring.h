@@ -48,7 +48,7 @@ Scr_Monitoring::Scr_Monitoring()
     _Start_User     = *Start;
     _Execute_User   = *Execute;
     ID_Screen = 1;
-	screen_status = ACTIVE;
+	State = ACTIVE;
     Name_Screen = (char*)"Monitoring Screen";
 }
 Scr_Monitoring::~Scr_Monitoring()
@@ -60,7 +60,7 @@ Scr_Monitoring::~Scr_Monitoring()
  */
 void  Scr_Monitoring::Start()
 {
-	atScr_Monitoring.screen_status = ACTIVE;
+	atScr_Monitoring.State = ACTIVE;
     //Write codes screen
 	atScr_Monitoring.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -86,7 +86,7 @@ void  Scr_Monitoring::Start()
  */
 void  Scr_Monitoring::Execute()
 {
-	atScr_Monitoring.screen_status = ACTIVE;
+	atScr_Monitoring.State = ACTIVE;
 	atScr_Monitoring.Update();
 }
 void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
@@ -96,7 +96,7 @@ void Scr_Monitoring :: btn_OK_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Monitoring.screen_status = DEACTIVE;
+		atScr_Monitoring.State = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Monitoring.Forward_Screen))
 		{
 			(*atScr_Monitoring.setup_Forward_Screen)();

@@ -46,7 +46,7 @@ Scr_Detail_1::Scr_Detail_1()
     _Start_User     = *Start;
     _Execute_User   = *Execute;
     ID_Screen = 1;
-	screen_status = DEACTIVE;
+	State = DEACTIVE;
     Name_Screen = (char*)"Detail_1 Screen";
 }
 Scr_Detail_1::~Scr_Detail_1()
@@ -58,7 +58,7 @@ Scr_Detail_1::~Scr_Detail_1()
  */
 void  Scr_Detail_1::Start()
 {
-	atScr_Detail_1.screen_status = ACTIVE;
+	atScr_Detail_1.State = ACTIVE;
     //Write codes screen
 	atScr_Detail_1.Object = lv_obj_create(NULL);
 	//Create 4 button
@@ -83,7 +83,7 @@ void  Scr_Detail_1::Start()
  */
 void  Scr_Detail_1::Execute()
 {
-	atScr_Detail_1.screen_status = ACTIVE;
+	atScr_Detail_1.State = ACTIVE;
 	atScr_Detail_1.Update();
 }
 
@@ -94,7 +94,7 @@ void Scr_Detail_1::btn_Back_event_handler(lv_event_t *e)
 	{
 	case LV_EVENT_CLICKED:
 	{
-		atScr_Detail_1.screen_status = DEACTIVE;
+		atScr_Detail_1.State = DEACTIVE;
 		if (!lv_obj_is_valid(*atScr_Detail_1.Backward_Screen))
         {
 			(*atScr_Detail_1.setup_Backward_Screen)();
