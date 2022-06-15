@@ -158,7 +158,7 @@ void  App_HMI::App_HMI_Execute()
 	atService_LVGL_HMI.Run_Service();
 	atService_VSPI.check_Out();
 	
-	if(atScr_Menu.screen_status == ACTIVE)
+	if(atScr_Menu.State == ACTIVE)
 	{
 		int roller_select = atScr_Menu.get_roller_selected(atScr_Menu.roller_1);
 		switch (roller_select)
@@ -240,23 +240,23 @@ void update_data_to_screens(TimerHandle_t xTimer)
 	
 	atApp_HMI.notified_minute++;
 	
-	if(atScr_Monitoring.screen_status == ACTIVE)
+	if(atScr_Monitoring.State == ACTIVE)
 	{
 		atScr_Monitoring.Run_Screen();
 	}
-	else if(atScr_Menu.screen_status == ACTIVE)
+	else if(atScr_Menu.State == ACTIVE)
 	{
 		atScr_Menu.Run_Screen();
 	}
-	else if(atScr_Detail_1.screen_status == ACTIVE)
+	else if(atScr_Detail_1.State == ACTIVE)
 	{
 		atScr_Detail_1.Run_Screen();
 	}
-	else if(atScr_Detail_2.screen_status == ACTIVE)
+	else if(atScr_Detail_2.State == ACTIVE)
 	{
 		atScr_Detail_2.Run_Screen();
 	}
-	if(atScr_Detail_3.screen_status == ACTIVE)
+	if(atScr_Detail_3.State == ACTIVE)
 	{
 		atScr_Detail_3.Run_Screen();
 	}
