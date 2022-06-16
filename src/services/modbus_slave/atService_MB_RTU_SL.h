@@ -85,6 +85,7 @@ void  Service_Modbus_RTU_Slave::Service_Modbus_RTU_Slave_Start()
 void  Service_Modbus_RTU_Slave::Service_Modbus_RTU_Slave_Execute()
 {   
     atService_MB_RTU_SL.task();
+    yield();
     if(atService_MB_RTU_SL.User_Mode == SER_USER_MODE_DEBUG)
     {
         
