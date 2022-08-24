@@ -16,7 +16,7 @@
 #include "App.h"
 
 #include <OneWire.h>
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 #define MAX_TEMPERATURE_SENSOR_NUMBER 20
 #define INVALID_CRC 1
 
@@ -157,7 +157,7 @@ void  App_DS::App_DS_Execute()
 
 			// vTaskDelay(1000/portTICK_PERIOD_MS);// maybe 750ms is enough, maybe not
 			delay(1000);
-			// we might do a ds.depower() here, but the reset will take care of it.
+			// we might do a ds.de power() here, but the reset will take care of it.
 
 			atApp_DS18B20.present = ds18b20.reset();
   			ds18b20.select(atApp_DS18B20.addr);    
@@ -196,7 +196,7 @@ void  App_DS::App_DS_Execute()
 
 			atApp_DS18B20.Temperature_At_Sensor[atApp_DS18B20.Temp_Sen_Index] = atApp_DS18B20.celsius;
 			atApp_DS18B20.Temp_Sen_Index ++;
-			// udpate plugging sensor number
+			// update plugging sensor number
 			if (atApp_DS18B20.Present_Plugging_Sensor_Number < atApp_DS18B20.Temp_Sen_Index)
 			{
 				atApp_DS18B20.Present_Plugging_Sensor_Number = atApp_DS18B20.Temp_Sen_Index;

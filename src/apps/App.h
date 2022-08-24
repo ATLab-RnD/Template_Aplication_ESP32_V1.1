@@ -18,7 +18,7 @@ Application Template.
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 bool      Serial_Hardware_Port_Is_Opened = 0;
 unsigned long  Serial_Hardware_Port_Baudrate = 115200;
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 enum App_User_Mode
 {
   APP_USER_MODE_NORMAL,

@@ -18,7 +18,7 @@
 #include "..\App.h"
 #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
 #include "..\src\obj\atObj_EMMs_Data.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_EMM;  

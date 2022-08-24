@@ -18,7 +18,7 @@
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 #include "../services/PCF8575/atService_PCF8575.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 #ifndef Ethernet_CS_Pin
 #define Ethernet_CS_Pin 5
 #define Ethernet_Reset_Pin	PCF8575_PIN_P13

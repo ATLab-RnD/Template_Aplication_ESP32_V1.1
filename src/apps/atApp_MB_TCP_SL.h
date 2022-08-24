@@ -13,7 +13,7 @@
 #include "App.h"
 #include "..\src\services\modbus_slave\atService_MB_TCP_SL.h"
 
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 static TaskHandle_t Task_atApp_MB_TCP_SL;  

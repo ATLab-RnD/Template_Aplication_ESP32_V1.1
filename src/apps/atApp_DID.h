@@ -22,7 +22,7 @@
 #include "..\obj\atObj_IDMs_Data.h"
 #include "..\obj\atObj_RDMs_Data.h"
 #include "..\obj\atObj_SNMs_Data.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 enum Status_of_device
 {
 	Offline,
@@ -211,7 +211,7 @@ void  App_DID::App_DID_Execute()
 			atApp_DID.connecting_result = Connection_failed;
 			if(atApp_DID.User_Mode == APP_USER_MODE_DEBUG)
     		{
-				Serial.print(" IP not availble");
+				Serial.print(" IP not available");
 			}
 		}
 

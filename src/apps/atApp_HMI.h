@@ -30,7 +30,7 @@
 #include "../gui/screen_system/atScr_Menu.h"
 #include "../services/SPI/atService_VSPI.h"
 
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 static TimerHandle_t screen_monitoring_update_timer = NULL;

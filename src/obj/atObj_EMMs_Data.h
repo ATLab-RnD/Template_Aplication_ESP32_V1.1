@@ -16,7 +16,7 @@ Objective for control with Esp32 Wrover.
 #include "Arduino.h"
 #include "Object.h"
 
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 #define Max_EMM  10
 
 enum Status_of_relay

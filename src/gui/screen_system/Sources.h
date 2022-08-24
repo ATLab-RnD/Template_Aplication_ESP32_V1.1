@@ -347,19 +347,19 @@ void   Sources::create_buttons(lv_obj_t *Object)
 #ifdef HMI
     btn_MENU = lv_btn_create(Object);
     setup_button(btn_MENU,5,245,"MENU");
-    //Write codesbtn_UP
+    //Write code button UP
     btn_UP = lv_btn_create(Object);
     setup_button(btn_UP,85,245,"UP");
-    //Write codesbtn_BACK
+    //Write code button BACK
     btn_BACK= lv_btn_create(Object);
     setup_button(btn_BACK,45,245,"BACK");
-    //Write codesbtn_DOWN
+    //Write code button DOWN
     btn_DOWN= lv_btn_create(Object);
     setup_button(btn_DOWN,125,245,"DOWN");
-    //Write codesbtn_OK
+    //Write code button OK
     btn_OK = lv_btn_create(Object);
     setup_button(btn_OK,165,245,"OK");
-    //Write codesbtn_ALARM
+    //Write code button ALARM
     btn_ALARM = lv_btn_create(Object);
     setup_button(btn_ALARM,205,245,"ALARM");
 #endif

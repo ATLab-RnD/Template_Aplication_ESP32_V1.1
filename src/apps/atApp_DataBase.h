@@ -18,7 +18,7 @@
 #include "App.h"
 #include "../services/EEPROM/atService_EEPROM.h"
 #include "../services/SD_Card/atService_uSD.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_DataBase;  

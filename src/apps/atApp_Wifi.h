@@ -19,7 +19,7 @@
 #include "Arduino.h"
 #include <WiFi.h>
 #include "string.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 TaskHandle_t Task_atApp_Wifi;  
@@ -317,7 +317,7 @@ void  App_Wifi::scan_Network()
     if (atApp_Wifi.scanned_Wifi_SSIDs_Number == 0) 
     { 
         
-        sprintf(atApp_Wifi.scanned_Wifi_SSIDs,"No wifi availlable"); 
+        sprintf(atApp_Wifi.scanned_Wifi_SSIDs,"No wifi available"); 
     }
     else 
     {   

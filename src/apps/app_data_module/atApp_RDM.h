@@ -19,7 +19,7 @@
 // #include "..\src\services\modbus_master\atService_MB_TCP_MA.h"
 // #include "..\src\obj\atObj_RDMs_Data.h"
 
-// /* _____DEFINETIONS__________________________________________________________ */
+// /* _____DEFINITIONS__________________________________________________________ */
 // enum Status_of_device
 // {
 // 	Offline,

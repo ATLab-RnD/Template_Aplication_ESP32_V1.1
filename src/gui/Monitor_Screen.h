@@ -20,7 +20,7 @@ Screen Template.
 #include "Screen.h"
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 /*____CLASS DEFINITION_____________________________________________________ */
 /**
  * This Screen class is base class for implement another class by inheritance 

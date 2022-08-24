@@ -18,7 +18,7 @@ Application for communicating with SGP30 via i2c.
 #include "App.h"
 #include "SparkFun_SGP30_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_SGP30
 #include "../services/i2c/atService_I2C.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 SGP30 sgp30; //create an object of the SGP30 class
@@ -80,7 +80,7 @@ App_SGP30::~App_SGP30()
 	
 }
 /**
- * Pend to start is the first task of this application it will do prerequisite condition. In the debig mode, task will send information of application to terminal to start the application.
+ * Pend to start is the first task of this application it will do prerequisite condition. In the debug mode, task will send information of application to terminal to start the application.
  */
 void  App_SGP30::App_SGP30_Pend()
 {
@@ -96,10 +96,10 @@ void  App_SGP30::App_SGP30_Start()
   	//Initialize sensor
 
 	atService_I2C.check_In();
-	bool begining_Result =  sgp30.begin();
+	bool beginning_Result =  sgp30.begin();
 	atService_I2C.check_Out();
 
-  	if (begining_Result == false) {
+  	if (beginning_Result == false) {
 		if(atApp_SGP30.User_Mode == APP_USER_MODE_DEBUG)
 		{
 			Serial.println("No SGP30 Detected. Check connections.");

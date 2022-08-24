@@ -19,7 +19,7 @@ Application for communicating with OP320A&S SNM over RS232/485 (via RTU protocol
 #include "App.h"
 #include "RTClib.h"
 #include "services/i2c/atService_I2C.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 enum Day_Of_Week
 {
   MONDAY,

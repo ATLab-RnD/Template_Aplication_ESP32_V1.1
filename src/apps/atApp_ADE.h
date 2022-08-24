@@ -14,7 +14,7 @@
 #include "math.h"
 #include "../services/ADE7758/atService_ADE7758.h"
 #include "../services/PCF8575/atService_PCF8575.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 

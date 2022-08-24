@@ -16,7 +16,7 @@
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "App.h"
 #include "../services/PCF8575/atService_PCF8575.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 #define RELAY_PIN               PCF8575_PIN_P15
 #define RELAY_FEEDBACK_PIN      PCF8575_PIN_P16
 #define CONTACTOR_FEEDBACK_PIN  PCF8575_PIN_P14

@@ -20,7 +20,7 @@ Screen Template.
 /* _____GLOBAL VARIABLES_____________________________________________________ */
 
 
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 enum Screen_State
 {
     SCREEN_STATE_STARTING = 0,
@@ -76,8 +76,8 @@ Screen::Screen(void)
 
 /**
  * The main task of Screen, need to bee call regularly for attack like a 
- * task in freertos. There are 3 state of an Screen.  Starting is initing the prerequisite condition to
- * execute. Executing state is main state to hanble the task of Screen. Screen will finish all task and save all
+ * task in freertos. There are 3 state of an Screen.  Starting is initting the prerequisite condition to
+ * execute. Executing state is main state to handle the task of Screen. Screen will finish all task and save all
  * parameter, stop and remove all parameter. Error is the indicator for user when the 
  * Screen is executing wrongly.
  * @param autoRun  Screen_RUN_MODE_AUTO for auto execute and Screen_RUN_MODE_MANUAL for wait for execute manually by user

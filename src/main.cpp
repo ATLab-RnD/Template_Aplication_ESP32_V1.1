@@ -76,7 +76,7 @@ Serial.begin(115200);
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
-// Some tasks will be suspended after initing 
+// Some tasks will be suspended after initting 
   // vTaskSuspend(Task_atApp_OTA);
   // vTaskSuspend(Task_atApp_MB_TCP_MA);
   // vTaskSuspend(Task_atApp_DID);

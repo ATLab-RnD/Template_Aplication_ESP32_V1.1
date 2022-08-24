@@ -15,7 +15,7 @@ Objective for control with Esp32 Wrover.
 /* _____PROJECT INCLUDES____________________________________________________ */
 #include "Arduino.h"
 #include "Object.h"
-/* _____DEFINETIONS__________________________________________________________ */
+/* _____DEFINITIONS__________________________________________________________ */
 
 enum Example
 {
